@@ -21,6 +21,10 @@ Repositorio de discusión para el diplomado de inteligencia artificial.
   - [VSCode](https://code.visualstudio.com/) (recomendado por el Dr. Juan Vargas)
   - [Emacs](https://www.gnu.org/software/emacs/)
 
+## DataSets
+
+- [MovieLens](https://grouplens.org/datasets/movielens/)
+
 # ¿Cómo colaboramos?
 Para discutir un tema específico podemos abrir un [issue](https://github.com/camachojua/diplomado-ia/issues/new) para preguntar sobre algo específico.
 
