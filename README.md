@@ -5,6 +5,15 @@ Repositorio de discusión para el diplomado de inteligencia artificial.
 ## Enlaces a presentaciones
 - [Introduction to Data Science](https://docs.google.com/presentation/d/1QEGqdo9KMJ3aLfZCu6qX5Phi3XoE3Cd7jgQSAawamPs/edit#slide=id.p4)
 
+## Lenguajes de programación
+
+- [Go](https://go.dev/doc/install)
+- [Julia](https://julialang.org/downloads/)
+
+### Requisitos si se tiene windows
+
+- [WSL 2](https://learn.microsoft.com/es-es/windows/wsl/install)
+
 ## Libros
 
 - [Introduction to Statistical Learning](https://www.statlearning.com/)
