@@ -6,7 +6,7 @@ La página oficial es: [https://asdf-vm.com/](https://asdf-vm.com/).
 
 ## Dependencias
 
-Para usar `asdf` es necesario contar con `git` y `curl`. En linux pueden usarse los gestores de paquetes propios de cada distribución. En MacOS puede usarse `homebrew`.
+Para usar `asdf` es necesario contar con `git` y `curl`. En linux pueden usarse los gestores de paquetes propios de cada distribución. En MacOS puede usarse homebrew.
 
 ### MacOS
 
@@ -34,7 +34,7 @@ Para instalar `asdf` con el método recomendado por sus creadores, se clona el r
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
 ```
 
-Para dejarlo activo dentro de la linea de comandos debe agregarse una linea al archivo `~/.bash_profile` o `~/.bashrc`. En el caso de MacOS con versiones de Catalina o superiores, el shell por default es ZSH, por lo que debe agregarse al archivo `~/.zshrc`:
+Para dejarlo activo dentro de la linea de comandos debe agregarse una linea al archivo `~/.bash_profile` o `~/.bashrc`. En el caso de MacOS con versiones de Catalina o superiores, el shell por default es ZSH, por lo que debe agregarse al archivo `~/.zprofile` o `~/.zshrc`:
 
 ```bash
 . "$HOME/.asdf/asdf.sh"
