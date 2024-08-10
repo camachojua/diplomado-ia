@@ -1,6 +1,7 @@
 # diplomado-ia
-Repositorio de discusión para el diplomado de inteligencia artificial.
-
+Repositorio de discusión para el diplomado de inteligencia artificial.  Este
+repositorio se encuentra en constante movimiento por lo que deberán
+sincronizarlo a menudo.
 # Requisitos
 ## Enlaces a presentaciones
 - [Introduction to Data Science](https://docs.google.com/presentation/d/1QEGqdo9KMJ3aLfZCu6qX5Phi3XoE3Cd7jgQSAawamPs/edit#slide=id.p4)
@@ -33,4 +34,4 @@ Repositorio de discusión para el diplomado de inteligencia artificial.
 # ¿Cómo colaboramos?
 Para discutir un tema específico podemos abrir un [issue](https://github.com/camachojua/diplomado-ia/issues/new) para preguntar sobre algo específico.
 
-Toda vez que exista contenido general que se compartirá con todos se agregará el recurso al repositorio
+Si queremos aportar código en el repositorio debemos crear un issue antes de mandar el PR correspondiente.
