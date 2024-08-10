@@ -18,6 +18,9 @@ sincronizarlo a menudo.
 
 - [WSL 2](https://learn.microsoft.com/es-es/windows/wsl/install)
 
+Después de haber instalado `wsl` pueden ir a la tienda de aplicaciones de
+windows y buscar `ubuntu`, acto seguido dan clic en instalar.
+
 ## Libros
 
 - [Introduction to Statistical Learning](https://www.statlearning.com/)
