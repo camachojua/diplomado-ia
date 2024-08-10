@@ -21,6 +21,11 @@ sincronizarlo a menudo.
 Después de haber instalado `wsl` pueden ir a la tienda de aplicaciones de
 windows y buscar `ubuntu`, acto seguido dan clic en instalar.
 
+#### Integración con VSCode
+
+Si tienen instalado VSCode dentro de windows [aquí](https://learn.microsoft.com/en-us/training/modules/developing-in-wsl/?source=recommendations) pueden seguir un tutorial para
+integrar WSL con el editor de código.
+
 ## Libros
 
 - [Introduction to Statistical Learning](https://www.statlearning.com/)
