@@ -17,7 +17,9 @@ Es imperativo que se tome el siguiente [tutorial](https://learn.microsoft.com/es
 
 - [Ubuntu 22.04 LTS](https://www.releases.ubuntu.com/jammy/)
 
-Es necesario instalar `curl`, `git` y el paquete `build-essential`.
+Es necesario instalar `curl`, `git` y el paquete `build-essential`. Se
+recomienda hacer `git pull` varias veces para tener todo actualizado de manera
+local.
 
 ### Requisitos si se tiene MacOS
 
