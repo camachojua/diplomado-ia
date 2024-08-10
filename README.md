@@ -11,15 +11,16 @@ sincronizarlo a menudo.
 
 #### GIT
 
-Es imperativo que se tome el siguiente [tutorial](https://learn.microsoft.com/es-es/training/modules/intro-to-git/).
+Es imperativo que se tome el siguiente
+[tutorial](https://learn.microsoft.com/es-es/training/modules/intro-to-git/). Se
+recomienda hacer `git pull` varias veces para tener todo actualizado de manera
+local.
 
 ### Requisitos si se tiene Linux (sistema operativo recomendado)
 
 - [Ubuntu 22.04 LTS](https://www.releases.ubuntu.com/jammy/)
 
-Es necesario instalar `curl`, `git` y el paquete `build-essential`. Se
-recomienda hacer `git pull` varias veces para tener todo actualizado de manera
-local.
+Es necesario instalar `curl`, `git` y el paquete `build-essential`.
 
 ### Requisitos si se tiene MacOS
 
