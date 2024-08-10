@@ -2,6 +2,9 @@
 Repositorio de discusión para el diplomado de inteligencia artificial.
 
 # Requisitos
+## Enlaces a presentaciones
+- [Introduction to Data Science](https://docs.google.com/presentation/d/1QEGqdo9KMJ3aLfZCu6qX5Phi3XoE3Cd7jgQSAawamPs/edit#slide=id.p4)
+
 ## Libros
 
 - [Introduction to Statistical Learning](https://www.statlearning.com/)
