@@ -13,6 +13,10 @@ sincronizarlo a menudo.
   - [Playground](https://go.dev/play/)
 - [Julia](./julia) -> [Instalación](https://julialang.org/downloads/)
 
+### Requisitos si se tiene Linux (sistema operativo recomendado)
+
+- [Ubuntu 22.04 LTS](https://www.releases.ubuntu.com/jammy/)
+
 ### Requisitos si se tiene MacOS
 
 - [Homebrew](https://brew.sh/). Administrador de paquetes.
