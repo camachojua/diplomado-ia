@@ -3,22 +3,21 @@ Repositorio de discusión para el diplomado de inteligencia artificial.  Este
 repositorio se encuentra en constante movimiento por lo que deberán
 sincronizarlo a menudo.
 
-Es imperativo que se tome el siguiente [tutorial](https://learn.microsoft.com/es-es/training/modules/intro-to-git/) para aprender a utilizar `git`.
+
 
 # Requisitos
-## Enlaces a presentaciones
-- [Introduction to Data Science](https://docs.google.com/presentation/d/1QEGqdo9KMJ3aLfZCu6qX5Phi3XoE3Cd7jgQSAawamPs/edit#slide=id.p4)
 
-## Lenguajes de programación
+### Tecnologías que necesitamos saber
 
-- [Go](./go) -> [Instalación](https://go.dev/doc/install)
-  - [Presentación inicial](https://docs.google.com/presentation/d/18eTBCF2W4J8bQ2EwbW63iUuG1meIuiTvfLaujq5ni1k/edit#slide=id.p)
-  - [Playground](https://go.dev/play/)
-- [Julia](./julia) -> [Instalación](https://julialang.org/downloads/)
+#### GIT
+
+Es imperativo que se tome el siguiente [tutorial](https://learn.microsoft.com/es-es/training/modules/intro-to-git/).
 
 ### Requisitos si se tiene Linux (sistema operativo recomendado)
 
 - [Ubuntu 22.04 LTS](https://www.releases.ubuntu.com/jammy/)
+
+Es necesario instalar `curl`, `git` y el paquete `build-essential`.
 
 ### Requisitos si se tiene MacOS
 
@@ -36,6 +35,16 @@ windows y buscar `ubuntu`, acto seguido dan clic en instalar.
 
 Si tienen instalado VSCode dentro de windows [aquí](https://learn.microsoft.com/en-us/training/modules/developing-in-wsl/?source=recommendations) pueden seguir un tutorial para
 integrar WSL con el editor de código.
+
+## Enlaces a presentaciones
+- [Introduction to Data Science](https://docs.google.com/presentation/d/1QEGqdo9KMJ3aLfZCu6qX5Phi3XoE3Cd7jgQSAawamPs/edit#slide=id.p4)
+
+## Lenguajes de programación
+
+- [Go](./go) -> [Instalación](https://go.dev/doc/install)
+  - [Presentación inicial](https://docs.google.com/presentation/d/18eTBCF2W4J8bQ2EwbW63iUuG1meIuiTvfLaujq5ni1k/edit#slide=id.p)
+  - [Playground](https://go.dev/play/)
+- [Julia](./julia) -> [Instalación](https://julialang.org/downloads/)
 
 ## Libros
 
