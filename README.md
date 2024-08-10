@@ -2,6 +2,9 @@
 Repositorio de discusión para el diplomado de inteligencia artificial.  Este
 repositorio se encuentra en constante movimiento por lo que deberán
 sincronizarlo a menudo.
+
+Es imperativo que se tome el siguiente [tutorial](https://learn.microsoft.com/es-es/training/modules/intro-to-git/) para aprender a utilizar `git`.
+
 # Requisitos
 ## Enlaces a presentaciones
 - [Introduction to Data Science](https://docs.google.com/presentation/d/1QEGqdo9KMJ3aLfZCu6qX5Phi3XoE3Cd7jgQSAawamPs/edit#slide=id.p4)
