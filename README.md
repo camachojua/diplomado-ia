@@ -5,6 +5,9 @@ Repositorio de discusión para el diplomado de inteligencia artificial.
 ## Libros
 
 - [Introduction to Statistical Learning](https://www.statlearning.com/)
+- Editor de código:
+  - [VSCode](https://code.visualstudio.com/) (recomendado por el Dr. Juan Vargas)
+  - [Emacs](https://www.gnu.org/software/emacs/)
 
 # ¿Cómo colaboramos?
 Para discutir un tema específico podemos abrir un [issue](https://github.com/camachojua/diplomado-ia/issues/new) para preguntar sobre algo específico.
