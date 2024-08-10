@@ -8,6 +8,7 @@ Repositorio de discusión para el diplomado de inteligencia artificial.
 ## Lenguajes de programación
 
 - [Go](./go) -> [Instalación](https://go.dev/doc/install)
+  - [Presentación inicial](https://docs.google.com/presentation/d/18eTBCF2W4J8bQ2EwbW63iUuG1meIuiTvfLaujq5ni1k/edit#slide=id.p)
 - [Julia](./julia) -> [Instalación](https://julialang.org/downloads/)
 
 ### Requisitos si se tiene windows
