@@ -13,6 +13,10 @@ sincronizarlo a menudo.
   - [Playground](https://go.dev/play/)
 - [Julia](./julia) -> [Instalación](https://julialang.org/downloads/)
 
+### Requisitos si se tiene MacOS
+
+- [Homebrew](https://brew.sh/). Administrador de paquetes.
+- [Multipass](https://multipass.run/). Gestor de máquinas virtuales (si se desea ejecutar linux).
 
 ### Requisitos si se tiene windows
 
