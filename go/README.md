@@ -71,3 +71,8 @@ Esto escribirá en la pantalla la cadena de texto `¡Hola Mundo!`
 # Integración con VSCode
 
 Para utilizar go con VSCode se recomienda [leer este artículo](https://code.visualstudio.com/docs/languages/go).
+
+# Golang Tour
+
+Un recurso interesante e interactivo para aprender el lenguaje es el [Golang](https://go.dev/tour/welcome/1), donde pueden aprender los aspectos fundamentales del lenguage en un medio
+interactivo
