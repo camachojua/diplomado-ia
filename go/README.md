@@ -67,3 +67,7 @@ go run .
 ```
 
 Esto escribirá en la pantalla la cadena de texto `¡Hola Mundo!`
+
+# Integración con VSCode
+
+Para utilizar go con VSCode se recomienda [leer este artículo](https://code.visualstudio.com/docs/languages/go).
