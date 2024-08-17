@@ -63,7 +63,7 @@ integrar WSL con el editor de código.
 
 ## Formularios de google
 
-- [¿Cuánto te tardaste en hacer el ejercicio de la slide 72?](https://docs.google.com/forms/d/15HV-GxF4ujxkO8D6vXg1SRllirH6Dy__snAZmuPar7Y/edit?authuser=1)
+- [¿Cuánto te tardaste en hacer el ejercicio de la slide 72?](https://forms.gle/pNFoWNNY9oQ1NGyi7)
 
 ## Editor de código:
   - [VSCode](https://code.visualstudio.com/) (recomendado por el Dr. Juan Vargas)
