@@ -56,6 +56,11 @@ integrar WSL con el editor de código.
 - [Introduction to Statistical Learning](https://www.statlearning.com/)
 - [Elements of Statistical Learning](https://hastie.su.domains/ElemStatLearn/)
 
+## Lecturas recomendadas
+
+- [Big O Notation](https://en.wikipedia.org/wiki/Big_O_notation)
+- [Hash Table](https://en.wikipedia.org/wiki/Hash_table)
+
 ## Editor de código:
   - [VSCode](https://code.visualstudio.com/) (recomendado por el Dr. Juan Vargas)
   - [Emacs](https://www.gnu.org/software/emacs/)
