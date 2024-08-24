@@ -67,6 +67,8 @@ integrar WSL con el editor de código.
 
 - [¿Cuánto te tardaste en hacer el ejercicio de la slide 72?](https://forms.gle/pNFoWNNY9oQ1NGyi7)
 
+- [Movie Lens Challenge](https://docs.google.com/forms/d/e/1FAIpQLSei3wdPEHFW7Hc94ga6TYw7-OEZLduXO6kag7D07F4oGKcrcA/viewform?vc=0&c=0&w=1&flr=0)
+
 ## Editor de código:
   - [VSCode](https://code.visualstudio.com/) (recomendado por el Dr. Juan Vargas)
   - [Emacs](https://www.gnu.org/software/emacs/)
