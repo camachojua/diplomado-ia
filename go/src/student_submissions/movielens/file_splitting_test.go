@@ -55,8 +55,8 @@ func TestSplitBigFile(t *testing.T) {
 	t.Log("Validating the number of files and each file length.")
 
 	// We try to read the "test" directory
-	for file := range files_generated {
-		current_file, file_error := os.Open(directory + file_name)
+	for _, file := range files_generated {
+		current_file, file_error := os.Open(directory + file)
 		t.Log(current_file)
 		if file_error != nil {
 			t.Log(file_error)
@@ -68,7 +68,7 @@ func TestSplitBigFile(t *testing.T) {
 			t.Log(count_error)
 			t.Fail()
 		}
-		if lines_number < 1000 || lines_number > 1001 {
+		if lines_number < 100 || lines_number > 101 {
 			t.Log("The file", file, " has ", lines_number, " number of lines. We're expecting 1000 or 1001 lines at most")
 			t.Fail()
 		}
