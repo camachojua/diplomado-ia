@@ -1,3 +1,3 @@
 module movielens
 
-go 1.23
+go 1.22
