@@ -16,19 +16,21 @@ func SplitBigFile(file_name string, number_of_chunks int, directory string) []st
 	fmt.Println("Rows per chunk: ", rowsPerChunk)
 	i := 0
 	for i < number_of_chunks-1 {
-		chunkName := directory + "output_file_" + strconv.Itoa(i) + ".csv"
+		chunkName := "output_file_" + strconv.Itoa(i) + ".csv"
+		chunkPath := directory + chunkName
 		chunkData := data[(rowsPerChunk * i):(rowsPerChunk * (i + 1))]
 		fmt.Println("Will write file: ", chunkName)
 		fmt.Println("File will contain: ", len(chunkData), " rows")
-		writeCSVFile(chunkData, chunkName)
+		writeCSVFile(chunkData, chunkPath)
 		filesCreated = append(filesCreated, chunkName)
 		i += 1
 	}
-	chunkName := directory + "output_file_" + strconv.Itoa(i) + ".csv"
+	chunkName := "output_file_" + strconv.Itoa(i) + ".csv"
+	chunkPath := directory + chunkName
 	chunkData := data[rowsPerChunk*i:]
 	fmt.Println("Will write file: ", chunkName)
 	fmt.Println("File will contain: ", len(chunkData), " rows")
-	writeCSVFile(chunkData, chunkName)
+	writeCSVFile(chunkData, chunkPath)
 	filesCreated = append(filesCreated, chunkName)
 	return filesCreated
 }
