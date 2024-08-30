@@ -6,13 +6,14 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"time"
 )
 
 // Function to split a csv file into small files.
 // You provided a name for the file, the number of chuncks wich it will be divided and the directory
 // where the file is located and the new ones will be saved.
 func SplitBigFile(file_name string, number_of_chunks int, directory string) []string {
-
+	t1 := time.Now()
 	data := ReadCsv(file_name, directory)
 
 	fmt.Printf("%v rows in file %s\n", len(data), file_name)
@@ -26,7 +27,8 @@ func SplitBigFile(file_name string, number_of_chunks int, directory string) []st
 		WriteCsv(tempData, tempName, path)
 		filesCreated = append(filesCreated, tempName)
 	}
-
+	tf := time.Since(t1).Seconds()
+	println("Executed in:", tf, "seconds")
 	return filesCreated
 }
 
