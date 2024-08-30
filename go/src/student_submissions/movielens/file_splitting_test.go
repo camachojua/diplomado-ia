@@ -56,7 +56,7 @@ func TestSplitBigFile(t *testing.T) {
 
 	// We try to read the "test" directory
 	for _, file := range files_generated {
-		current_file, file_error := os.Open(directory + file_name)
+		current_file, file_error := os.Open(directory + file)
 		t.Log(current_file)
 		if file_error != nil {
 			t.Log(file_error)
