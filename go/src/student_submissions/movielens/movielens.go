@@ -70,11 +70,11 @@ func Mt_FindRatingsMaster() {
 	println("Mt_FindRatingsMaster is Done")
 }
 
-func Mt_FindRatingsWorker(worker int, ci chan int, know_genres []string, count_all *[][]int, value *[][]float64, movies dataframe.DataFrame) {
+func Mt_FindRatingsWorker(worker int, ci chan int, know_genres []string, count_all *[][]int, value *[][]float64, movies dataframe.DataFrame, directory string) {
 	aFileName := "ratings_" + fmt.Sprintf("%02d", worker) + ".csv"
 	println("Worker ", fmt.Sprintf("%02d", worker), " is processing file ", aFileName, "\n")
 
-	ratings := ReadRatingsCsvFile(aFileName) // THIS IS ANOTHER PIECE OF THE PUZZLE YOU NEED TO DEVELOP
+	ratings := ReadRatingsCsvFile(aFileName, directory) // THIS IS ANOTHER PIECE OF THE PUZZLE YOU NEED TO DEVELOP
 	number_of_genres := len(know_genres)
 	start := time.Now()
 
