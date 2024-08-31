@@ -45,6 +45,7 @@ integrar WSL con el editor de código.
 - [Golang Part II](https://docs.google.com/presentation/d/1MgQG_B2v2eOq7NhhGMiQf-oZG0aCSXwqBKyYlEWeyKo)
 - [Go Concurrency](https://docs.google.com/presentation/d/1a0OmFFyBt9He0xus1SYKpQxHXKSW4S3ODF3lveRkLrE)
 - [Developing Web Apps in Go Language](https://docs.google.com/presentation/d/1cosYUSInZQ7XjLXep_LHObiKZWtHOARFPBWPIBoAHcs)
+- [Moderator App in Go Language](https://docs.google.com/presentation/d/1951aMOQPwPNeRIQ2HlaV3i-k45SegvZq-ulkzuRAz4c/edit#slide=id.p)
 
 ## Lenguajes de programación
 
