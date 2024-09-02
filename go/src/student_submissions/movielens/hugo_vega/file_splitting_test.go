@@ -1,4 +1,4 @@
-package fileprocessing
+package main
 
 import (
 	"bufio"
