@@ -58,6 +58,10 @@ integrar WSL con el editor de código.
   - [Plots and Visualization Tools in Go](https://docs.google.com/presentation/d/1JhCiWTHKdZXBj5dLhEJ6jbDUXzW1gSjXXUnnRtAY_jk)
 - [Julia](./julia) -> [Instalación](https://julialang.org/downloads/)
 
+# Data Science
+
+- [Intro to Data Science](https://docs.google.com/presentation/d/1QEGqdo9KMJ3aLfZCu6qX5Phi3XoE3Cd7jgQSAawamPs/edit#slide=id.p4)
+
 ## Libros
 
 - [Introduction to Statistical Learning](https://www.statlearning.com/)
