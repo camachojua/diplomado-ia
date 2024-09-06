@@ -72,6 +72,7 @@ integrar WSL con el editor de código.
 - [¿Cuánto te tardaste en hacer el ejercicio de la slide 72?](https://forms.gle/pNFoWNNY9oQ1NGyi7)
 
 - [Movie Lens Challenge](https://docs.google.com/forms/d/e/1FAIpQLSei3wdPEHFW7Hc94ga6TYw7-OEZLduXO6kag7D07F4oGKcrcA/viewform?vc=0&c=0&w=1&flr=0)
+- [Queens and Kings Challenge](https://docs.google.com/forms/d/1TePORXDqeDcGRdc5PCMakQH3zHcH6qOVfvWzDstyeeA/viewform?edit_requested=true)
 
 ## Editor de código:
   - [VSCode](https://code.visualstudio.com/) (recomendado por el Dr. Juan Vargas)
