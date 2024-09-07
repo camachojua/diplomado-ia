@@ -94,7 +94,7 @@ func usage(current_file string) {
 }
 
 func decompress_file(linux_flavor string) {
-	// Before decompressing we must be shure that the base filesystem doesn't exist in the target directory
+	// Before decompressing we must be sure that the base filesystem doesn't exist in the target directory
 	if _, err := os.Stat(linux_flavor + "/bin/ls"); err == nil {
 		fmt.Printf("=> File system found\n")
 		return
