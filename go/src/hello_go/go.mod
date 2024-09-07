@@ -1,3 +1,3 @@
 module hello_go/hello
 
-go 1.22.6
+go 1.23
