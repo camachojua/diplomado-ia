@@ -45,13 +45,23 @@ integrar WSL con el editor de código.
 - [Golang Part II](https://docs.google.com/presentation/d/1MgQG_B2v2eOq7NhhGMiQf-oZG0aCSXwqBKyYlEWeyKo)
 - [Go Concurrency](https://docs.google.com/presentation/d/1a0OmFFyBt9He0xus1SYKpQxHXKSW4S3ODF3lveRkLrE)
 - [Developing Web Apps in Go Language](https://docs.google.com/presentation/d/1cosYUSInZQ7XjLXep_LHObiKZWtHOARFPBWPIBoAHcs)
+- [Moderator App in Go Language](https://docs.google.com/presentation/d/1951aMOQPwPNeRIQ2HlaV3i-k45SegvZq-ulkzuRAz4c/edit#slide=id.p)
+- [Graph Algorithms in Go](https://docs.google.com/presentation/d/1DWhMXCgA_v4p7r8S6Aet41dXVwZ8yrVFbRYtO3YlKEg/edit#slide=id.p)
+- [Golang and Mysql](https://docs.google.com/presentation/d/1Y44n39CvvMczVJh4-8cNPcb6czLIEqyjxEypsIR_3p4/edit#slide=id.p)
+- [Building Containers with the Go Language](https://docs.google.com/presentation/d/1FVz8DHOXxKy1aEi2ZSu_enzyRVpcaxrS7toIyeovS1I)
 
 ## Lenguajes de programación
 
 - [Go](./go) -> [Instalación](https://go.dev/doc/install)
   - [Presentación inicial](https://docs.google.com/presentation/d/18eTBCF2W4J8bQ2EwbW63iUuG1meIuiTvfLaujq5ni1k/edit#slide=id.p)
   - [Playground](https://go.dev/play/)
+  - [Writting Web apps](https://go.dev/doc/articles/wiki/)
+  - [Plots and Visualization Tools in Go](https://docs.google.com/presentation/d/1JhCiWTHKdZXBj5dLhEJ6jbDUXzW1gSjXXUnnRtAY_jk)
 - [Julia](./julia) -> [Instalación](https://julialang.org/downloads/)
+
+# Data Science
+
+- [Intro to Data Science](https://docs.google.com/presentation/d/1QEGqdo9KMJ3aLfZCu6qX5Phi3XoE3Cd7jgQSAawamPs/edit#slide=id.p4)
 
 ## Libros
 
@@ -66,6 +76,10 @@ integrar WSL con el editor de código.
 ## Formularios de google
 
 - [¿Cuánto te tardaste en hacer el ejercicio de la slide 72?](https://forms.gle/pNFoWNNY9oQ1NGyi7)
+
+- [Movie Lens Challenge](https://docs.google.com/forms/d/e/1FAIpQLSei3wdPEHFW7Hc94ga6TYw7-OEZLduXO6kag7D07F4oGKcrcA/viewform?vc=0&c=0&w=1&flr=0)
+- [Queens and Kings Challenge](https://docs.google.com/forms/d/1TePORXDqeDcGRdc5PCMakQH3zHcH6qOVfvWzDstyeeA/viewform?edit_requested=true)
+- [Plots Challenge](https://docs.google.com/forms/d/15_WWc4o47UwQg63HJ12ajr7KFcfMA_nSWZWdp1E-aac/viewform?edit_requested=true)
 
 ## Editor de código:
   - [VSCode](https://code.visualstudio.com/) (recomendado por el Dr. Juan Vargas)
