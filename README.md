@@ -78,6 +78,7 @@ integrar WSL con el editor de código.
 
 - [Movie Lens Challenge](https://docs.google.com/forms/d/e/1FAIpQLSei3wdPEHFW7Hc94ga6TYw7-OEZLduXO6kag7D07F4oGKcrcA/viewform?vc=0&c=0&w=1&flr=0)
 - [Queens and Kings Challenge](https://docs.google.com/forms/d/1TePORXDqeDcGRdc5PCMakQH3zHcH6qOVfvWzDstyeeA/viewform?edit_requested=true)
+- [Plots Challenge](https://docs.google.com/forms/d/15_WWc4o47UwQg63HJ12ajr7KFcfMA_nSWZWdp1E-aac/viewform?edit_requested=true)
 
 ## Editor de código:
   - [VSCode](https://code.visualstudio.com/) (recomendado por el Dr. Juan Vargas)
