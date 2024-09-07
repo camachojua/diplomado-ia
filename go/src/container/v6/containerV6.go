@@ -113,28 +113,22 @@ func download_file(linux_flavor string, url string) {
 	out, _ := os.Create(linux_flavor + ".tar.gz")
 	defer out.Close()
 
-	req, _ := http.NewRequest("GET", url, nil)
-	resp, _ := http.DefaultClient.Do(req)
+	fmt.Printf("Downloading " + linux_flavor + "......")
+
+	// Get the data
+	resp, err := http.Get(url)
+	if err != nil {
+		panic(err)
+	}
 	defer resp.Body.Close()
 
-	buf := make([]byte, 32*1024)
-	var downloaded int64
-
-	for {
-		n, err := resp.Body.Read(buf)
-		if err != nil {
-			if err == io.EOF {
-				break
-			}
-			fmt.Printf("Error while downloading: %v", err)
-			panic("")
-		}
-		if n > 0 {
-			out.Write(buf[:n])
-			downloaded += int64(n)
-			fmt.Printf("\rDownloading %v ... %.2f%%", linux_flavor, float64(downloaded)/float64(resp.ContentLength)*100)
-		}
+	// Write the body to file
+	_, err = io.Copy(out, resp.Body)
+	if err != nil {
+		panic(err)
 	}
+
+	fmt.Printf("[ok]\n")
 }
 
 func get_base_fs(linux_flavor, machine_type string) {
