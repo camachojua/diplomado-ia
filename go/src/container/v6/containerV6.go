@@ -113,6 +113,7 @@ func download_file(linux_flavor string, url string) {
 	out, _ := os.Create(linux_flavor + ".tar.gz")
 	defer out.Close()
 
+	fmt.Printf("Starting the downloading process, be patient.\n")
 	fmt.Printf("Downloading " + linux_flavor + "......")
 
 	// Get the data
