@@ -3,8 +3,6 @@ Repositorio de discusión para el diplomado de inteligencia artificial.  Este
 repositorio se encuentra en constante movimiento por lo que deberán
 sincronizarlo a menudo.
 
-
-
 # Requisitos
 
 ### Tecnologías que necesitamos saber
