@@ -89,6 +89,7 @@ integrar WSL con el editor de código.
 
 - [MovieLens](https://grouplens.org/datasets/movielens/)
   - [MovieLens 25M (Dataset que se usará en la primer práctica)](https://grouplens.org/datasets/movielens/25m/)
+- [Wikipedia](https://drive.google.com/file/d/1WLcOVre_Bw7pZnJJ-ygb1BedFYKls-IK/view?usp=sharing)
 
 # ¿Cómo colaboramos?
 Para discutir un tema específico podemos abrir un [issue](https://github.com/camachojua/diplomado-ia/issues/new) para preguntar sobre algo específico.
