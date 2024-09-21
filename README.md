@@ -48,6 +48,7 @@ integrar WSL con el editor de código.
 - [Golang and Mysql](https://docs.google.com/presentation/d/1Y44n39CvvMczVJh4-8cNPcb6czLIEqyjxEypsIR_3p4/edit#slide=id.p)
 - [Building Containers with the Go Language](https://docs.google.com/presentation/d/1FVz8DHOXxKy1aEi2ZSu_enzyRVpcaxrS7toIyeovS1I)
 - [Distributed Computing in Go](https://docs.google.com/presentation/d/1KSH5QQfSwUNQ779VjZ3lGYLqC8Uysv13ycpJ335N2xY)
+- [Data Science and GoNum](https://docs.google.com/presentation/d/1WPJbHCltFM-gky3Be3S2jVLDDztNvrqvyvmC10T38AM)
 
 ## Lenguajes de programación
 
