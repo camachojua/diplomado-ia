@@ -50,6 +50,7 @@ integrar WSL con el editor de código.
 - [Distributed Computing in Go](https://docs.google.com/presentation/d/1KSH5QQfSwUNQ779VjZ3lGYLqC8Uysv13ycpJ335N2xY)
 - [Data Science and GoNum](https://docs.google.com/presentation/d/1WPJbHCltFM-gky3Be3S2jVLDDztNvrqvyvmC10T38AM)
 - [Modelos de Clasificación en Data Science](https://docs.google.com/presentation/d/1zOikKpq_FGpoptS3rTKSr1s7ILBI_5Dgx0aloXe3j04/edit#slide=id.p)
+- [Julia ISL Book](https://bit.ly/3PBqLIP)
 
 ## Lenguajes de programación
 
