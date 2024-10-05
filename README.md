@@ -51,6 +51,7 @@ integrar WSL con el editor de código.
 - [Data Science and GoNum](https://docs.google.com/presentation/d/1WPJbHCltFM-gky3Be3S2jVLDDztNvrqvyvmC10T38AM)
 - [Modelos de Clasificación en Data Science](https://docs.google.com/presentation/d/1zOikKpq_FGpoptS3rTKSr1s7ILBI_5Dgx0aloXe3j04/edit#slide=id.p)
 - [Julia ISL Book](https://bit.ly/3PBqLIP)
+- [Data Science PCA and SVD](https://docs.google.com/presentation/d/1ndZRoMAEfyh3txawZXGomAJZkY1p5OvkpFB06PZs1iY/edit#slide=id.g5e632b589d_0_0)
 
 ## Lenguajes de programación
 
