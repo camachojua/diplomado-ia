@@ -48,6 +48,10 @@ integrar WSL con el editor de código.
 - [Golang and Mysql](https://docs.google.com/presentation/d/1Y44n39CvvMczVJh4-8cNPcb6czLIEqyjxEypsIR_3p4/edit#slide=id.p)
 - [Building Containers with the Go Language](https://docs.google.com/presentation/d/1FVz8DHOXxKy1aEi2ZSu_enzyRVpcaxrS7toIyeovS1I)
 - [Distributed Computing in Go](https://docs.google.com/presentation/d/1KSH5QQfSwUNQ779VjZ3lGYLqC8Uysv13ycpJ335N2xY)
+- [Data Science and GoNum](https://docs.google.com/presentation/d/1WPJbHCltFM-gky3Be3S2jVLDDztNvrqvyvmC10T38AM)
+- [Modelos de Clasificación en Data Science](https://docs.google.com/presentation/d/1zOikKpq_FGpoptS3rTKSr1s7ILBI_5Dgx0aloXe3j04/edit#slide=id.p)
+- [Julia ISL Book](https://bit.ly/3PBqLIP)
+- [Data Science PCA and SVD](https://docs.google.com/presentation/d/1ndZRoMAEfyh3txawZXGomAJZkY1p5OvkpFB06PZs1iY/edit#slide=id.g5e632b589d_0_0)
 
 ## Lenguajes de programación
 
@@ -88,6 +92,7 @@ integrar WSL con el editor de código.
 
 - [MovieLens](https://grouplens.org/datasets/movielens/)
   - [MovieLens 25M (Dataset que se usará en la primer práctica)](https://grouplens.org/datasets/movielens/25m/)
+- [Wikipedia](https://drive.google.com/file/d/1WLcOVre_Bw7pZnJJ-ygb1BedFYKls-IK/view?usp=sharing)
 
 # ¿Cómo colaboramos?
 Para discutir un tema específico podemos abrir un [issue](https://github.com/camachojua/diplomado-ia/issues/new) para preguntar sobre algo específico.
