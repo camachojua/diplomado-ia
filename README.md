@@ -103,9 +103,7 @@ integrar WSL con el editor de código.
 - Lauritzen and SpiegelHalter Article
 - Judea Pearl: Probabilistic Reasoning
 - Castillo: Bayesian Networks
-
-
-Algorithms for Decision Making:  Mykel J. Kochenderfer Tim A. Wheeler Kyle H. Wray, Stanford, PDF available
+- Algorithms for Decision Making:  Mykel J. Kochenderfer Tim A. Wheeler Kyle H. Wray, Stanford, PDF available
 
 # ¿Cómo colaboramos?
 Para discutir un tema específico podemos abrir un [issue](https://github.com/camachojua/diplomado-ia/issues/new) para preguntar sobre algo específico.
