@@ -95,6 +95,18 @@ integrar WSL con el editor de código.
   - [MovieLens 25M (Dataset que se usará en la primer práctica)](https://grouplens.org/datasets/movielens/25m/)
 - [Wikipedia](https://drive.google.com/file/d/1WLcOVre_Bw7pZnJJ-ygb1BedFYKls-IK/view?usp=sharing)
 
+# Referencias a redes bayesianas
+
+- [Charniak: Bayesian Networks without Tears](https://www.cs.ubc.ca/~murphyk/Bayes/Charniak_91.pdf)
+- Richard Neapolitan Probabilistic Reasoning in Expert Systems
+- Jensen and Book on Hugin
+- Lauritzen and SpiegelHalter Article
+- Judea Pearl: Probabilistic Reasoning
+- Castillo: Bayesian Networks
+
+
+Algorithms for Decision Making:  Mykel J. Kochenderfer Tim A. Wheeler Kyle H. Wray, Stanford, PDF available
+
 # ¿Cómo colaboramos?
 Para discutir un tema específico podemos abrir un [issue](https://github.com/camachojua/diplomado-ia/issues/new) para preguntar sobre algo específico.
 
