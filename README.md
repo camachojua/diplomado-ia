@@ -98,12 +98,12 @@ integrar WSL con el editor de código.
 # Referencias a redes bayesianas
 
 - [Charniak: Bayesian Networks without Tears](https://www.cs.ubc.ca/~murphyk/Bayes/Charniak_91.pdf)
-- Richard Neapolitan Probabilistic Reasoning in Expert Systems
+- [Richard Neapolitan: Probabilistic Reasoning in Expert Systems](https://dl.acm.org/doi/book/10.5555/77340)
 - Jensen and Book on Hugin
-- Lauritzen and SpiegelHalter Article
-- Judea Pearl: Probabilistic Reasoning
-- Castillo: Bayesian Networks
-- Algorithms for Decision Making:  Mykel J. Kochenderfer Tim A. Wheeler Kyle H. Wray, Stanford, PDF available
+- [Lauritzen and Spiegel Halter Article](https://onlinelibrary.wiley.com/doi/epdf/10.1002/9781118445112.stat00258)
+- [Judea Pearl: Probabilistic Reasoning](https://onlinelibrary.wiley.com/doi/epdf/10.1002/9781118445112.stat00258)
+- [Castillo: Bayesian Networks](https://onlinelibrary.wiley.com/doi/epdf/10.1002/9781118445112.stat00258)
+- [Algorithms for Decision Making:  Mykel J. Kochenderfer Tim A. Wheeler Kyle H. Wray, Stanford](https://algorithmsbook.com/files/dm.pdf)
 
 # ¿Cómo colaboramos?
 Para discutir un tema específico podemos abrir un [issue](https://github.com/camachojua/diplomado-ia/issues/new) para preguntar sobre algo específico.
