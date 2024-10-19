@@ -53,6 +53,7 @@ integrar WSL con el editor de código.
 - [Julia ISL Book](https://bit.ly/3PBqLIP)
 - [Data Science PCA and SVD](https://docs.google.com/presentation/d/1ndZRoMAEfyh3txawZXGomAJZkY1p5OvkpFB06PZs1iY/edit#slide=id.g5e632b589d_0_0)
 - [Data Science in Julia](https://bit.ly/482MfIt)
+- [Bayesian Networks](https://bit.ly/3x2c1L7)
 
 ## Lenguajes de programación
 
