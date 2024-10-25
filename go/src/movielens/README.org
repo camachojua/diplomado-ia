@@ -1,0 +1,126 @@
+* Laboratorio de implementación del ejercicio MovieLens
+** Objetivo
+Implementar una metodología de procesamiento de grandes volúmenes de datos
+conocida como =map reduce= utilizando =go= y =goroutines= para distribuir el cómputo
+sobre varios procesadores.
+*** Problema a resolver
+A partir del dataset 25M de [[https://movielens.org/][MovieLens]] queremos hacer una clasificación de los
+géneros de películas recopilados en el dataset, de tal forma que podamos saber
+el número de calificaciones que ha tenido cada uno de los géneros de películas
+que se encuentran en el conjunto de datos, es decir, necesitamos aplicar la
+operación =count(ratings | genres)=, aunado a esto necesitamos imprimir el tiempo
+total de ejecución del programa según el siguiente formato:
+
+#+begin_src bash
+   0                  Action     7446893
+
+   1               Adventure     5,832,400
+   2               Animation     1,630,979
+   3                Children     2,124,250
+   4                  Comedy     8,926,180
+   5                   Crime     4,190,249
+   6             Documentary      322449
+   7                   Drama    10962786
+   8                 Fantasy     2831567
+   9               Film-Noir      247227
+  10                  Horror     1892182
+  11                    IMAX     1063274
+  12                 Musical      964250
+  13                 Mystery     2010992
+  14                 Romance     4497270
+  15                  Sci-Fi     4325727
+  16                Thriller     6763261
+  17                     War     1267345
+  18                 Western      483731
+  19      (no genres listed)       26627
+  Duration =  13.747019914s
+  Main is DONE
+#+end_src
+** Antes de comenzar
+El objetivo de la sesión no es dar la solución en código de el problema, su
+objetivo es permitir que el participante genere un mapa mental claro del
+problema que se presenta y ver una de las formas en las que se puede solucionar
+dicho problema, debemos tener presente que la única forma de aprender a utilizar
+un lenguaje de programación es programando, la parte más importante en la
+implementación de la solución se dará utilizando pseudo-código que deberán
+convertir al lenguaje de programación =go=.
+*** Fecha de entrega de la solución 100% implementada
+La fecha máxima de recepción del [[https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request][pull request]] 08 de Noviembre a las 23:59, hay
+que recordar que la solución a este problema debe de estar dentro de la carpeta
+=go/src/student_submissions/movielens/apellido_nombre= donde =apellido_nombre= es el
+nombre y apellido del participante que está enviando la solución.
+
+Cada solución *es individual* y *estrictamente obligatoria* pues se tomará en cuenta
+como parte del proceso de evaluación del desempeño de los participantes.
+
+Adicionalmente [[https://medium.com/@diego.coder/trabajo-colaborativo-en-github-forks-y-pull-requests-763fec94da09][aquí]] pueden encontrar una guía no oficial de cómo hacer su PR.
+** Plan de implementación
+El problema a resolver se ve de esta forma:
+
+#+ATTR_HTML: :align right
+#+ATTR_ORG: :align center
+[[../../../img/map_reduce.png][../../../img/map_reduce.png]]
+
+*** Obtener el dataset de MovieLens
+El archivo lo podemos descargar de esta [[https://grouplens.org/datasets/movielens/25m/][página]], los datos se encuentran
+comprimios en un archivo =.zip=, al descomprimirlos veremos los siguientes archivos:
+
+#+begin_src bash
+  total 1.1G
+  4.0K Nov 21  2019 .
+  4.0K Oct 25 00:25 ..
+  416M Nov 21  2019 genome-scores.csv
+   18K Nov 21  2019 genome-tags.csv
+  1.4M Nov 21  2019 links.csv
+  2.9M Nov 21  2019 movies.csv
+  647M Nov 21  2019 ratings.csv
+   11K Nov 21  2019 README.txt
+   38M Nov 21  2019 tags.csv
+#+end_src
+
+Los archivos que nos interesan son =ratings.csv= y =movies.csv=, cada archivo tiene la siguiente estructura:
+Archivo =ratings.csv=:
+#+begin_src bash
+  userId,movieId,rating,timestamp
+  1,296,5.0,1147880044
+#+end_src
+
+Archivo =movies.csv=:
+#+begin_src bash
+  movieId,title,genres
+  1,Toy Story (1995),Adventure|Animation|Children|Comedy|Fantasy
+#+end_src
+
+Por simplicidad los géneros válidos en el archivo son los siguientes:
+
+- Action
+- Adventure
+- Animation
+- Children's
+- Comedy
+- Crime
+- Documentary
+- Drama
+- Fantasy
+- Film-Noir
+- Horror
+- Musical
+- Mystery
+- Romance
+- Sci-Fi
+- Thriller
+- War
+- Western
+- (no genres listed)
+
+Hay que poner atención en el formato en el que están asignados los géneros en el
+archivo =movies.csv=, la lista de géneros asociada a cada una de las películas
+está separada por el caracter =|=.
+
+¿Cuántas líneas tiene el archivo =ratings.csv=? ¿Y el archivo =movies.csv=? ¿Cuántas
+comparaciones debemos hacer para resolver el problema?
+
+*** Separar el archivo en unidades más pequeñas
+*** Procesar cada unidad de forma distribuida
+*** Reunir los resultados
+*** Generar la respuesta
