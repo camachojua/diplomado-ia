@@ -45,7 +45,7 @@ un lenguaje de programación es programando, la parte más importante en la
 implementación de la solución se dará utilizando pseudo-código que deberán
 convertir al lenguaje de programación =go=.
 *** Fecha de entrega de la solución 100% implementada
-La fecha máxima de recepción del [[https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request][pull request]] es el *08 de Noviembre a las 23:59*,
+La fecha máxima de recepción del [[https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request][pull request]] es el *01 de Noviembre a las 20:00 GMT-4*,
 hay que recordar que la solución a este problema debe de estar dentro de la
 carpeta =go/src/student_submissions/movielens/apellido_nombre= donde
 =apellido_nombre= es el nombre y apellido del participante que está enviando la
@@ -58,13 +58,15 @@ Adicionalmente [[https://medium.com/@diego.coder/trabajo-colaborativo-en-github-
 
 *** Definición de equipos de trabajo
 
-Al finalizar esta sesión es imperativo formar los equipos de trabajo dado que la
-siguiente evaluación necesitará la cooperación de más de una persona
-(implementación de nuestro propio spark), lo ideal es que los grupos de trabajo
-sean autogestivos pero si no se llega a un senso tendremos que asignar dichos
-grupos de manera aleatoria.
+Al finalizar esta sesión es imperativo formar equipos de trabajo de tres
+personas o más dado que la siguiente evaluación necesitará la cooperación de más de
+una persona (implementación de nuestro propio spark), lo ideal es que los grupos
+de trabajo sean autogestivos pero si no se llega a un senso tendremos que
+asignar dichos grupos de manera aleatoria.
 
 ** Plan de implementación
+Para este problema 50% de los grupos trabajará en =go= y el otro 50% trabajará en =julia=.
+
 El problema a resolver se ve de esta forma:
 
 #+ATTR_HTML: :align right
