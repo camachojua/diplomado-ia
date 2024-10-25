@@ -345,3 +345,10 @@ El código del worker (encargado de hacer el inner join) en =julia=:
       return ra, ca
   end
 #+end_src
+
+* Por último
+
+Responder los siguientes formularios:
+
+- Para Julia: https://forms.gle/rHZjB1in8of9ijEt8
+- Para Go: https://forms.gle/mHMSjqe2SyKjcDCJ9
