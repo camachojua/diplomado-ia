@@ -45,7 +45,7 @@ problema que se presenta y ver una de las formas en las que se puede solucionar
 dicho problema, debemos tener presente que la única forma de aprender a utilizar
 un lenguaje de programación es programando, la parte más importante en la
 implementación de la solución se dará utilizando pseudo-código que deberán
-convertir al lenguaje de programación =go=.
+convertir al lenguaje de programación =go= o =julia= .
 *** Fecha de entrega de la solución 100% implementada
 La fecha máxima de recepción del [[https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request][pull request]] es el *01 de Noviembre a las 20:00 GMT-4*,
 hay que recordar que la solución a este problema debe de estar dentro de la
