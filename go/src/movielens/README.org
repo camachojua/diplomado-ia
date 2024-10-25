@@ -310,3 +310,36 @@ Como referencia se encuentra la [[https://docs.google.com/presentation/d/1a0OmFF
   	println("Mt_FindRatingsMaster is Done")
   }
 #+end_src
+
+El código del worker (encargado de hacer el inner join) en =julia=:
+
+#+begin_src julia
+  function FindratingsWorker(w::Integer, ng::Integer, kg::Array, dfm::DataFrame, dfr::DataFrame)
+      println("In Worker ", w, "\n")
+
+      ra = zeros(ng) # ra is an 1D array for keeping the values of the Ratings for each genre
+      ca = zeros(ng) # ca is an 1D array to keep the number of Ratings for each genre
+
+      println("local ndfr after resize =", size(dfr, 1))
+
+      # The inner join will have the following columns: {movieId, genre, rating}
+      ij = innerjoin(dfm, dfr, on = :movieId)
+      nij = size(ij, 1)
+
+      # ng = 20
+      #println("nij = ", nij)
+      # ng = size(kg, 1)
+      for i = 1:ng
+          for j = 1:nij
+              r = ij[j,:] # get all columns for row j, gender is col=2 of the row
+              g = r[2]
+              if ( contains(g, kg[j]) == true)
+                  ca[i] += 1    # keep the count of ratings for thin genre
+                  ra[i] += r[3] # add the value for this genre
+              end
+          end
+      end
+
+      return ra, ca
+  end
+#+end_src
