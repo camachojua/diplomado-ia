@@ -186,6 +186,10 @@ ejecutar el comando =cat nombre_1.csv nombre_2.csv ... nombre_N.csv= y compararl
 con el archivo original usando alguna herramienta como =diff= o generando un hash
 de cada archivo y comparando los hashes.
 
+Bibliotecas que les pueden ayudar:
+
+- [[https://pkg.go.dev/encoding/csv#Reader.Read][CSV]]
+
 *** Procesar cada unidad de forma distribuida
 
 Como referencia se encuentra la [[https://docs.google.com/presentation/d/1a0OmFFyBt9He0xus1SYKpQxHXKSW4S3ODF3lveRkLrE/edit#slide=id.g15d5b226248_0_3][diapositiva]].
