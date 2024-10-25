@@ -37,6 +37,8 @@ total de ejecución del programa según el siguiente formato:
   Main is DONE
 #+end_src
 ** Antes de comenzar
+Para este problema 50% de los grupos trabajará en =go= y el otro 50% trabajará en =julia=.
+
 El objetivo de la sesión no es dar la solución en código de el problema, su
 objetivo es permitir que el participante genere un mapa mental claro del
 problema que se presenta y ver una de las formas en las que se puede solucionar
@@ -65,8 +67,6 @@ de trabajo sean autogestivos pero si no se llega a un senso tendremos que
 asignar dichos grupos de manera aleatoria.
 
 ** Plan de implementación
-Para este problema 50% de los grupos trabajará en =go= y el otro 50% trabajará en =julia=.
-
 El problema a resolver se ve de esta forma:
 
 #+ATTR_HTML: :align right
