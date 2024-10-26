@@ -39,7 +39,7 @@ integrar WSL con el editor de código.
 
 ## Enlaces a presentaciones
 - [Introduction to Data Science](https://docs.google.com/presentation/d/1QEGqdo9KMJ3aLfZCu6qX5Phi3XoE3Cd7jgQSAawamPs/edit#slide=id.p4)
-- [GolangIntro](https://docs.google.com/presentation/d/18eTBCF2W4J8bQ2EwbW63iUuG1meIuiTvfLaujq5ni1k/edit#slide=id.p)
+- [Golang Intro](https://docs.google.com/presentation/d/18eTBCF2W4J8bQ2EwbW63iUuG1meIuiTvfLaujq5ni1k/edit#slide=id.p)
 - [Golang Part II](https://docs.google.com/presentation/d/1MgQG_B2v2eOq7NhhGMiQf-oZG0aCSXwqBKyYlEWeyKo)
 - [Go Concurrency](https://docs.google.com/presentation/d/1a0OmFFyBt9He0xus1SYKpQxHXKSW4S3ODF3lveRkLrE)
 - [Developing Web Apps in Go Language](https://docs.google.com/presentation/d/1cosYUSInZQ7XjLXep_LHObiKZWtHOARFPBWPIBoAHcs)
@@ -54,7 +54,7 @@ integrar WSL con el editor de código.
 - [Data Science PCA and SVD](https://docs.google.com/presentation/d/1ndZRoMAEfyh3txawZXGomAJZkY1p5OvkpFB06PZs1iY/edit#slide=id.g5e632b589d_0_0)
 - [Data Science in Julia](https://bit.ly/482MfIt)
 - [Bayesian Networks](https://bit.ly/3x2c1L7)
-- [Data Science Meets Linear Algebra at the SVD Lounge](https://docs.google.com/presentation/d/1ndZRoMAEfyh3txawZXGomAJZkY1p5OvkpFB06PZs1iY/edit#slide=id.g5e632b589d_0_0)
+- [Dimensionality Reduction: PCA, SD, T-SNE](https://docs.google.com/presentation/d/1ndZRoMAEfyh3txawZXGomAJZkY1p5OvkpFB06PZs1iY/edit#slide=id.g5e632b589d_0_0)
 
 ## Lenguajes de programación
 
@@ -63,7 +63,9 @@ integrar WSL con el editor de código.
   - [Playground](https://go.dev/play/)
   - [Writting Web apps](https://go.dev/doc/articles/wiki/)
   - [Plots and Visualization Tools in Go](https://docs.google.com/presentation/d/1JhCiWTHKdZXBj5dLhEJ6jbDUXzW1gSjXXUnnRtAY_jk)
+  - [Effective Go](https://go.dev/doc/effective_go) 
 - [Julia](./julia) -> [Instalación](https://julialang.org/downloads/)
+  - [Julia Tutorials](https://julialang.org/learning/tutorials/)
 
 # Data Science
 
