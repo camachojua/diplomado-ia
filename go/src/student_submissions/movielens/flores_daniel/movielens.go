@@ -85,12 +85,12 @@ func Mt_FindRatingsWorker(w int, ci chan int, generos []string, ca *[][]int, va 
 	// import all records from the movies DF into the ratings DF, keeping genres column from movies
        //df.Merge is the equivalent of an inner-join in the DF lib I am using here
 
-	fmt.Printf("Columnas de movies: %v (para worker %d)", movies.Columns(), w)
-	fmt.Printf("Columnas de ratings: %v (para worker %d)", ratings.Columns(), w)
+	//fmt.Printf("Columnas de movies: %v (para worker %d)\n", movies.Columns(), w)
+	//fmt.Printf("Columnas de ratings: %v (para worker %d)\n", ratings.Columns(), w)
 
-	fmt.Printf("Worker %d: Realizando merge\n", w)
+	//fmt.Printf("Worker %d: Realizando merge\n", w)
 	ratings.Merge(&movies, "movieId", "genres")
-	fmt.Printf("Worker %d: Merge realizado\n", w)
+	//fmt.Printf("Worker %d: Merge realizado\n", w)
 
 	// We only need "genres" and "ratings" to find Count(Ratings | Genres), so keep only those columns
 	grcs := [2]string{"genres", "rating"} // grcs => Genres Ratings Columns
