@@ -39,7 +39,7 @@ integrar WSL con el editor de código.
 
 ## Enlaces a presentaciones
 - [Introduction to Data Science](https://docs.google.com/presentation/d/1QEGqdo9KMJ3aLfZCu6qX5Phi3XoE3Cd7jgQSAawamPs/edit#slide=id.p4)
-- [GolangIntro](https://docs.google.com/presentation/d/18eTBCF2W4J8bQ2EwbW63iUuG1meIuiTvfLaujq5ni1k/edit#slide=id.p)
+- [Golang Intro](https://docs.google.com/presentation/d/18eTBCF2W4J8bQ2EwbW63iUuG1meIuiTvfLaujq5ni1k/edit#slide=id.p)
 - [Golang Part II](https://docs.google.com/presentation/d/1MgQG_B2v2eOq7NhhGMiQf-oZG0aCSXwqBKyYlEWeyKo)
 - [Go Concurrency](https://docs.google.com/presentation/d/1a0OmFFyBt9He0xus1SYKpQxHXKSW4S3ODF3lveRkLrE)
 - [Developing Web Apps in Go Language](https://docs.google.com/presentation/d/1cosYUSInZQ7XjLXep_LHObiKZWtHOARFPBWPIBoAHcs)
