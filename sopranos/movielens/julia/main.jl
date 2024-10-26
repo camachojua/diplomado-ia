@@ -1,7 +1,12 @@
+using Pkg
+Pkg.add("CSV")
 using CSV
+Pkg.add("DataFrames")
 using DataFrames
 using Base.Threads
+Pkg.add("BenchmarkTools")
 using BenchmarkTools
+Pkg.add("Printf")
 using Printf
 
 # Procesa registros en chunks, combina géneros y guarda en archivos de salida
@@ -12,9 +17,9 @@ function process_records(records, output_index)
 end
 
 # Función principal que divide el archivo de ratings en chunks y los procesa en paralelo
-function main(total_jobs = 10)
+function Split_Ratings(total_jobs = 10)
     # Leer archivos CSV
-    ratings_df = CSV.read("./ml-25m/ratings.csv", DataFrame)
+    ratings_df = CSV.read("../ratings.csv", DataFrame)
 
     # Determinar tamaño de cada chunk
     size_range = div(nrow(ratings_df), total_jobs)
@@ -41,7 +46,7 @@ function FindRatingsMaster(nF = 10)
     ca = zeros(ng,nF)
   
     # dfm has all rows from Movies with cols :movieId, :genres 
-    dfm = CSV.read("./ml-25m/movies.csv", DataFrame)
+    dfm = CSV.read("../movies.csv", DataFrame)
     dfm = dfm[: , [:movieId, :genres] ]
   
     dfr_v = [DataFrame() for _ in 1:nF]
@@ -95,5 +100,15 @@ function FindRatingsWorker(w::Integer, ng::Integer, kg::Array, dfm::DataFrame, d
     return ra, ca
 end
 
-@time main()
-@time FindRatingsMaster()
+function main(execute_split::Bool)
+    if execute_split == true
+        println("Split Ratings will be executed: \n")
+        @time Split_Ratings()
+    end
+    
+    println("Join Ratings with Movielens using threads will be executed: \n")
+    @time FindRatingsMaster()
+end
+
+# Main Function 
+@time main(true)
