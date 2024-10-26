@@ -1,0 +1,354 @@
+* Laboratorio de implementación del ejercicio MovieLens
+** Objetivo
+Implementar una metodología de procesamiento de grandes volúmenes de datos
+conocida como =map reduce= utilizando =go= y =goroutines= para distribuir el cómputo
+sobre varios procesadores.
+*** Problema a resolver
+A partir del dataset 25M de [[https://movielens.org/][MovieLens]] queremos hacer una clasificación de los
+géneros de películas recopilados en el dataset, de tal forma que podamos saber
+el número de calificaciones que ha tenido cada uno de los géneros de películas
+que se encuentran en el conjunto de datos, es decir, necesitamos aplicar la
+operación =count(ratings | genres)=, aunado a esto necesitamos imprimir el tiempo
+total de ejecución del programa según el siguiente formato:
+
+#+begin_src bash
+   0                  Action     7446893
+
+   1               Adventure     5,832,400
+   2               Animation     1,630,979
+   3                Children     2,124,250
+   4                  Comedy     8,926,180
+   5                   Crime     4,190,249
+   6             Documentary      322449
+   7                   Drama    10962786
+   8                 Fantasy     2831567
+   9               Film-Noir      247227
+  10                  Horror     1892182
+  11                    IMAX     1063274
+  12                 Musical      964250
+  13                 Mystery     2010992
+  14                 Romance     4497270
+  15                  Sci-Fi     4325727
+  16                Thriller     6763261
+  17                     War     1267345
+  18                 Western      483731
+  19      (no genres listed)       26627
+  Duration =  13.747019914s
+  Main is DONE
+#+end_src
+** Antes de comenzar
+Para este problema 50% de los grupos trabajará en =go= y el otro 50% trabajará en =julia=.
+
+El objetivo de la sesión no es dar la solución en código de el problema, su
+objetivo es permitir que el participante genere un mapa mental claro del
+problema que se presenta y ver una de las formas en las que se puede solucionar
+dicho problema, debemos tener presente que la única forma de aprender a utilizar
+un lenguaje de programación es programando, la parte más importante en la
+implementación de la solución se dará utilizando pseudo-código que deberán
+convertir al lenguaje de programación =go= o =julia= .
+*** Fecha de entrega de la solución 100% implementada
+La fecha máxima de recepción del [[https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request][pull request]] es el *01 de Noviembre a las 20:00 GMT-4*,
+hay que recordar que la solución a este problema debe de estar dentro de la
+carpeta =go/src/student_submissions/movielens/apellido_nombre= o ==julia/src/student_submissions/movielens/apellido_nombre= donde
+=apellido_nombre= es el nombre y apellido del participante que está enviando la
+solución.
+
+Cada solución *es individual* y *estrictamente obligatoria* pues se tomará en cuenta
+como parte del proceso de evaluación del desempeño de los participantes.
+
+Adicionalmente [[https://medium.com/@diego.coder/trabajo-colaborativo-en-github-forks-y-pull-requests-763fec94da09][aquí]] pueden encontrar una guía no oficial de cómo hacer su PR.
+
+*** Definición de equipos de trabajo
+
+Al finalizar esta sesión es imperativo formar equipos de trabajo de tres
+personas o más dado que la siguiente evaluación necesitará la cooperación de más de
+una persona (implementación de nuestro propio spark), lo ideal es que los grupos
+de trabajo sean autogestivos pero si no se llega a un senso tendremos que
+asignar dichos grupos de manera aleatoria.
+
+** Plan de implementación
+El problema a resolver se ve de esta forma:
+
+#+ATTR_HTML: :align right
+#+ATTR_ORG: :align center
+[[../../../img/map_reduce.png][../../../img/map_reduce.png]]
+
+*** Obtener el dataset de MovieLens
+El archivo lo podemos descargar de esta [[https://grouplens.org/datasets/movielens/25m/][página]], los datos se encuentran
+comprimios en un archivo =.zip=, al descomprimirlos veremos los siguientes archivos:
+
+#+begin_src bash
+  total 1.1G
+  4.0K Nov 21  2019 .
+  4.0K Oct 25 00:25 ..
+  416M Nov 21  2019 genome-scores.csv
+   18K Nov 21  2019 genome-tags.csv
+  1.4M Nov 21  2019 links.csv
+  2.9M Nov 21  2019 movies.csv
+  647M Nov 21  2019 ratings.csv
+   11K Nov 21  2019 README.txt
+   38M Nov 21  2019 tags.csv
+#+end_src
+
+Los archivos que nos interesan son =ratings.csv= y =movies.csv=, cada archivo tiene la siguiente estructura:
+Archivo =ratings.csv=:
+#+begin_src bash
+  userId,movieId,rating,timestamp
+  1,296,5.0,1147880044
+#+end_src
+
+Archivo =movies.csv=:
+#+begin_src bash
+  movieId,title,genres
+  1,Toy Story (1995),Adventure|Animation|Children|Comedy|Fantasy
+#+end_src
+
+Por simplicidad supongamos que los archivos =ratings.csv= y =movies.csv= se
+encuentran dentro de la misma carpeta que el archivo =movielens.go=, con el fin de
+evitar tener que calcular la lista de los géneros válidos del conjunto de datos
+éstos se muestran a continuación:
+
+- Action
+- Adventure
+- Animation
+- Children's
+- Comedy
+- Crime
+- Documentary
+- Drama
+- Fantasy
+- Film-Noir
+- Horror
+- Musical
+- Mystery
+- Romance
+- Sci-Fi
+- Thriller
+- War
+- Western
+- (no genres listed)
+
+Hay que poner atención en el formato en el que están asignados los géneros en el
+archivo =movies.csv=, la lista de géneros asociada a cada una de las películas
+está separada por el caracter =|=.
+
+¿Cuántas líneas tiene el archivo =ratings.csv=? ¿Y el archivo =movies.csv=? ¿Cuántas
+comparaciones debemos hacer para resolver el problema?
+
+*** Separar el archivo en unidades más pequeñas
+
+Antes de continuar debemos asegurarnos que nuestra carpeta de trabajo actual
+contiene los siguientes archivos:
+
+#+begin_src bash
+  go.mod movielens.go  movies.csv  ratings.csv  README.org
+#+end_src
+
+Si no tenemos el archivo =go.mod= es necesario inicializar el proyecto con el
+comando =go mod init movielens= y crear manualmente el archivo =movielens.go=.
+
+Antes de continuar hay que preguntarnos ¿Qué archivo es el que necesitamos
+dividir para aprovechar la arquitectura multi-hilo y multi-núcleo de nuestras
+computadoras? 🤔
+
+Para dividir el archivo correcto el algoritmo más simple es el siguiente:
+
+#+begin_src ruby
+  archivo = "archivo.csv"
+  # Nivel de concurrencia
+  num_procesos = 10
+
+  # Sacamos el número de líneas que contiene el archivo
+  size_of_file = archivo.numero_de_lineas
+
+  # Calculamos el número de archivos que saldran
+  number_of_chunks = size_of_file / num_procesos
+
+  start_time = time.Now()
+
+  for i = 0; i < number_of_chunks; i++
+     go_rutina -> generate_small_file(i)
+
+  end_time = time.Now()
+
+  # Imprimimos el tiempo total que nos tomó dividir el archivo
+  fmt.Println("Tiempo transcurrido:", end_time.Sub(start_time).Seconds())
+#+end_src
+
+¿Qué hace la función =generate_small_file(i)=? 🤔
+
+1. Lee el archivo correspondiente desde la posición =offset + 0= hasta la posición =offset + (i -1)=.
+   a. ¿Cómo se calcula ese =offset=? Esto es clave para poder leer el archivo propiamente.
+   b. Por el momento considera que todas las entradas del archivo tienen datos y son datos correctos.
+2. Genera un archivo nuevo llamado =nombre_N.csv= donde =N= es el número del archivo actual.
+3. El hilo principal de ejecución espera a que todas las go-rutinas terminen.
+
+¿cómo sabemos que nuestro programa de separación de archivos funcionó? Pueden
+ejecutar el comando =cat nombre_1.csv nombre_2.csv ... nombre_N.csv= y compararlo
+con el archivo original usando alguna herramienta como =diff= o generando un hash
+de cada archivo y comparando los hashes.
+
+Bibliotecas que les pueden ayudar:
+
+- [[https://pkg.go.dev/encoding/csv#Reader.Read][CSV]]
+
+*** Procesar cada unidad de forma distribuida
+
+Como referencia se encuentra la [[https://docs.google.com/presentation/d/1a0OmFFyBt9He0xus1SYKpQxHXKSW4S3ODF3lveRkLrE/edit#slide=id.g15d5b226248_0_3][diapositiva]].
+
+#+begin_src go
+  func Mt_FindRatingsWorker(w int, ci chan int, kg []string, ca *[][]int, va *[][]float64, movies dataframe.DataFrame) {
+  	aFileName := "ratings_" + fmt.Sprintf("%02d", w) + ".csv"
+  	println("Worker  ", fmt.Sprintf("%02d", w), "  is processing file ", aFileName, "\n")
+
+  	ratings := ReadRatingsCsvFile(aFileName)
+  	ng := len(kg)
+  	start := time.Now()
+
+  	// import all records from the movies DF into the ratings DF, keeping genres column from movies
+         //df.Merge is the equivalent of an inner-join in the DF lib I am using here
+  	ratings.Merge(&movies, "movieId", "genres")
+
+  	// We only need "genres" and "ratings" to find Count(Ratings | Genres), so keep only those columns
+  	grcs := [2]string{"genres", "rating"} // grcs => Genres Ratings Columns
+  	grDF := ratings.KeepColumns(grcs[:])  // grDF => Genres Ratings DF
+  	for ig := 0; ig < ng; ig++ {
+  		for _, row := range grDF.FrameRecords {
+  			if strings.Contains(row.Data[0], kg[ig]) {
+  				(*ca)[ig][w-1] += 1
+  				v, _ := strconv.ParseFloat((row.Data[1]), 32) // do not check for error
+  				(*va)[ig][w-1] += v
+  			}
+  		}
+  	}
+  	duration := time.Since(start)
+  	fmt.Println("Duration = ", duration)
+  	fmt.Println("Worker ", w, " completed")
+
+  	// notify master that this worker has completed its job
+  	ci <- 1
+  }
+#+end_src
+
+
+*** Reunir los resultados
+
+Como referencia se encuentra la [[https://docs.google.com/presentation/d/1a0OmFFyBt9He0xus1SYKpQxHXKSW4S3ODF3lveRkLrE/edit#slide=id.g15d5b226248_0_11][diapositiva]].
+
+La parte que ejecuta las go-rutinas es:
+
+#+begin_src go
+  var ci = make(chan int)		// create the channel to sync all workers
+  movies := ReadMoviesCsvFile("movies.csv")
+  // run FindRatings in 10 workers
+  for i := 0; i < nf; i++ {
+  	go Mt_FindRatingsWorker(i+1, ci, kg, &ca, &ra, movies)
+  }
+#+end_src
+
+*** Generar la respuesta
+
+Como referencia se encuentra la [[https://docs.google.com/presentation/d/1a0OmFFyBt9He0xus1SYKpQxHXKSW4S3ODF3lveRkLrE/edit#slide=id.g15d5b226248_0_19][diapositiva]].
+
+#+begin_src go
+  func Mt_FindRatingsMaster() {
+  	fmt.Println("In MtFindRatingsMaster")
+  	start := time.Now()
+  	nf := 10 // number of files with ratings is also number of threads for multi-threading
+
+  	// kg is a 1D array that contains the Known Genres
+  	kg := []string{"Action", "Adventure", "Animation", "Children", "Comedy", "Crime", "Documentary",
+  		"Drama", "Fantasy", "Film-Noir", "Horror", "IMAX", "Musical", "Mystery", "Romance",
+  		"Sci-Fi", "Thriller", "War", "Western", "(no genres listed)"}
+
+  	ng := len(kg) // number of known genres
+  // ra is a 2D array where the ratings values for each genre are maintained.
+  	// The columns signal/maintain the core number where a worker is running.
+  	// The rows in that column maintain the rating values for that core and that genre
+  	ra := make([][]float64, ng)
+  	// ca is a 2D array where the count of Ratings for each genre is maintained
+  	// The columns signal the core number where the worker is running
+  	// The rows in that column maintain the counts for that that genre
+  	ca := make([][]int, ng)
+  	// populate the ng rows of ra and ca with nf columns
+  	for i := 0; i < ng; i++ {
+  		ra[i] = make([]float64, nf)
+  		ca[i] = make([]int, nf)
+  	}
+  	var ci = make(chan int)		// create the channel to sync all workers
+  	movies := ReadMoviesCsvFile("movies.csv")
+  	// run FindRatings in 10 workers
+  	for i := 0; i < nf; i++ {
+  		go Mt_FindRatingsWorker(i+1, ci, kg, &ca, &ra, movies)
+  	}
+
+  	// wait for the workers
+  	iMsg := 0
+  	go func() {
+  		for {
+  			i := <-ci
+  			iMsg += i
+  		}
+  	}()
+  	for {
+  		if iMsg == 10 {
+  			break
+  		}
+  	}
+  	// all workers completed their work. Collect results and produce report
+  	locCount := make([]int, ng)
+  	locVals := make([]float64, ng)
+  	for i := 0; i < ng; i++ {
+  		for j := 0; j < nf; j++ {
+  			locCount[i] += ca[i][j]
+  			locVals[i] += ra[i][j]
+  		}
+  	}
+  	for i := 0; i < ng; i++ {
+  		fmt.Println(fmt.Sprintf("%2d", i), "  ", fmt.Sprintf("%20s", kg[i]), "  ", fmt.Sprintf("%8d", locCount[i]))
+  	}
+  	duration := time.Since(start)
+  	fmt.Println("Duration = ", duration)
+  	println("Mt_FindRatingsMaster is Done")
+  }
+#+end_src
+
+El código del worker (encargado de hacer el inner join) en =julia=:
+
+#+begin_src julia
+  function FindratingsWorker(w::Integer, ng::Integer, kg::Array, dfm::DataFrame, dfr::DataFrame)
+      println("In Worker ", w, "\n")
+
+      ra = zeros(ng) # ra is an 1D array for keeping the values of the Ratings for each genre
+      ca = zeros(ng) # ca is an 1D array to keep the number of Ratings for each genre
+
+      println("local ndfr after resize =", size(dfr, 1))
+
+      # The inner join will have the following columns: {movieId, genre, rating}
+      ij = innerjoin(dfm, dfr, on = :movieId)
+      nij = size(ij, 1)
+
+      # ng = 20
+      #println("nij = ", nij)
+      # ng = size(kg, 1)
+      for i = 1:ng
+          for j = 1:nij
+              r = ij[j,:] # get all columns for row j, gender is col=2 of the row
+              g = r[2]
+              if ( contains(g, kg[j]) == true)
+                  ca[i] += 1    # keep the count of ratings for thin genre
+                  ra[i] += r[3] # add the value for this genre
+              end
+          end
+      end
+
+      return ra, ca
+  end
+#+end_src
+
+* Por último
+
+Responder los siguientes formularios:
+
+- Para Julia: https://forms.gle/rHZjB1in8of9ijEt8
+- Para Go: https://forms.gle/mHMSjqe2SyKjcDCJ9
