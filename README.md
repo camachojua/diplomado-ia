@@ -63,9 +63,11 @@ integrar WSL con el editor de código.
   - [Playground](https://go.dev/play/)
   - [Writting Web apps](https://go.dev/doc/articles/wiki/)
   - [Plots and Visualization Tools in Go](https://docs.google.com/presentation/d/1JhCiWTHKdZXBj5dLhEJ6jbDUXzW1gSjXXUnnRtAY_jk)
-  - [Effective Go](https://go.dev/doc/effective_go) 
+  - [Effective Go](https://go.dev/doc/effective_go)
 - [Julia](./julia) -> [Instalación](https://julialang.org/downloads/)
   - [Julia Tutorials](https://julialang.org/learning/tutorials/)
+  - [Introduction to Julia (for programmers)](https://juliaacademy.com/p/intro-to-julia)
+  - [Julia for Data Science](https://juliaacademy.com/p/julia-for-data-science)
 
 # Data Science
 
