@@ -39,7 +39,7 @@ integrar WSL con el editor de código.
 
 ## Enlaces a presentaciones
 - [Introduction to Data Science](https://docs.google.com/presentation/d/1QEGqdo9KMJ3aLfZCu6qX5Phi3XoE3Cd7jgQSAawamPs/edit#slide=id.p4)
-- [GolangIntro](https://docs.google.com/presentation/d/18eTBCF2W4J8bQ2EwbW63iUuG1meIuiTvfLaujq5ni1k/edit#slide=id.p)
+- [Golang Intro](https://docs.google.com/presentation/d/18eTBCF2W4J8bQ2EwbW63iUuG1meIuiTvfLaujq5ni1k/edit#slide=id.p)
 - [Golang Part II](https://docs.google.com/presentation/d/1MgQG_B2v2eOq7NhhGMiQf-oZG0aCSXwqBKyYlEWeyKo)
 - [Go Concurrency](https://docs.google.com/presentation/d/1a0OmFFyBt9He0xus1SYKpQxHXKSW4S3ODF3lveRkLrE)
 - [Developing Web Apps in Go Language](https://docs.google.com/presentation/d/1cosYUSInZQ7XjLXep_LHObiKZWtHOARFPBWPIBoAHcs)
@@ -52,6 +52,10 @@ integrar WSL con el editor de código.
 - [Modelos de Clasificación en Data Science](https://docs.google.com/presentation/d/1zOikKpq_FGpoptS3rTKSr1s7ILBI_5Dgx0aloXe3j04/edit#slide=id.p)
 - [Julia ISL Book](https://bit.ly/3PBqLIP)
 - [Data Science PCA and SVD](https://docs.google.com/presentation/d/1ndZRoMAEfyh3txawZXGomAJZkY1p5OvkpFB06PZs1iY/edit#slide=id.g5e632b589d_0_0)
+- [Data Science in Julia](https://bit.ly/482MfIt)
+- [Dimensionality Reduction: PCA, SD, T-SNE](https://docs.google.com/presentation/d/1ndZRoMAEfyh3txawZXGomAJZkY1p5OvkpFB06PZs1iY/edit#slide=id.g5e632b589d_0_0)
+- [Clustering Methods in Data Science](https://bit.ly/4faYGV1)
+- [Bayesian Networks](https://bit.ly/3x2c1L7)
 
 ## Lenguajes de programación
 
@@ -60,7 +64,11 @@ integrar WSL con el editor de código.
   - [Playground](https://go.dev/play/)
   - [Writting Web apps](https://go.dev/doc/articles/wiki/)
   - [Plots and Visualization Tools in Go](https://docs.google.com/presentation/d/1JhCiWTHKdZXBj5dLhEJ6jbDUXzW1gSjXXUnnRtAY_jk)
+  - [Effective Go](https://go.dev/doc/effective_go)
 - [Julia](./julia) -> [Instalación](https://julialang.org/downloads/)
+  - [Introduction to Julia (for programmers)](https://juliaacademy.com/p/intro-to-julia)
+  - [Julia for Data Science](https://juliaacademy.com/p/julia-for-data-science)
+  - [Julia Tutorials](https://julialang.org/learning/tutorials/)
 
 # Data Science
 
@@ -93,6 +101,16 @@ integrar WSL con el editor de código.
 - [MovieLens](https://grouplens.org/datasets/movielens/)
   - [MovieLens 25M (Dataset que se usará en la primer práctica)](https://grouplens.org/datasets/movielens/25m/)
 - [Wikipedia](https://drive.google.com/file/d/1WLcOVre_Bw7pZnJJ-ygb1BedFYKls-IK/view?usp=sharing)
+
+# Referencias a redes bayesianas
+
+- [Charniak: Bayesian Networks without Tears](https://www.cs.ubc.ca/~murphyk/Bayes/Charniak_91.pdf)
+- [Richard Neapolitan: Probabilistic Reasoning in Expert Systems](https://dl.acm.org/doi/book/10.5555/77340)
+- Jensen and Book on Hugin
+- [Lauritzen and Spiegel Halter Article](https://onlinelibrary.wiley.com/doi/epdf/10.1002/9781118445112.stat00258)
+- [Judea Pearl: Probabilistic Reasoning](https://onlinelibrary.wiley.com/doi/epdf/10.1002/9781118445112.stat00258)
+- [Castillo: Bayesian Networks](https://onlinelibrary.wiley.com/doi/epdf/10.1002/9781118445112.stat00258)
+- [Algorithms for Decision Making:  Mykel J. Kochenderfer Tim A. Wheeler Kyle H. Wray, Stanford](https://algorithmsbook.com/files/dm.pdf)
 
 # ¿Cómo colaboramos?
 Para discutir un tema específico podemos abrir un [issue](https://github.com/camachojua/diplomado-ia/issues/new) para preguntar sobre algo específico.
