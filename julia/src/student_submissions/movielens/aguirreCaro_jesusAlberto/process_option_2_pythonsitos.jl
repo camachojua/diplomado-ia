@@ -38,7 +38,7 @@ function countGenres(ratingsIn,moviesIn)
     #the end result dataframe will contain all the reviews per genre
     movies = innerjoin(movies,ratings, on = :movieId)
     #we group by genre and count each ocurrence, as well as obtain its average rating
-    movies = combine(groupby(movies,:genres), nrow => :count,:rating => mean => :rating)\
+    movies = combine(groupby(movies,:genres), nrow => :count,:rating => mean => :rating)
     #finally we sort by genre
     movies = sort(movies,:genres)
     #we return the dataframe
