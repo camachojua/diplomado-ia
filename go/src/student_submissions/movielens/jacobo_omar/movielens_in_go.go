@@ -79,8 +79,8 @@ func SplitFile(file_name string, number_of_chunks int, directory string) []strin
 		WriteCsv1(tempData, tempName, path)
 		filesCreated = append(filesCreated, tempName)
 	}
-	tf := time.Since(t1).Seconds()
-	println("Executed in:", tf, "seconds")
+	tf := time.Since(t1)
+	fmt.Println("Executed in:", tf, "seconds")
 	return filesCreated
 }
 
@@ -110,9 +110,9 @@ func Mt_FindRatingsWorker(w int, ci chan int, knowGenres []string, ca *[][]int, 
 	aFileName := "ratings_" + fmt.Sprintf("%02d", w) + ".csv"
 	println("Worker  ", fmt.Sprintf("%02d", w), "  is processing file ", aFileName, "\n")
 
+	start := time.Now()
 	ratings := ReadCsvToDataframe(aFileName)
 	nGenres := len(knowGenres)
-	start := time.Now()
 
 	// import all records from the movies DF into the ratings DF, keeping genres column from movies
 	//df.Merge is the equivalent of an inner-join in the DF lib I am using here
@@ -131,8 +131,8 @@ func Mt_FindRatingsWorker(w int, ci chan int, knowGenres []string, ca *[][]int, 
 		}
 	}
 	duration := time.Since(start)
-	fmt.Println("Duration = ", duration)
 	fmt.Println("Worker ", w, " completed")
+	fmt.Println("Duration = ", duration)
 
 	// notify master that this worker has completed its job
 	ci <- 1
@@ -140,7 +140,7 @@ func Mt_FindRatingsWorker(w int, ci chan int, knowGenres []string, ca *[][]int, 
 
 // Master function that execute the find ratings problem.
 func Mt_FindRatingsMaster() {
-	fmt.Println("In MtFindRatingsMaster")
+	fmt.Println("In MtFindRatingsMaster\n")
 	start := time.Now()
 	nf := number_of_workers()
 
@@ -167,7 +167,7 @@ func Mt_FindRatingsMaster() {
 	}
 	var ci = make(chan int) // create the channel to sync all workers
 	movies := ReadCsvToDataframe("movies.csv")
-	println("Lectura completa del movies.csv\n")
+	println("Reading of movies.csv completed\n")
 	// run FindRatings in 10 workers
 	for i := 0; i < nf; i++ {
 		go Mt_FindRatingsWorker(i+1, ci, knowGenres, &ca, &ra, movies)
@@ -200,13 +200,17 @@ func Mt_FindRatingsMaster() {
 		fmt.Println(fmt.Sprintf("%2d", i), "  ", fmt.Sprintf("%20s", knowGenres[i]), "  ", fmt.Sprintf("%8d", locCount[i]), " ", fmt.Sprintf("%.2f", locPromedio[i]))
 	}
 	duration := time.Since(start)
-	fmt.Println("Duration = ", duration)
+	fmt.Println("\nMt_FindRatingsMaster duration = ", duration)
 	println("Mt_FindRatingsMaster is Done")
 }
 
 func main() {
-	println("Starting the movielens problem...")
-	files := SplitFile("ratings", number_of_workers(), "/mnt/c/Users/omarm/Downloads/ml-25m/")
-	fmt.Println(files)
+	println("Starting the movielens problem...\n")
+	t0:=time.Now()
+	SplitFile("ratings", number_of_workers(), "/mnt/c/Users/omarm/Downloads/ml-25m/")
+	println("Files splited, starting the Mt_FindRatingsMaster...\n")
 	Mt_FindRatingsMaster()
+	duration := time.Since(t0)
+	fmt.Println("Total duration for split files and find ratings = ", duration)
+
 }
