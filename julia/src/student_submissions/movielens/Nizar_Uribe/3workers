@@ -1,0 +1,79 @@
+using CSV
+using DataFrames
+using Base.Threads
+using Printf
+
+# Asegúrate de que el número de hilos esté configurado
+println("Número de hilos disponibles: ", nthreads())
+
+# Función para cargar los archivos CSV y contar calificaciones por género
+function cargar_y_contar(i, movies)
+    ratings = CSV.read("ratings_part_" * string(i) * ".csv", DataFrame)
+    return count_ratings_by_genre(ratings, movies)
+end
+
+# Función para contar las calificaciones por género
+function count_ratings_by_genre(ratings, movies)
+    # Unir las tablas por 'movieId'
+    data = innerjoin(ratings, movies, on=:movieId)
+   
+    # Inicializar un diccionario para contar las calificaciones por género
+    genre_count = Dict{String, Int}()
+   
+    for row in eachrow(data)
+        genres = split(row.genres, "|")  # Dividir los géneros por '|'
+        for genre in genres
+            genre_count[genre] = get(genre_count, genre, 0) + 1
+        end
+    end
+    return genre_count
+end
+
+# Cargar la lista de películas
+movies = CSV.read("movies.csv", DataFrame)
+
+# Arreglo para almacenar los resultados de cada hilo
+results = Vector{Dict{String, Int}}(undef, 10)
+
+# Usar Threads.@threads para ejecutar en paralelo
+Threads.@threads for i in 1:10
+    results[i] = cargar_y_contar(i, movies)
+end
+
+# Combinar los resultados de todos los hilos
+final_result = Dict{String, Int}()
+for result in results
+    for (genre, count) in result
+        final_result[genre] = get(final_result, genre, 0) + count
+    end
+end
+
+
+
+function format_with_commas(n::Int)
+    s = string(n)
+    len = length(s)
+    
+    # Si la longitud es menor o igual a 3, solo retorna el número
+    if len <= 3
+        return s
+    end
+    
+    # Crear una cadena con comas
+    result = ""
+    for (i, digit) in enumerate(reverse(s))
+        if i > 1 && (i - 1) % 3 == 0
+            result *= ","
+        end
+        result *= digit
+    end
+    
+    return reverse(result)
+end
+
+
+# Iterar sobre el diccionario e imprimir el resultado formateado
+for (genre, count) in final_result
+    formated_count = format_with_commas(count)
+    println("$genre: \t $formated_count calificaciones")
+end
