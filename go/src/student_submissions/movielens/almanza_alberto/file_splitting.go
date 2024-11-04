@@ -1,60 +1,90 @@
 package main
 
 import (
-	"encoding/csv"
 	"fmt"
-	"os"
 	"time"
 	"sync"
+	"strings"
+	"io/ioutil"
 )
 
-func SplitBigFile(file_name string, number_of_chunks int, directory string) []string {
-	var chunks []string
-	
-	file, _ := os.Open(directory + file_name)
-	data, _ := csv.NewReader(file).ReadAll()
-	file.Close()
-	fmt.Printf("\nFile with %d rows\n", len(data))
-	
-	chunk_size := len(data) / number_of_chunks 
-	fmt.Printf("Chunk size: %d\n\n", chunk_size)
-	
-	start_time:= time.Now()
-	fmt.Println("Tiempo inicial:", start_time)
+type Pelicula struct {
+	MovieId string
+	Genero  string
+}
+type Peliculas []Pelicula
 
-	var wg sync.WaitGroup
-	for i := 0; i <= number_of_chunks; i++ {
-		chunk_name := fmt.Sprintf("CHUNK_%d.csv", i)
-		chunk_path := fmt.Sprintf("%s%s",directory, chunk_name)
-		end_slice := chunk_size * (i + 1)
-		if end_slice > len(data) { end_slice = len(data) }
-		chunk_data := data[chunk_size * i:end_slice]
-		len_chunk := len(chunk_data)
-		if len_chunk == 0 { break }
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			chunk_file, _ := os.Create(chunk_path)
-			writer := csv.NewWriter(chunk_file)
-			writer.WriteAll(chunk_data)
-			writer.Flush()
-			chunk_file.Sync()
-			chunk_file.Close()
-			fmt.Printf("file %s (size: %d)\n", chunk_path, len_chunk)
-			
-		}()
-		chunks = append(chunks, chunk_name)
+func csv2map_pelis() map[string]string {
+	dta, _ := ioutil.ReadFile("./test/movies.csv")	
+	data := strings.Split(string(dta), "\n")
+	pelis := make(map[string]string)
+	for _, record := range data {
+		if record == "" { break }
+		d_split := strings.Split(record, ",")
+		pelis[strings.TrimSpace(d_split[0])] = strings.TrimSpace(d_split[len(d_split)-1])
 	}
+	return pelis
+}
 
-	end_time := time.Now()
-	fmt.Println("Tiempo final:", end_time)
-	fmt.Println("Tiempo transcurrido:", end_time.Sub(start_time).Seconds())
+func reduce_ratings(resultados []map[string]int) {
+	generos_resultado := make(map[string]int)
+	for _, generos_peli := range resultados {
+		for gen, cont := range generos_peli {
+			v, exists := generos_resultado[gen]
+			if !exists { generos_resultado[gen] = 0 }
+			generos_resultado[gen] = v + cont
+		}
+	}
+	for gen, cont := range generos_resultado {
+		fmt.Printf("%s: %d\n", gen, cont)
+	}
+}
 
-	wg.Wait()
+func map_ratings(num_partes int) {
+
+	var resultados []map[string]int
 	
-	return chunks
+	tiempo_inicial := time.Now()
+	archivo_ratings, _ := ioutil.ReadFile("./test/ratings.csv")
+	ratings := strings.Split(string(archivo_ratings), "\n")
+	num_ratings := len(ratings)
+	peliculas := csv2map_pelis()
+	
+	c := make(chan int)
+	mutex := sync.RWMutex{}
+	for i := 0; i <= num_partes; i++ {
+		parte_medida := num_ratings / num_partes 
+		fin_parte := parte_medida * (i + 1)
+		if fin_parte > num_ratings { fin_parte = num_ratings }
+		parte_data := ratings[i*parte_medida:fin_parte]
+		if len(parte_data)== 0 { break }
+		go func() {
+			generos := make(map[string]int)
+			for _, peli := range parte_data {
+				if peli == "" {break}
+				movie_id := strings.Split(strings.TrimSpace(peli), ",")[1]
+				generos_pelicula := strings.TrimSpace(peliculas[movie_id])
+				for _, genero := range strings.Split(generos_pelicula, "|") {
+					v, exists := generos[genero]
+					if !exists {generos[genero] = 0}
+					generos[genero] = v + 1
+				}
+			}
+			mutex.Lock()
+			resultados = append(resultados, generos)
+			mutex.Unlock()
+			c <-1
+		}()
+	}
+	for i := 0; i<num_partes; i++ { <-c }
+
+	fmt.Printf("\nArchivo ratings.csv con %d registros\n", num_ratings)
+	fmt.Printf("Número de partes: %d\n", num_partes)
+	fmt.Printf("Archivo movies.csv con %d registros\n", len(peliculas))
+	fmt.Printf("Tiempo transcurrido: %f\n\n", time.Now().Sub(tiempo_inicial).Seconds())
+	reduce_ratings(resultados)
 }
 
 func main() {
-	fmt.Println(SplitBigFile("ratings.csv", 10, "./test/"))
+	map_ratings(10)
 }
