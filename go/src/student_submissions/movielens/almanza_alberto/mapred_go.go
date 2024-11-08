@@ -6,6 +6,7 @@ import (
 	"sync"
 	"strings"
 	"io/ioutil"
+	"strconv"
 )
 
 type Pelicula struct {
@@ -26,23 +27,26 @@ func csv2map_pelis() map[string]string {
 	return pelis
 }
 
-func reduce_ratings(resultados []map[string]int) {
-	generos_resultado := make(map[string]int)
+func reduce_ratings(resultados []map[string]*[2]float64) {
+	generos_resultado := make(map[string]*[2]float64)
 	for _, generos_peli := range resultados {
 		for gen, cont := range generos_peli {
-			v, exists := generos_resultado[gen]
-			if !exists { generos_resultado[gen] = 0 }
-			generos_resultado[gen] = v + cont
+			_, exists := generos_resultado[gen]
+			if !exists {generos_resultado[gen] = &[2]float64{0, 0}}
+			
+			generos_resultado[gen][0] = generos_resultado[gen][0] + cont[0]
+			
+			generos_resultado[gen][1] = generos_resultado[gen][1] + cont[1]
 		}
 	}
 	for gen, cont := range generos_resultado {
-		fmt.Printf("%s: %d\n", gen, cont)
+		fmt.Printf("%s: %d - %.2f\n", gen, int(cont[0]), cont[1]/cont[0])
 	}
 }
 
 func map_ratings(num_partes int) {
 
-	var resultados []map[string]int
+	var resultados []map[string]*[2]float64
 	
 	tiempo_inicial := time.Now()
 	archivo_ratings, _ := ioutil.ReadFile("./test/ratings.csv")
@@ -52,22 +56,25 @@ func map_ratings(num_partes int) {
 	
 	c := make(chan int)
 	mutex := sync.RWMutex{}
-	for i := 0; i <= num_partes; i++ {
+	for i := 1; i <= num_partes; i++ {
 		parte_medida := num_ratings / num_partes 
-		fin_parte := parte_medida * (i + 1)
+		fin_parte := parte_medida * i
 		if fin_parte > num_ratings { fin_parte = num_ratings }
-		parte_data := ratings[i*parte_medida:fin_parte]
+		parte_data := ratings[(i-1)*parte_medida + 1:fin_parte]
 		if len(parte_data)== 0 { break }
 		go func() {
-			generos := make(map[string]int)
+			generos := make(map[string]*[2]float64)
 			for _, peli := range parte_data {
 				if peli == "" {break}
 				movie_id := strings.Split(strings.TrimSpace(peli), ",")[1]
+				rating := strings.Split(strings.TrimSpace(peli), ",")[2]
 				generos_pelicula := strings.TrimSpace(peliculas[movie_id])
 				for _, genero := range strings.Split(generos_pelicula, "|") {
-					v, exists := generos[genero]
-					if !exists {generos[genero] = 0}
-					generos[genero] = v + 1
+					_, exists := generos[genero]
+					if !exists {generos[genero] = &[2]float64{0, 0}}
+					generos[genero][0] = generos[genero][0] + 1
+					prm, _ := strconv.ParseFloat(rating, 64)
+					generos[genero][1] = generos[genero][1] + float64(prm)
 				}
 			}
 			mutex.Lock()
