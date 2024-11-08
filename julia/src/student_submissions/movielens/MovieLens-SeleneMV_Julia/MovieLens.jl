@@ -66,14 +66,36 @@ function readDivideRatings(filename ::String, chunkSize, fileResult ::String)
                
 end
 
-function findRatingsWorker( w::Integer, ng::Integer, kg::Array, dfm::DataFrame, dfr::DataFrame )
+function findRatingsWorker(w::Integer, ng::Integer, kg::Array, ratingSum::Array, ratingCount::Array, dfm::DataFrame, dfr::DataFrame)
     println("In Worker ", w, "\n")
+    # Perform the inner join
+    ij = innerjoin(dfm, dfr, on = :movieId)
+    nij = size(ij, 1)
+    println("Size of inner-join ij = ", nij)
+
+    # Loop over genres and ratings
+    for i = 1:ng
+        for j = 1:nij
+            r = ij[j, :]  # Get all columns for row j
+            g = r[2]      # Genre is in column 2
+            if contains(g, kg[i])
+                ratingCount[i] += 1       # Count ratings for this genre
+                ratingSum[i] += r[3]      # Sum the rating values for this genre
+            end
+        end
+    end
+    return ratingCount, ratingSum
+end
+
+function findRatingsWorker( w::Integer, ng::Integer, kg::Array, dfm::DataFrame, dfr::DataFrame )
+    println("In Worker ", w)
     ra = zeros(ng) # ra is an 1D array for keeping the values of the Ratings for each genre
     ca = zeros(ng) # ca is an 1D array to keep the number of Ratings for each genre
     # the innerjoin will have the following columns: {movieId, genre, rating}
     ij = innerjoin(dfm, dfr, on = :movieId)
     nij = size(ij,1)
     println("Size of inner-join ij = ", nij)
+    #println(first(ij, 1))
     # println("nij = ", nij)
     # ng = size(kg,1)
         for i = 1:ng
@@ -82,7 +104,7 @@ function findRatingsWorker( w::Integer, ng::Integer, kg::Array, dfm::DataFrame, 
             g = r[2]
                 if ( contains( g , kg[i]) == true)
                 ca[i] += 1 # keep the count of ratings for this genre
-                ra[i] += r[3] #add the value for this genre
+                ra[i] += r[4] #add the value for this genre
                 end
             end
         end
@@ -96,22 +118,24 @@ function findRatingsMaster(filename)
     kg = ["Action", "Adventure", "Animation", "Children", "Comedy", "Crime", "Documentary",
     "Drama", "Fantasy", "Film-Noir", "Horror", "IMAX", "Musical", "Mystery", "Romance",
     "Sci-Fi", "Thriller", "War", "Western", "(no genres listed)" ]
-    ng = size(kg,1) # ng is just the number of rows in kg
-    ra = zeros(ng,nF) # ra is 2D arrayof
-    ca = zeros(ng,nF) # ra is 2D arrayof
+    ng = size(kg,1) # ng is the number of genres (rows in kg)
+    # Incialize the matrices for ratings and counts 
+    ra = zeros(Float64, ng,nF) # ra is 2D arrayof
+    ca = zeros(Int, ng,nF) # ra is 2D arrayof
+    # Read the DataFrame with movies information
     # dfm has all rows from Movies with cols :movieId, :genres
     dfm = DataFrame(read_parquet( movies))
     dfm = dfm[: , [:movieId, :genres] ]
+    #List of empty DataFrames to store the data read from each file.
     dfr_v = [DataFrame() for _ in 1:nF]
+
     @threads for i=1:nF
     #    for i=1:nF
             #sleep(1)
         rfn = filename * string(i, pad = 1) * ".parquet"
-        println( rfn )
-        println(
-            "word",
-            "\tthread: $(Threads.threadid())"
-        )
+        println("Reading file: $rfn" )
+        println("Thread: $(Threads.threadid())")
+
         dfr_v[i] = DataFrame(read_parquet( rfn ))
         ra[:,i] , ca[:,i] = findRatingsWorker( i, ng, kg, dfm, dfr_v[i])
     end # @threads for
@@ -119,19 +143,30 @@ function findRatingsMaster(filename)
     # sra is an 1D array for summing the values of the Ratings for each genre
     sra = zeros(Float64, ng)
     # sca is an 1D array for summing the counts of the Ratings for each genre
-    sca = zeros(ng)
-    mean  = zeros(ng)
+    sca = zeros(Int, ng)
+    mean  = zeros(Float64, ng) # Mean rating by genre
     @sync for i =1:ng
         for j = 1:nF
-            sra[i] += ra[i,j]
-            sca[i] += ca[i,j]
-            mean[i] = div(sra[i], Float64(sca[i]))
+            sra[i] += ra[i,j] # Sum ratings by genre
+            sca[i] += ca[i,j] # sum count rating by genre
+        end
+
+        if sca[i] > 0 
+            mean[i] = sra[i] / sca[i]
+
+        else
+            mean[i] = 0.0
         end
     end
+
+    # Output the header
+    println("Género\t|Número de Valoraciones\t|Promedio de Valoraciones")
+
     @sync for i =1:ng
-    @printf("ca = %14.2f ra = %14.2f genre = %s mean = %14.2f \n", sca[i], sra[i], kg[i], mean[i])
+    @printf("| %s | %14.2f | %14.2f \n", kg[i], sca[i], mean[i])
     end
-end #FindRatingsMaster()
+end #FindRatingsMaster() 
+
 JULIA_NUM_THREADS=6
 println("Threads disponibles en Julia: ", Threads.nthreads())
 
