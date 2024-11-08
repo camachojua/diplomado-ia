@@ -9,6 +9,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"text/tabwriter"
 	"time"
 
 	"github.com/kfultz07/go-dataframe"
@@ -19,6 +20,13 @@ Definicion de constantes
 
 	const mvLDir = "/home/luna/Downloads/ml-latest/"
 */
+type output struct {
+	idGenre    int32
+	genre      string
+	numRating  float64
+	meanRating float64
+}
+
 const mvLDir = "/home/luna/Downloads/ml-25m/" //Directorio origen MovieLens
 
 func readFile(archivo string) (*os.File, func()) { //La funcion devuelve un apuntador os.File, esto es recomendable por cuestiones de eficiencia.
@@ -45,7 +53,7 @@ Y los regresa en una matriz [i][j] de 2 donde:
 [j] = # Columna del CSV
 */
 func readCsvFile(archivo *os.File) [][]string { //Esta funcion devuelve el conteo de lineas del CSV
-	defer archivo.Close() // Cierra el archivo al final de la función
+	//defer archivo.Close() // Cierra el archivo al final de la función solo si no ha sido cerrado antes
 
 	parser := csv.NewReader(archivo) // Se lee el archivo CSV
 	parser.Read()
@@ -55,7 +63,7 @@ func readCsvFile(archivo *os.File) [][]string { //Esta funcion devuelve el conte
 		panic(err)
 	}
 
-	fmt.Printf("El archivo CSV tiene %d registros\n", len(records)) //Se imprime el total de lineas del CSV
+	fmt.Printf("El archivo tiene %d registros\n", len(records)) //Se imprime el total de lineas del CSV
 	return records
 }
 
@@ -137,6 +145,7 @@ func findRatingsMaster() {
 	locCount := make([]int, genNumber)
 	locVals := make([]float64, genNumber)
 	localMeanValues := make([]float64, genNumber)
+	var outputs []output
 	for i := 0; i < genNumber; i++ {
 		for j := 0; j < nWorkers; j++ {
 			locCount[i] += ratingCount[i][j]
@@ -145,13 +154,29 @@ func findRatingsMaster() {
 		// Valor promedio por fenero.
 		localMeanValues[i] = locVals[i] / float64(locCount[i])
 
+		// Estructura de salida
+
+		out := output{
+			idGenre:    int32(i),
+			genre:      knowngenres[i],
+			numRating:  float64(locCount[i]),
+			meanRating: localMeanValues[i],
+		}
+
+		outputs = append(outputs, out)
+
 	}
 
-	// Impresion en pantalla de los resultados del conteo.
-	for i := 0; i < genNumber; i++ {
-		fmt.Println(fmt.Sprintf("%2d", i), "|", fmt.Sprintf("%20s", knowngenres[i]), "|", fmt.Sprintf("%8d", locCount[i]), "|", fmt.Sprintf("%8f", localMeanValues[i]), "|", fmt.Sprintf("%8f", locVals[i]))
-	}
+	// Mostrar el resultado final
+	w1 := tabwriter.NewWriter(os.Stdout, 10, 0, 2, ' ', tabwriter.Debug)
+	fmt.Fprintln(w1, "Género\tidGenero\tNúmero de Valoraciones\tPromedio de Valoraciones\t")
+	for _, o := range outputs {
+		fmt.Fprintf(w1, "%s\t%d\t%.0f\t%.2f\t\n", o.genre, o.idGenre, o.numRating, o.meanRating)
 
+		//fmt.Printf("Género: %s, ID: %d, Número de Valoraciones: %.0f, Promedio de Valoraciones: %.2f\n",
+		//	o.genre, o.idGenre, o.numRating, o.meanRating)
+	}
+	w1.Flush()
 	println("Fin")
 }
 
@@ -172,7 +197,7 @@ func findRatingsWorker(worker_id int, ci chan int, knowngenres []string, ratingC
 
 	genNumber := len(knowngenres)
 
-	tiempo_inicial := time.Now()
+	start := time.Now()
 
 	/* Se importan todos los registros del dataframe de Movies en el dataframe de ratings y se realiza un "inner join" mediante
 	La operación .Merge
@@ -192,9 +217,8 @@ func findRatingsWorker(worker_id int, ci chan int, knowngenres []string, ratingC
 		}
 	}
 
-	tiempo_final := time.Since(tiempo_inicial)
-	fmt.Println("Tiempo de proceso ⌛: ", tiempo_final)
-	fmt.Println("Worker ", worker_id, " Ha finalizado ✨")
+	finish := time.Since(start)
+	fmt.Println("Worker ", worker_id, "has finished in", finish)
 
 	// Le decimos al orquestador que hemos terminado
 	// Al "prender" el canal de comunicación establecemos indirectamente un protocolo de sincronización
@@ -228,25 +252,26 @@ func main() {
 
 	/* Se interpreta la estructura de los datos, aqui utilizando la de un CSV
 	   esta funcion indica la cantidad de registros del archivo, en este caso Movies.csv */
-	csv_movies := readCsvFile(movies_data)
 
+	csv_movies := readCsvFile(movies_data)
+	//defer movies_data.Close()
 	fmt.Println("La lectura del archivo 'movies.csv' ha concluido")
 	fmt.Println("Primer registro del archivo: \n ", csv_movies[0])
 
 	// Para facilitar el uso de los datos se puede recurrir a los DataFrames
-
+	// Aqui se muestran algunos detalles del contenido del archivo
 	df_movies := csvToDataFrame(&movieCsv)
-	df_movies.ViewColumns()
-	fmt.Println("Numeros de registros en el DataFrame: ", df_movies.CountRecords())
+	//df_movies.ViewColumns()
+	fmt.Println("Cabecera del archivo: ", df_movies.Headers)
 
 	/* Se cronometra el tiempo de ejecucion, en esta parte se procesaran las N divisiones del archivo Ratings.csv
 	   y se realizara el conteo de Ratings por genero rating | genre  a traves del campo llave movieId
 	*/
-	tiempo_inicial := time.Now()
+	start := time.Now()
 
 	findRatingsMaster() // Inicia el proceso principal del programa
 
-	tiempo_final := time.Since(tiempo_inicial)
+	finish := time.Since(start)
 
-	fmt.Println("Este programa tardó ", tiempo_final)
+	fmt.Println("Este programa tardó ", finish)
 }
