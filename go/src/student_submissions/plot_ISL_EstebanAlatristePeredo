@@ -1,0 +1,220 @@
+// To practice GoNum/plots, do the following:
+//  1. Get the data from the ISL Book ( https://www.statlearning.com/ )
+//	2. Read chapters 2, 3, where the advertising data is presented
+//	3. In the book’s web page there is a link to the all the data, including the data
+//	advertising data set
+//	4. Get the advertising data, and use it to plot the 3 figures as they appear in Fig
+//	2.1, pp. 16.
+
+
+
+
+package main
+
+import (
+
+	"encoding/csv"
+	"fmt"
+	"log"
+	"os"
+	"strconv"
+	"math"
+
+	
+	"gonum.org/v1/plot"
+	"gonum.org/v1/plot/plotter"
+	"gonum.org/v1/plot/vg"
+)
+
+var sumax, sumay, sumax2, sumaxy, npuntos, pendiente, b float64
+
+	
+
+// FUNCIÓN: Leer el archivo cvs
+func leerCSV(nombreArchivo string, indice int) (plotter.XYs, error) {
+
+	// Abre el archivo CSV
+	archivo, err := os.Open(nombreArchivo)
+ 	if err != nil {
+		return nil, fmt.Errorf("No se pudo abrir el archivo: %v", err)
+	}
+	defer archivo.Close()
+
+	// Crear un lector de CVS
+	lectorCSV := csv.NewReader(archivo)
+	registros, err := lectorCSV.ReadAll()   // Leer todos los registros
+	
+	if err != nil {
+		return nil, fmt.Errorf("Error al leer el archivo CSV: %v", err)
+	} 
+
+	// Crea la esructura plotter.XYs
+	puntos := make(plotter.XYs, len(registros))
+	
+	// Iterar sobre los registros y convierte los valores a flotantes
+	for i, registro := range registros[1:] {   // Evita los encabezados
+		if len(registro) < 5 {
+			return puntos, fmt.Errorf("El registro en la línea %d no tiene suficientes columnas", i+1)
+			// nil
+		}
+		// Convertir las columnas a float64
+		x, err := strconv.ParseFloat(registro[indice],64)
+		if err != nil {
+			return nil, fmt.Errorf("Error al convertir el valor x en la línea %d: %v", i+1,err)
+		}
+
+		y, err := strconv.ParseFloat(registro[4], 64)        //Considera la 5a columna correspondiente a las ventas
+		if err != nil {
+			return nil, fmt.Errorf("Error al convertir el valor Y en la línea %d: %v,", i+1, err)
+		}
+
+		// Asignar los valores a las estructuras plotter.XYs
+		puntos[i].X = x
+		puntos[i].Y = y
+	}
+	return puntos, nil
+}
+
+// FUNCIÓN: Genera los puntos de la recta 
+func generapuntos(m, b float64, minX, maxX float64, n int) plotter.XYs {
+	puntosr := make(plotter.XYs, n)
+	delta := (maxX - minX) / float64(n -1)
+
+	for i := range puntosr {
+		x := minX + float64(i)*delta
+		y := (m * x) + b 
+		puntosr[i].X = x
+		puntosr[i].Y = y
+	}
+	return puntosr
+}
+
+
+func main() {
+	for veces := 1; veces <=3; veces++ {
+		// Lectura de las coordenadas del CSV
+		puntos, err := leerCSV("Advertising.csv", veces)         //Lectura 
+		if err != nil {
+			log.Fatalf("Error al leer el archivo CSV: %v", err)
+		}
+
+		// Crear un nuevo gráfico
+		p := plot.New()
+		
+		//Titulo y etiquetas de los ejes
+		switch veces {
+		case 1:
+				p.Title.Text = "GRAFICO DE VENTAS VS GASTO DE PUBLICIDAD EN TV"
+				p.X.Label.Text = "Gasto de Publicidad en Televisión"
+				p.Y.Label.Text = "Ventas"
+		case 2:
+				p.Title.Text = "GRAFICO DE VENTAS VS GASTO DE PUBLICIDAD EN RADIO"
+				p.X.Label.Text = "Gasto de Publicidad en Radio"
+				p.Y.Label.Text = "Ventas"
+		case 3:
+				p.Title.Text = "GRAFICO DE VENTAS VS GASTO DE PUBLICIDAD EN PERIODICO"
+				p.X.Label.Text = "Gasto de Publicidad en Periódico"
+				p.Y.Label.Text = "Ventas"
+		default:
+			fmt.Println("NO HAY TITULOS")
+		}
+		//Crear un gráfico de dispersion (scatter plot) con las coordenadas 
+		scatter, err := plotter.NewScatter(puntos)
+		if err != nil {
+			log.Fatalf("No se pudo crear el scatter plot: %v", err)
+		}
+
+		//Añadir los puntos del gráfico
+		p.Add(scatter)
+
+		// Para nuestro conjunto de puntos , econtrar la ecuación de la recta que y = mx + b, por el método de mínimos cuadrados
+		// donde m es la pendiente ; y b es la intersección con el eje Y (ordenada al origen)
+		// Para calcular m y b se usan las siguientes formulas:
+		//        m = (n(Sumatoria(xiyi)- Sumatoria(xi) Sumatoria(yi)) / n(Sumatoria(xi)2) - (Sumatoria(xi))2
+
+
+		//     b = Sumatoria(yi) - m(Sumatoria(xi)) / n
+
+		// donde n es el número de puntos
+		// xi e yi son los valores de los datos
+
+		// Sumatoria(xi)
+		sumax := 0.0
+		for _, punto := range puntos {
+			sumax += punto.X
+		}
+		// Despliegue del resultado de la suma de los valores en x
+		fmt.Printf("La suma de los valores en x es: %.2f\n", sumax)
+
+		// Sumatoria(yi)
+		sumay := 0.0
+		for _, punto := range puntos {
+			sumay += punto.Y
+		}
+		// Despliegue del resultado de la suma de los valores en y
+		fmt.Printf("La suma de los valores en y es: %.2f\n",sumay)
+
+		// Sumatoria de (xi) al cuadrado
+		sumax2 := 0.0
+		for _, punto := range puntos {
+			sumax2 += math.Pow(punto.X, 2)
+		}
+		// Despliega el resultado de la suma de los valores (xi) al cuadrado
+		fmt.Printf("La suma del cuadro de los valores en x es: %.2f\n", sumax2)
+
+		// Sumatoria de del producto de (xi)(yi)
+		sumaxy := 0.0
+		for _, punto := range puntos {
+			sumaxy += punto.X * punto.Y
+		}
+		// Despliega el resultado de la suma del producto de (xi)(yi)
+		fmt.Printf("La suma de los productos (xi)(yi) es: %.2f\n", sumaxy)
+
+
+		
+		// Calculo de la pendiente
+
+		npuntos:= 200.0
+		pendiente := ((npuntos * sumaxy) - (sumax * sumay)) / ((npuntos * sumax2) - (sumax * sumax)) 
+		fmt.Printf("La pendiente es: %.2f\n", pendiente)
+
+		// Calculo de la ordenada al origen
+		b := (sumay - (pendiente * sumax)) / npuntos
+		fmt.Printf("La ordenada al origen es: %.2f\n", b)
+
+		//Definición del rango máximo de valores de x
+		minX := 0.0
+		maxX := 0.0 
+		switch veces {
+		case 1 :
+			maxX = 300.0
+		case 2:
+			maxX = 50.0
+		case 3:
+			maxX = 120.0
+		default:
+			fmt.Println("Sin escala")
+
+		}
+
+		//Generación de los puntos para graficar la recta
+		puntosr := generapuntos(pendiente,b,minX,maxX,100)
+
+		// Crea la línea con los puntos generados
+		linea, err := plotter.NewLine(puntosr)
+		if err != nil {
+			log.Fatalf("Error al crear la línea: %v", err)
+		}
+		p.Add(linea)
+
+
+		// Guardar el gráfico como una imagen PNG
+		nomarch := "grafico" + strconv.Itoa(veces) + ".png"
+		if err := p.Save(10*vg.Inch, 10*vg.Inch, nomarch); err != nil {
+			log.Fatalf("No se pudo guardar el gráfico: %v", err)
+		}
+	}	
+	
+	
+	log.Println("Gráfico guardado como grafico.png")
+}
