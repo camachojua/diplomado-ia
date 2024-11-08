@@ -1,7 +1,6 @@
 package main
 
 import (
-<<<<<<< HEAD
 	"encoding/csv"
 	"fmt"
 	"log"
@@ -26,22 +25,6 @@ func Mt_FindRatingsMaster() {
 	fmt.Println("In MtFindRatingsMaster")
 	nf := 10 // number of files with ratings is also number of threads for multi-threading
 
-=======
-    "fmt"
-    "time"
-	"strings"
-	"strconv"
-	"github.com/kfultz07/go-dataframe"
-	"os"
-	"log"
-)
-
-func Mt_FindRatingsMaster() {
-	fmt.Println("In MtFindRatingsMaster")
-	start := time.Now()
-	nf := 2 // number of files with ratings is also number of threads for multi-threading
-	
->>>>>>> origin/Fausto
 	// generos is a 1D array that contains the Known Genres
 	generos := []string{"Action", "Adventure", "Animation", "Children", "Comedy", "Crime", "Documentary",
 		"Drama", "Fantasy", "Film-Noir", "Horror", "IMAX", "Musical", "Mystery", "Romance",
@@ -61,13 +44,8 @@ func Mt_FindRatingsMaster() {
 		ra[i] = make([]float64, nf)
 		ca[i] = make([]int, nf)
 	}
-<<<<<<< HEAD
 	var ci = make(chan int) // create the channel to sync all workers
 
-=======
-	var ci = make(chan int)		// create the channel to sync all workers
-	
->>>>>>> origin/Fausto
 	movies := ReadMoviesCsvFile("./ADCC_project/csv_files/")
 	// run FindRatings in 10 workers
 	for i := 0; i < nf; i++ {
@@ -95,7 +73,6 @@ func Mt_FindRatingsMaster() {
 			locVals[i] += ra[i][j]
 		}
 	}
-<<<<<<< HEAD
 
 	fmt.Println("Cuenta  ", ",", "Generos  ", ",", "Cuenta de eventos por genero")
 	for i := 0; i < ng; i++ {
@@ -110,50 +87,28 @@ func Mt_FindRatingsMaster() {
 		fmt.Println(fmt.Sprintf("%2d", i), " , ", fmt.Sprintf("%20s", generos[i]), " , ", fmt.Sprintf("%.2f", math.Round(locVals[i]/float64(locCount[i])*100)/100))
 	}
 
-=======
-	for i := 0; i < ng; i++ {
-		fmt.Println(fmt.Sprintf("%2d", i), "  ", fmt.Sprintf("%20s", generos[i]), "  ", fmt.Sprintf("%8d", locCount[i]))
-	}
-	duration := time.Since(start)
-	fmt.Println("Duration = ", duration)
->>>>>>> origin/Fausto
 	println("Mt_FindRatingsMaster is Done")
 }
 
 func Mt_FindRatingsWorker(w int, ci chan int, generos []string, ca *[][]int, va *[][]float64, movies dataframe.DataFrame) {
 	//aFileName := "./ADCC_project/splited_files/ratings_" + fmt.Sprintf("%02d", w) + ".csv"
 	aFileName := "ratings_" + fmt.Sprintf("%d", w-1) + ".csv"
-<<<<<<< HEAD
 	path := "./ADCC_project/csv_files/"
 
 	println("Worker  ", fmt.Sprintf("%02d", w), "  is processing file ", aFileName, "\n")
 
 	ratings := ReadRatingsCsvFile(path, aFileName)
-=======
-	path:="./ADCC_project/splited_files/"
-
-	println("Worker  ", fmt.Sprintf("%02d", w), "  is processing file ", aFileName, "\n")
-
-	ratings := ReadRatingsCsvFile(path,aFileName)
->>>>>>> origin/Fausto
 	ng := len(generos)
 	start := time.Now()
 
 	// import all records from the movies DF into the ratings DF, keeping genres column from movies
-<<<<<<< HEAD
 	//df.Merge is the equivalent of an inner-join in the DF lib I am using here
-=======
-       //df.Merge is the equivalent of an inner-join in the DF lib I am using here
->>>>>>> origin/Fausto
 
 	//fmt.Printf("Columnas de movies: %v (para worker %d)\n", movies.Columns(), w)
 	//fmt.Printf("Columnas de ratings: %v (para worker %d)\n", ratings.Columns(), w)
 
 	//fmt.Printf("Worker %d: Realizando merge\n", w)
-<<<<<<< HEAD
 	fmt.Println("inicio de merge del worker %d", w-1)
-=======
->>>>>>> origin/Fausto
 	ratings.Merge(&movies, "movieId", "genres")
 	//fmt.Printf("Worker %d: Merge realizado\n", w)
 
@@ -171,11 +126,7 @@ func Mt_FindRatingsWorker(w int, ci chan int, generos []string, ca *[][]int, va 
 	}
 	duration := time.Since(start)
 	fmt.Println("Duration = ", duration)
-<<<<<<< HEAD
 	fmt.Println("Worker ", w-1, " completed")
-=======
-	fmt.Println("Worker ", w, " completed")
->>>>>>> origin/Fausto
 
 	// notify master that this worker has completed its job
 	ci <- 1
@@ -204,7 +155,6 @@ func ReadRatingsCsvFile(filePath string, fileName string) dataframe.DataFrame {
 	return df
 }
 
-<<<<<<< HEAD
 // Paquete para poder hacer split
 
 func getBatch(reader *csv.Reader, number_of_chunks int) (int, int) {
@@ -344,8 +294,3 @@ func mySplitFile(file_name_ string, number_of_chunks int, directory string) []st
 func saludar(nombre string) {
 
 }
-=======
-func main() {
-	Mt_FindRatingsMaster()
-}
->>>>>>> origin/Fausto
