@@ -8,6 +8,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/kfultz07/go-dataframe"
@@ -157,7 +158,7 @@ func ReadRatingsCsvFile(filePath string, fileName string) dataframe.DataFrame {
 
 // Paquete para poder hacer split
 
-func getBatch(reader *csv.Reader, number_of_chunks int) (int, int) {
+func getBatch(reader *csv.Reader) (int, int) {
 	rowCount := 0
 	for {
 		_, err := reader.Read()
@@ -170,15 +171,15 @@ func getBatch(reader *csv.Reader, number_of_chunks int) (int, int) {
 		rowCount++
 	}
 
-	return int(math.Ceil(float64(rowCount) / float64(number_of_chunks))), rowCount
+	batchSize := 10
+	return int(math.Ceil(float64(rowCount) / float64(batchSize))), rowCount
 }
 
-func mySplitFile(file_name_ string, number_of_chunks int, directory string) []string {
+func mySplitFile(fileName string, batchSize int, outDir string) {
 
+	inpDir := outDir
 	// Read files
-
-	file, err := os.Open(directory + file_name_)
-	fmt.Println("Leer " + directory + file_name_)
+	file, err := os.Open(inpDir + fileName)
 	if err != nil {
 		log.Fatal("Error while reading the file", err)
 	}
@@ -186,39 +187,24 @@ func mySplitFile(file_name_ string, number_of_chunks int, directory string) []st
 	reader := csv.NewReader(file)
 
 	// Getting the size per file
-	batch, len := getBatch(reader, number_of_chunks)
+	batch, len := getBatch(reader)
 	fmt.Println("Registros por archivo " + strconv.Itoa(batch))
 	fmt.Println("Registros del archivo archivo original " + strconv.Itoa(len))
 	file.Close()
 
-	//
-
-	// Read de file again to recover the pointer
-	file, err = os.Open(directory + file_name_)
+	// Read the file again to recover the pointer
+	file, err = os.Open(inpDir + "ratings.csv")
 	if err != nil {
 		log.Fatal("Error while reading the file", err)
 	}
 	defer file.Close()
 	reader = csv.NewReader(file)
 
-	//***********
-	// Leer la primera fila
-	header, err := reader.Read()
-	if err != nil {
-		log.Fatal("Error reading header: ", err)
-	}
-	//*******
-
-	// Setting varibales for the loop
-	count := 0
+	var fields []string
+	first_record := true
 	batch_count := 0
 	file_number := 0
-	var files []string
-	file_name := "ratings_" + strconv.Itoa(file_number) + ".csv"
-
-	//File for first loop
-	files = append(files, file_name)
-	file_name = directory + file_name
+	file_name := outDir + "ratings_" + strconv.Itoa(file_number) + ".csv"
 	csvFile, err := os.Create(file_name)
 	if err != nil {
 		log.Fatalf("failed creating file: %s", err)
@@ -227,70 +213,89 @@ func mySplitFile(file_name_ string, number_of_chunks int, directory string) []st
 
 	csvwriter := csv.NewWriter(csvFile)
 
-	//******
-	// Escribir la cabecera en el primer archivo
-	if err := csvwriter.Write(header); err != nil {
-		log.Fatalln("error writing header to file", err)
+	type RecordWithFile struct {
+		Record []string
+		File   *csv.Writer
 	}
+	record_channel := make(chan RecordWithFile)
 
-	for count < len {
+	var to_write RecordWithFile
+	var wg sync.WaitGroup
 
-		// Read de old file and write the new
-		record, err := reader.Read()
-		if err != nil {
-			if err.Error() == "EOF" {
-				break
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		for {
+			record, err := reader.Read()
+			if err != nil {
+				if err.Error() == "EOF" {
+					close(record_channel)
+					break
+				}
+				log.Fatal("Error reading record: ", err)
 			}
-			log.Fatal("Error reading record: ", err)
-		}
+			if first_record {
+				fields = record
+				first_record = false
+			}
 
-		if err := csvwriter.Write(record); err != nil {
-			log.Fatalln("error writing record to file", err)
-		}
+			to_write.Record = record
+			to_write.File = csvwriter
 
-		count++
-		batch_count++
+			record_channel <- to_write
+			batch_count++
+			if batch_count == batch {
+				csvwriter.Flush()
+				csvFile.Close()
+				fmt.Println("El archivo " + file_name + " ha sido creado con éxito")
 
-		// If the file is full, close it and create a new one
-		if batch_count == batch {
-			csvwriter.Flush()
-			csvFile.Close()
-			fmt.Println("El archivo " + file_name + " ha sido creado con éxito")
-
-			file_number++
-
-			// This avoid create a new wmpty file in the end of the process
-			if file_number != number_of_chunks {
-				file_name = "ratings_" + strconv.Itoa(file_number) + ".csv"
-				files = append(files, file_name)
-				file_name = directory + file_name
+				file_number++
+				file_name = outDir + "ratings_" + strconv.Itoa(file_number) + ".csv"
 				csvFile, err = os.Create(file_name)
 				if err != nil {
 					log.Fatalf("failed creating file: %s", err)
 				}
 
 				csvwriter = csv.NewWriter(csvFile)
-				//******
-				// Escribir la cabecera en el nuevo archivo
-				if err := csvwriter.Write(header); err != nil {
-					log.Fatalln("error writing header to file", err)
+				if err := csvwriter.Write(fields); err != nil {
+					log.Fatalln("error writing record to file", err)
 				}
-
+				batch_count = 0
 			}
-			batch_count = 0
 		}
-	}
+	}()
 
-	// To ensure that the las file is closed
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		for {
+			to_write, ok := <-record_channel
+			if !ok {
+				break
+			}
+			record := to_write.Record
+			csvwriter := to_write.File
+
+			if csvwriter != nil {
+				if err := csvwriter.Write(record); err != nil {
+					log.Fatalln("error writing record to file", err)
+				}
+			}
+		}
+
+	}()
+
+	wg.Wait()
+
 	if batch_count > 0 {
 		csvwriter.Flush()
 		csvFile.Close()
 		fmt.Println("El archivo " + file_name + " ha sido creado con éxito (último archivo)")
 	}
 
-	return files
 }
 
 func saludar(nombre string) {
 
 }
+
