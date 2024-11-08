@@ -3,8 +3,6 @@ Repositorio de discusión para el diplomado de inteligencia artificial.  Este
 repositorio se encuentra en constante movimiento por lo que deberán
 sincronizarlo a menudo.
 
-
-
 # Requisitos
 
 ### Tecnologías que necesitamos saber
@@ -48,6 +46,15 @@ integrar WSL con el editor de código.
 - [Moderator App in Go Language](https://docs.google.com/presentation/d/1951aMOQPwPNeRIQ2HlaV3i-k45SegvZq-ulkzuRAz4c/edit#slide=id.p)
 - [Graph Algorithms in Go](https://docs.google.com/presentation/d/1DWhMXCgA_v4p7r8S6Aet41dXVwZ8yrVFbRYtO3YlKEg/edit#slide=id.p)
 - [Golang and Mysql](https://docs.google.com/presentation/d/1Y44n39CvvMczVJh4-8cNPcb6czLIEqyjxEypsIR_3p4/edit#slide=id.p)
+- [Building Containers with the Go Language](https://docs.google.com/presentation/d/1FVz8DHOXxKy1aEi2ZSu_enzyRVpcaxrS7toIyeovS1I)
+- [Distributed Computing in Go](https://docs.google.com/presentation/d/1KSH5QQfSwUNQ779VjZ3lGYLqC8Uysv13ycpJ335N2xY)
+- [Data Science and GoNum](https://docs.google.com/presentation/d/1WPJbHCltFM-gky3Be3S2jVLDDztNvrqvyvmC10T38AM)
+- [Modelos de Clasificación en Data Science](https://docs.google.com/presentation/d/1zOikKpq_FGpoptS3rTKSr1s7ILBI_5Dgx0aloXe3j04/edit#slide=id.p)
+- [Julia ISL Book](https://bit.ly/3PBqLIP)
+- [Data Science PCA and SVD](https://docs.google.com/presentation/d/1ndZRoMAEfyh3txawZXGomAJZkY1p5OvkpFB06PZs1iY/edit#slide=id.g5e632b589d_0_0)
+- [Data Science in Julia](https://bit.ly/482MfIt)
+- [Bayesian Networks](https://bit.ly/3x2c1L7)
+- [Data Science Meets Linear Algebra at the SVD Lounge](https://docs.google.com/presentation/d/1ndZRoMAEfyh3txawZXGomAJZkY1p5OvkpFB06PZs1iY/edit#slide=id.g5e632b589d_0_0)
 
 ## Lenguajes de programación
 
@@ -55,7 +62,12 @@ integrar WSL con el editor de código.
   - [Presentación inicial](https://docs.google.com/presentation/d/18eTBCF2W4J8bQ2EwbW63iUuG1meIuiTvfLaujq5ni1k/edit#slide=id.p)
   - [Playground](https://go.dev/play/)
   - [Writting Web apps](https://go.dev/doc/articles/wiki/)
+  - [Plots and Visualization Tools in Go](https://docs.google.com/presentation/d/1JhCiWTHKdZXBj5dLhEJ6jbDUXzW1gSjXXUnnRtAY_jk)
 - [Julia](./julia) -> [Instalación](https://julialang.org/downloads/)
+
+# Data Science
+
+- [Intro to Data Science](https://docs.google.com/presentation/d/1QEGqdo9KMJ3aLfZCu6qX5Phi3XoE3Cd7jgQSAawamPs/edit#slide=id.p4)
 
 ## Libros
 
@@ -72,6 +84,8 @@ integrar WSL con el editor de código.
 - [¿Cuánto te tardaste en hacer el ejercicio de la slide 72?](https://forms.gle/pNFoWNNY9oQ1NGyi7)
 
 - [Movie Lens Challenge](https://docs.google.com/forms/d/e/1FAIpQLSei3wdPEHFW7Hc94ga6TYw7-OEZLduXO6kag7D07F4oGKcrcA/viewform?vc=0&c=0&w=1&flr=0)
+- [Queens and Kings Challenge](https://docs.google.com/forms/d/1TePORXDqeDcGRdc5PCMakQH3zHcH6qOVfvWzDstyeeA/viewform?edit_requested=true)
+- [Plots Challenge](https://docs.google.com/forms/d/15_WWc4o47UwQg63HJ12ajr7KFcfMA_nSWZWdp1E-aac/viewform?edit_requested=true)
 
 ## Editor de código:
   - [VSCode](https://code.visualstudio.com/) (recomendado por el Dr. Juan Vargas)
@@ -81,6 +95,17 @@ integrar WSL con el editor de código.
 
 - [MovieLens](https://grouplens.org/datasets/movielens/)
   - [MovieLens 25M (Dataset que se usará en la primer práctica)](https://grouplens.org/datasets/movielens/25m/)
+- [Wikipedia](https://drive.google.com/file/d/1WLcOVre_Bw7pZnJJ-ygb1BedFYKls-IK/view?usp=sharing)
+
+# Referencias a redes bayesianas
+
+- [Charniak: Bayesian Networks without Tears](https://www.cs.ubc.ca/~murphyk/Bayes/Charniak_91.pdf)
+- [Richard Neapolitan: Probabilistic Reasoning in Expert Systems](https://dl.acm.org/doi/book/10.5555/77340)
+- Jensen and Book on Hugin
+- [Lauritzen and Spiegel Halter Article](https://onlinelibrary.wiley.com/doi/epdf/10.1002/9781118445112.stat00258)
+- [Judea Pearl: Probabilistic Reasoning](https://onlinelibrary.wiley.com/doi/epdf/10.1002/9781118445112.stat00258)
+- [Castillo: Bayesian Networks](https://onlinelibrary.wiley.com/doi/epdf/10.1002/9781118445112.stat00258)
+- [Algorithms for Decision Making:  Mykel J. Kochenderfer Tim A. Wheeler Kyle H. Wray, Stanford](https://algorithmsbook.com/files/dm.pdf)
 
 # ¿Cómo colaboramos?
 Para discutir un tema específico podemos abrir un [issue](https://github.com/camachojua/diplomado-ia/issues/new) para preguntar sobre algo específico.
