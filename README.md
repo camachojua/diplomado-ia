@@ -78,7 +78,7 @@ integrar WSL con el editor de código.
 
 - [Introduction to Statistical Learning](https://www.statlearning.com/)
 - [Elements of Statistical Learning](https://hastie.su.domains/ElemStatLearn/)
-- [Data Driven Science & Engineering](http://databookuw.com/), acá en formato [pdf](https://faculty.washington.edu/sbrunton/DataBookV2.pdf). Se recomienda la segunda edición.
+- [Data Driven Science & Engineering](http://databookuw.com/), acá en formato [pdf](https://faculty.washington.edu/sbrunton/DataBookV2.pdf). Se recomienda la segunda edición. La implementación de los ejercicios en Julia puede encontrarse [acá](https://sje30.github.io/catam-julia/ddsae/).
 
 ## Lecturas recomendadas
 
