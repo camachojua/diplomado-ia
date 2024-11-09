@@ -60,7 +60,7 @@ function processFile!(filename::String, dfMovies::DataFrame, stats::Dict)
         genres = split(row[1], "|")
 
         # Count per genre
-        for key in genres
+        @sync for key in genres
             if !haskey(stats, key)
                 stats[key] = Stats(0.0, 0)
             end
@@ -78,7 +78,7 @@ select!(dfMovies, [:movieId, :genres])
 stats = Dict{String, Stats}()
 
 files = filter!(x->contains(x, r"^tmp.*\.csv$"), readdir(ARGS[3]))
-for file in files
+Threads.@threads for file in files
     processFile!(file, dfMovies, stats)
 end
 
