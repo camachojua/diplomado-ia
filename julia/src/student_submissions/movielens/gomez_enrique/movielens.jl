@@ -27,10 +27,10 @@ function splitBigFile(filename::String, nbytes::Int)
 
         # Read 'nbytes' and until EOL
         readbytes!(file, readBytes, nbytes)
-        charsUntilEol = readuntil(file, '\n', keep = true)
+        charsUntilEol = readuntil(file, '\n', keep=true)
 
         # Write read bytes
-        fileSuffix = lpad(string(fileCounter), 2, "0") 
+        fileSuffix = lpad(string(fileCounter), 2, "0")
         outFilename = "tmp" * fileSuffix * ".csv"
         open(outFilename, "w") do f
             byteCounter += write(f, readBytes)
@@ -45,10 +45,11 @@ function splitBigFile(filename::String, nbytes::Int)
 end
 
 function processFile!(filename::String, dfMovies::DataFrame, stats::Dict)
-    dfRatings = DataFrame(CSV.File("../data/ratings.csv"))
+    dfRatings = DataFrame(CSV.File(filename))
+    rename!(dfRatings, [:userId, :movieId, :rating, :timestamp])
     select!(dfRatings, [:movieId, :rating])
 
-    dfMerge = groupby(innerjoin(dfRatings, dfMovies, on = :movieId), :genres)
+    dfMerge = groupby(innerjoin(dfRatings, dfMovies, on=:movieId), :genres)
     dfCombine = combine(dfMerge, [:rating] .=> [sum length])
 
     for row in eachrow(dfCombine)
@@ -70,18 +71,22 @@ function processFile!(filename::String, dfMovies::DataFrame, stats::Dict)
     end
 end
 
-splitBigFile(ARGS[1], parse(Int64, ARGS[2])*1024*1024)
+filepathRatings = ARGS[1]    # ratings.csv
+splitSize = ARGS[2]          # In MB
+filepathMovies = ARGS[3]     # movies.csv
 
-dfMovies = DataFrame(CSV.File("../data/movies.csv"))
+splitBigFile(filepathRatings, parse(Int64, splitSize) * 1024 * 1024)
+
+dfMovies = DataFrame(CSV.File(filepathMovies))
 select!(dfMovies, [:movieId, :genres])
 
-stats = Dict{String, Stats}()
+stats = Dict{String,Stats}()
 
-files = filter!(x->contains(x, r"^tmp.*\.csv$"), readdir(ARGS[3]))
+files = filter!(x -> contains(x, r"^tmp.*\.csv$"), readdir())
 Threads.@threads for file in files
     processFile!(file, dfMovies, stats)
 end
 
 for (key, value) in stats
-    @printf("%s,%f\n", key, value.rating/value.observations)
+    @printf("%s,%f\n", key, value.rating / value.observations)
 end
