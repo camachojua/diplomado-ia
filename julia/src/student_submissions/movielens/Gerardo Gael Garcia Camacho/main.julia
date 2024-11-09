@@ -1,0 +1,132 @@
+#Pkg.instantiate()
+using CSV
+using DataFrames
+using Printf
+using Dates
+#import Pkg; Pkg.add("Printf")
+# Función para obtener la primera columna de la matriz
+function obtenerPrimeraColumna(matriz, i)
+    primeraColumna = []
+    for fila in matriz
+        if !isempty(fila)
+            push!(primeraColumna, fila[i]) # Agrega el primer elemento de cada fila
+        end
+    end
+    return primeraColumna
+end
+
+# Función para contar elementos únicos en una lista
+function elementosUnicosConConteo(lista)
+    conteo = Dict{String, Int}()
+    for elemento in lista
+        conteo[elemento] = get(conteo, elemento, 0) + 1
+    end
+    return conteo
+end
+
+# Función para encontrar ratings
+function find_ratings!(conteo, reader, names, m, s, it)
+    for p in 2:s
+        rec = reader[p]
+        if isempty(rec)
+            continue
+        end
+        an = split(rec[3], "|")
+        for a in an
+            for (j, v) in enumerate(names)
+                if v == a
+                    conteo[j][it] += 1 * m[rec[1]]
+                end
+            end
+        end
+    end
+end
+
+# Función para calcular vector de película
+function vector_peli!(m, i)
+    name_file =  join(["ratings", "_", i, ".csv"])
+    r = CSV.File(name_file, header = false)
+    m[i + 1] = elementosUnicosConConteo(obtenerPrimeraColumna(r, 2))
+end
+
+# Función principal para encontrar ratings
+function find_ratings_main(name, n)
+    start = now()
+
+    kg = ["Action", "Adventure", "Animation", "Children", "Comedy", "Crime", "Documentary",
+          "Drama", "Fantasy", "Film-Noir", "Horror", "IMAX", "Musical", "Mystery", "Romance",
+          "Sci-Fi", "Thriller", "War", "Western", "(no genres listed)"]
+    nk = length(kg)
+
+    m = Vector{Dict{String, Int}}(undef, n)
+    for i in 1:n
+         vector_peli!(m, i )
+    end
+    wait.(m)
+
+    name_fil =  join([name, ".csv"])
+    data = CSV.read(name_fil, DataFrame, header = false)
+    s = nrow(data)
+
+    conteo = [zeros(Int, n) for _ in 1:nk]
+    for i in 1:n
+         find_ratings!(conteo, data, kg, m[i], s, i )
+    end
+    wait.(conteo)
+
+    locVals = zeros(Int, nk)
+    for i in 1:nk
+        for j in 1:n
+            locVals[i] += conteo[i][j]
+        end
+    end
+
+    for i in 1:nk
+        println(@sprintf("%2d   %20s   %8d", i, kg[i], locVals[i]))
+    end
+    duration = now() - start
+    println("Duration = ", duration)
+    println("Mt_FindRatingsMaster is Done")
+end
+
+# Función para guardar los datos particionados en archivos
+function guarda!(data, filename, start_idx::Int, end_idx::Int)
+    try
+        CSV.write(filename, data[start_idx:end_idx, :])
+        println("Archivo $filename creado correctamente con filas desde $start_idx hasta $end_idx.")
+    catch e
+        println("Error al escribir en $filename: ", e)
+    end
+end
+
+# Función para particionar el archivo
+function filepartition(n, name)
+    start = now()
+    nameFile = "C:/Users/GaelG/OneDrive/Escritorio/Programacion/Diplomado/Julia/ratings.csv"
+
+    # Cargar el archivo original
+    data = CSV.read(nameFile, DataFrame)
+    println("Archivo correcto")
+    #println(typeof(data))
+    tamano = nrow(data)
+    filas = Int(floor(tamano / n))  # Asegura que filas sea un entero
+
+    # Verifica si la partición es adecuada
+    if filas == 0
+        println("El archivo no tiene suficientes filas para dividir en $n partes.")
+        return
+    end
+    for i in 1:n
+        outputFileName = join([name, "_", i, ".csv"])
+        start_idx = Int((i - 1) * filas + 1)  # Convertir a entero explícitamente
+        end_idx = i < n ? Int(i * filas) : tamano  # Asegura que la última partición llegue al final del archivo
+
+        println("Creando archivo: $outputFileName con filas desde $start_idx hasta $end_idx...")
+        guarda!(data, outputFileName, start_idx, end_idx)
+    end
+    duration = now() - start
+    println("Duración = ", duration)
+end
+
+#filepartition(10, "ratings")
+find_ratings_main("movies", 10)
