@@ -6,11 +6,17 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/kfultz07/go-dataframe"
-
-	"time"
 )
+
+func main() {
+
+	fila_peli := "movies_large.csv"
+	procesaArchivoMultiHilo(fila_peli)
+
+}
 
 // Esta función lee un archivo y carga los datos de dicho archivo en memoria.
 // Para compartir los datos que están en memoria la función regresa un
@@ -69,7 +75,7 @@ func leeArchivoCsv(archivo *os.File) [][]string {
 func csvToDataFrame(archivo string) dataframe.DataFrame {
 	// La firma de la función necesita una ruta de directorio usamos el
 	// alias "./" para referirnos al directorio actual
-	df := dataframe.CreateDataFrame("./", "movies.csv")
+	df := dataframe.CreateDataFrame("./", archivo)
 	return df
 }
 
@@ -124,7 +130,7 @@ func procesaArchivoMultiHilo(archivo string) {
 	// Creamos el canal de comunicación
 	var ci = make(chan int)
 
-	movies := csvToDataFrame("movies.csv") // Sacamos los dataframes del archivo csv
+	movies := csvToDataFrame("movies_large.csv") // Sacamos los dataframes del archivo csv
 
 	// Creamos 10 workers, cada worker se encarga de leer su archivo correspondiente
 	for i := 0; i < nivel_multiprogramacion; i++ {
@@ -151,17 +157,19 @@ func procesaArchivoMultiHilo(archivo string) {
 	// Acá "consolidamos la información"
 	locCount := make([]int, numero_generos)
 	locVals := make([]float64, numero_generos)
+	locAVG := make([]float64, numero_generos)
 	for i := 0; i < numero_generos; i++ {
 		for j := 0; j < nivel_multiprogramacion; j++ {
 			locCount[i] += arreglo_conteo[i][j]
 			locVals[i] += arreglo_resultados[i][j]
-			// Agregar acá el promedio
 		}
+		locAVG[i] = float64(locVals[i]) / float64(locCount[i])
 	}
 
 	// Acá imprimimos los resultados
 	for i := 0; i < numero_generos; i++ {
-		fmt.Println(fmt.Sprintf("%2d", i), "  ", fmt.Sprintf("%20s", generos_conocidos[i]), "  ", fmt.Sprintf("%8d", locCount[i]))
+
+		fmt.Println(fmt.Sprintf("%2d", i), "  ", fmt.Sprintf("%20s", generos_conocidos[i]), "  ", fmt.Sprintf("%8d", locCount[i]), "  ", fmt.Sprintf("%.2f", locAVG[i]), "  ", fmt.Sprintf("%.2f", locVals[i]))
 	}
 
 	println("Fin del orquestador.")
@@ -176,7 +184,7 @@ func encuentraCalificaciones(worker_id int, ci chan int, generos_conocidos []str
 	// Acá hago trampa, ya que supongo que en el directorio actual se encuentra el archivo "ratings.csv" partido
 	// Tu tarea es crear la función que parte dicho archivo
 	// ratings_1.csv, ..., raitngs_10.csv <= Ustedes deben generar esto con código
-	ratings_chiquito := "ratings_" + fmt.Sprintf("%02d", worker_id) + ".csv"
+	ratings_chiquito := "ratings_parte_" + fmt.Sprintf("%02d", worker_id) + ".csv"
 	println("Worker  ", fmt.Sprintf("%02d", worker_id), " procesará el archivo ", ratings_chiquito, "\n")
 	ratings := csvToDataFrame(ratings_chiquito)
 
@@ -219,61 +227,4 @@ func encuentraCalificaciones(worker_id int, ci chan int, generos_conocidos []str
 	// Le decimos al orquestador que hemos terminado
 	// Al "prender" el canal de comunicación establecemos indirectamente un protocolo de sincronización
 	ci <- 1
-}
-
-/*
- * Esta es la función que se ejecutará al correr el programa desde la terminal
- *
- * El trabajo de este programa es:
- * - Abrir un archivo .csv
- * - Dividir el archivo más grande en N archivos pequeños
- * - Saber cómo escribir un archivo .csv
- * - Leer datos desde un archivo .csv. Esto implica parsear el archivo
- * - Procesar los datos leídos desde el .csv
- * - Medir el tiempo que tarda el procesamiento.
- * - Imprimir los resultados
- */
-
-func processFile() {
-	// Estos son los archivos que vámos a leer
-	// Hay que considerar que dichos archivos están en el directorio actual
-	movies := "movies.csv"
-	ratings := "ratings.csv"
-
-	fmt.Println("Comenzaremos a leer el archivo 'movies.csv'")
-
-	/* Hay que leer el archivo, cuando leemos un archivo en Go dentro de una
-	 * función es recomendable regresar un apuntador a los datos.  ¿Por qué
-	 * necesitamos un apuntador? Rapidez, le decimos a la computadora "Aquí
-	 * están los datos que leímos" y la computadora trabaja.
-	 */
-	movies_data, cerrar_archivo_movies := leeArchivo(movies)
-	defer cerrar_archivo_movies() // Cerramos el archivo cuando ya no lo usemos
-
-	// Hay que interpretar los datos, en este caso hacemos sentido de un archivo CSV
-	csv_movies := leeArchivoCsv(movies_data)
-
-	fmt.Println("Terminamos de leer el archivo 'movies.csv'")
-	fmt.Println("La primer línea del archivo movies.csv es: ", csv_movies[0])
-
-	// Una forma de trabajar datos en formato CSV es utilizar DataFrames
-	df_movies := csvToDataFrame(movies)
-	df_movies.ViewColumns()
-	fmt.Println("Numeros de registros segun DataFrame: ", df_movies.CountRecords())
-
-	// Aquí acaba el ejemplo de Mickey Mouse
-
-	tiempo_inicial := time.Now()
-
-	// Hasta ahora hemos leído un archivo "a mano" y con la ayuda de la
-	// biblioteca DataFrame En teoría podemos leer el archivo "ratings.csv"
-	// de esta forma pero sera lento, debemos hacerlo de manera concurrente,
-	// para ello necesitamos dispersar el trabajo y tener un orquestador de
-	// dicho trabajo.
-	procesaArchivoMultiHilo(ratings) // <= Este es el orquestador
-
-	tiempo_final := time.Since(tiempo_inicial)
-
-	fmt.Println("Este programa tardó ", tiempo_final)
-
 }

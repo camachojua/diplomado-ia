@@ -13,6 +13,7 @@ function FindRatingsWorker( w::Integer, ng::Integer, kg::Array, dfm::DataFrame, 
   ij = innerjoin(dfm, dfr, on = :movieId)
   nij = size(ij,1)
   println("Size of inner-join ij = ", nij)
+  print(first(ij, 1))
 
   # println("nij = ", nij)
   # ng = size(kg,1)
@@ -22,7 +23,7 @@ function FindRatingsWorker( w::Integer, ng::Integer, kg::Array, dfm::DataFrame, 
       g = r[2] 
       if ( contains( g , kg[i]) == true)
           ca[i] += 1      # keep the count of ratings for this genre
-          ra[i] += r[3]   #add the value for this genre
+          ra[i] += r[4]   #add the value for this genre
       end
     end
   end
@@ -68,10 +69,14 @@ function FindRatingsMaster()
           end
 
     @sync for i =1:ng
-        @printf("sca = %14.2f   sra = %14.2f   genre = %s  \n", sca[i], sra[i], kg[i])
+        @printf("sca = %14.2f   sra = %14.2f   genre = %s   avg = %14.2f  \n", sca[i], sra[i], kg[i], (1.0*sra[i])/(sca[i]))
     end
 
 end #FindRatingsMaster()
 
   
 FindRatingsMaster()
+
+
+
+lpad(1, 2, "0")
