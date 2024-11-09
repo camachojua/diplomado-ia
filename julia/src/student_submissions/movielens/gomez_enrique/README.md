@@ -1,11 +1,8 @@
 # How to run
 
-julia movielens.jl file_path
+julia movielens.jl file_path split_size_MB out_splits_dir
 
 # Example
 
-julia movielens.jl "ratings.csv"
+julia movielens.jl "ratings.csv" 50 .
 
-# Missing funcionality
-
-So far I've implemented the "big file" split and summing ratings with DataFrames.jl.

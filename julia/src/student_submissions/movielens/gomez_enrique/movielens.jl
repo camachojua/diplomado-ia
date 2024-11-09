@@ -1,8 +1,14 @@
 using DataFrames
 using Glob
 using CSV
+using Printf
 
-function splitFile(filename::String, nbytes::Int)
+mutable struct Stats
+    rating::Float64
+    observations::Int64
+end
+
+function splitBigFile(filename::String, nbytes::Int)
     # Open file to split
     file = open(filename, "r")
 
@@ -38,32 +44,44 @@ function splitFile(filename::String, nbytes::Int)
     close(file)
 end
 
-function average(dirPath::String)
-    dfMovies = DataFrame(CSV.File("../data/movies.csv"))
-    select!(dfMovies, [:movieId, :genres])
+function processFile!(filename::String, dfMovies::DataFrame, stats::Dict)
+    dfRatings = DataFrame(CSV.File("../data/ratings.csv"))
+    select!(dfRatings, [:movieId, :rating])
 
-    files = filter!(x->contains(x, r"^tmp.*\.csv$"), readdir(dirPath))
-    genres = Dict()
-    for file in files
-        open(file, "r") do f
-            dfRatings = DataFrame(CSV.File("../data/ratings.csv"))
-            select!(dfRatings, [:movieId, :rating])
+    dfMerge = groupby(innerjoin(dfRatings, dfMovies, on = :movieId), :genres)
+    dfCombine = combine(dfMerge, [:rating] .=> [sum length])
 
-            dfMerge = groupby(innerjoin(dfMovies, dfRatings, on = :movieId), :genres)
-            dfSum = combine(dfMerge, :rating => sum)
+    for row in eachrow(dfCombine)
+        # Rating
+        rating = row[2]
+        observations = row[3]
 
-            for row in eachrow(dfSum)
-                for key in split(row[1], "|")
-                    if !haskey(genres, key)
-                        genres[key] = 0
-                    end
-                    genres[key] += row[2]
-                end
+        # Split genres
+        genres = split(row[1], "|")
+
+        # Count per genre
+        for key in genres
+            if !haskey(stats, key)
+                stats[key] = Stats(0.0, 0)
             end
+            stats[key].rating += rating
+            stats[key].observations += observations
         end
     end
-    println(genres)
 end
 
-splitFile(ARGS[1], parse(Int64, ARGS[2])*1024*1024)
-average(ARGS[3])
+splitBigFile(ARGS[1], parse(Int64, ARGS[2])*1024*1024)
+
+dfMovies = DataFrame(CSV.File("../data/movies.csv"))
+select!(dfMovies, [:movieId, :genres])
+
+stats = Dict{String, Stats}()
+
+files = filter!(x->contains(x, r"^tmp.*\.csv$"), readdir(ARGS[3]))
+for file in files
+    processFile!(file, dfMovies, stats)
+end
+
+for (key, value) in stats
+    @printf("%s,%f\n", key, value.rating/value.observations)
+end
