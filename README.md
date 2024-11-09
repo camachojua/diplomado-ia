@@ -78,7 +78,7 @@ integrar WSL con el editor de código.
 
 - [Introduction to Statistical Learning](https://www.statlearning.com/)
 - [Elements of Statistical Learning](https://hastie.su.domains/ElemStatLearn/)
-- [Data Driven Science & Engineering](http://databookuw.com/) Se recomienda la segunda edición.
+- [Data Driven Science & Engineering](http://databookuw.com/), acá en formato [pdf](https://faculty.washington.edu/sbrunton/DataBookV2.pdf). Se recomienda la segunda edición.
 
 ## Lecturas recomendadas
 
