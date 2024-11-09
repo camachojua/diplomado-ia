@@ -10,82 +10,93 @@ import (
 	"sync"
 )
 
-func Dividir(nombreArchivo string, numeroParticiones int, directorio string) ([]string, error) {
-	rutaArchivo := fmt.Sprintf("%s/%s", directorio, nombreArchivo)
-	if _, err := os.Stat(directorio); os.IsNotExist(err) {
-		return nil, fmt.Errorf("el directorio no existe: %s", directorio)
+func SplitCSV(fileName string, numPartitions int, directory string) ([]string, error) {
+	filePath := fmt.Sprintf("%s/%s", directory, fileName)
+	if _, err := os.Stat(directory); os.IsNotExist(err) {
+		return nil, fmt.Errorf("directory does not exist: %s", directory)
 	}
 
-	archivo, err := os.Open(rutaArchivo)
+	file, err := os.Open(filePath)
 	if err != nil {
-		return nil, fmt.Errorf("no se pudo abrir el archivo: %w", err)
+		return nil, fmt.Errorf("failed to open file: %w", err)
 	}
-	defer archivo.Close()
+	defer file.Close()
 
-	lectorCSV := csv.NewReader(archivo)
-	particiones := make(map[string][][]string)
-	encabezados, err := lectorCSV.Read()
+	reader := csv.NewReader(file)
+	partitions := make(map[string][][]string)
+
+	headers, err := reader.Read()
 	if err != nil {
 		if err == io.EOF {
-			return nil, fmt.Errorf("archivo vacío: %s", nombreArchivo)
+			return nil, fmt.Errorf("empty file: %s", fileName)
 		}
-		return nil, fmt.Errorf("no se pudieron leer los encabezados: %w", err)
+		return nil, fmt.Errorf("failed to read headers: %w", err)
 	}
 
-	numRegistro := 0
+	recordCount := 0
 	for {
-		registro, err := lectorCSV.Read()
+		record, err := reader.Read()
 		if err != nil {
 			if err == io.EOF {
 				break
 			}
-			return nil, fmt.Errorf("no se pudo leer el registro: %w", err)
+			return nil, fmt.Errorf("failed to read record: %w", err)
 		}
-		procesar(numeroParticiones, numRegistro, registro, particiones)
-		numRegistro++
+		assignPartition(numPartitions, recordCount, record, partitions)
+		recordCount++
 	}
 
 	var wg sync.WaitGroup
-	for i := 0; i < len(particiones); i++ {
+	for i := 0; i < numPartitions; i++ {
 		wg.Add(1)
 		go func(i int) {
 			defer wg.Done()
-			if err := guardarParticion(rutaArchivo, i, particiones, encabezados); err != nil {
-				log.Printf("no se pudo guardar la partición %d: %v", i, err)
+			if err := savePartition(fileName, i, partitions, headers); err != nil {
+				log.Printf("failed to save partition %d: %v", i, err)
 			}
 		}(i)
 	}
 	wg.Wait()
 
-	var archivosParticiones []string
-	for clave := range particiones {
-		nombreArchivoParticion := fmt.Sprintf("%s_particion_%s.csv", nombreArchivo, clave)
-		archivosParticiones = append(archivosParticiones, nombreArchivoParticion)
+	var partitionFiles []string
+	for key := range partitions {
+		partitionFileName := fmt.Sprintf("%s_partition_%s.csv", fileName, key)
+		partitionFiles = append(partitionFiles, partitionFileName)
 	}
-	return archivosParticiones, nil
+	return partitionFiles, nil
 }
 
-func procesar(numeroParticiones, numRegistro int, registro []string, particiones map[string][][]string) {
-	particion := strconv.Itoa(numRegistro % numeroParticiones + 1)
-	particiones[particion] = append(particiones[particion], registro)
+func assignPartition(numPartitions, recordIndex int, record []string, partitions map[string][][]string) {
+	partitionKey := strconv.Itoa(recordIndex%numPartitions + 1)
+	partitions[partitionKey] = append(partitions[partitionKey], record)
 }
 
-func guardarParticion(rutaArchivo string, numTrabajador int, particiones map[string][][]string, encabezados []string) error {
-	nombreArchivoParticion := fmt.Sprintf("%s_particion_%d.csv", rutaArchivo, numTrabajador+1)
-	particion := strconv.Itoa(numTrabajador + 1)
-	filasParticion := particiones[particion]
+func savePartition(fileName string, partitionIndex int, partitions map[string][][]string, headers []string) error {
+	partitionKey := strconv.Itoa(partitionIndex + 1)
+	partitionFileName := fmt.Sprintf("%s_partition_%d.csv", fileName, partitionIndex+1)
+	partitionRows := partitions[partitionKey]
 
-	filasParticionConEncabezados := append([][]string{encabezados}, filasParticion...)
-	archivoCSV, err := os.Create(nombreArchivoParticion)
+	rowsWithHeaders := append([][]string{headers}, partitionRows...)
+	file, err := os.Create(partitionFileName)
 	if err != nil {
-		return fmt.Errorf("no se pudo crear el archivo %s: %w", nombreArchivoParticion, err)
+		return fmt.Errorf("failed to create file %s: %w", partitionFileName, err)
 	}
-	defer archivoCSV.Close()
+	defer file.Close()
 
-	escritorCSV := csv.NewWriter(archivoCSV)
-	if err := escritorCSV.WriteAll(filasParticionConEncabezados); err != nil {
-		return fmt.Errorf("no se pudo escribir en el archivo %s: %w", nombreArchivoParticion, err)
+	writer := csv.NewWriter(file)
+	if err := writer.WriteAll(rowsWithHeaders); err != nil {
+		return fmt.Errorf("failed to write to file %s: %w", partitionFileName, err)
 	}
-	escritorCSV.Flush()
+	writer.Flush()
 	return nil
+}
+
+func main() {
+	// Example usage
+	partitionFiles, err := SplitCSV("example.csv", 5, "./data")
+	if err != nil {
+		log.Fatalf("Error splitting CSV: %v", err)
+	}
+
+	fmt.Println("Generated files:", partitionFiles)
 }
