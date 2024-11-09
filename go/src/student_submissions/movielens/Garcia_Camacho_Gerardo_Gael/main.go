@@ -215,5 +215,5 @@ func filepartition(n int, name string) {
 }
 func main() {
 	filepartition(10, "ratings")
-	find_ratings_main("movies", 1)
+	find_ratings_main("movies", 10)
 }
