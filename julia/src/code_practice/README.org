@@ -1,0 +1,563 @@
+* Perdiendo el miedo a programar
+
+Programar es una habilidad que necesita /práctica/ es casi imposible ser diestro
+programando si no se ejercita el expresar las ideas mediante un lenguaje de
+programación, el objetivo de esta sección (y las sesiones correspodientes) es el
+poner en práctica esa habilidad para generar las conexiones sinápticas que nos
+permitirán a expresar los pensamientos en forma de código (cosa que cualquier
+persona puede aprender).
+
+
+** ¿De qué trata esto?
+
+La idea general es implementar todos y cada uno de los ejercicios establecidos
+en el libro =Julia Data Science= de los autores Jose Stropoli, Rik Huijzer y
+Lázaro Alonso, este libro es un libro licenciado bajo Creative Commons por lo
+que podemos modificarlo, utilizarlo y distribuirlo bajo la misma licencia.
+
+Podemos bajar el libro (y todo el código fuente) desde su cuenta oficial de
+[[https://github.com/JuliaDataScience/JuliaDataScience/tree/main][github]]. Aunque el código está en el repositorio inicial la idea es que nos
+"ensuciemos" las manos y escribamos dicho código.
+
+El objetivo del libro es darnos las herramientas necesarias para sentirnos
+cómodos analizando datos utilizando =julia= como una herramienta para dichos
+análizis (Ver apartado "[[https://juliadatascience.io/why_data_science][what's Data Science?]]" del libro).
+
+* ¿Por qué Julia?
+** Julia para los no programadores
+La ciencia de datos te ha cautivado, despertando tu interés por aprender de qué
+se trata y cómo puedes usarla para construir tu carrera en el ámbito académico o
+en la industria. Entonces, intentas encontrar recursos para aprender este nuevo
+oficio y te encuentras con un mundo de acrónimos complejos: =pandas=, =dplyr=,
+=data.table=, =numpy=, =matplotlib=, =ggplot2=, =bokeh=, y la lista sigue y sigue.
+
+De repente escuchas un nombre: "Julia". ¿Qué es esto? ¿En qué se diferencia de
+otras herramientas que la gente te recomienda para la ciencia de datos?
+
+¿Por qué deberías dedicar tu valioso tiempo a aprender un lenguaje que casi
+nunca se menciona en las ofertas de trabajo, posiciones en laboratorios, puestos
+de posdoctorado o descripciones de trabajos académicos? La respuesta es que
+Julia es un enfoque novedoso tanto para la programación como para la ciencia de
+datos. Todo lo que haces en Python o en R, puedes hacerlo en Julia con la
+ventaja de escribir un código legible, rápido y poderoso. Por lo tanto, el
+lenguaje Julia está ganando popularidad, y por buenas razones.
+
+Así que, si no tienes ningún conocimiento previo en programación, te animamos
+mucho a que tomes Julia como tu primer lenguaje de programación y marco de
+trabajo en ciencia de datos.
+** Julia para los programadores
+
+1. La sintáxis de Julia es muy sencilla, por lo que traducir tus programas
+   escritos en =r= y =python= puede hacerse en minutos.
+2. Julia es un lenguaje enfocado en el desempeño y te da herramientas para
+   ajustar tus programas con el fin de que puedas correr más rápido tu código.
+
+   De hecho Julia es parte del [[https://www.hpcwire.com/off-the-wire/julia-joins-petaflop-club/][petaflop club]].
+3. Cuando tu código necesita un ajuste serio y estás utilizando =r= o =python=
+   necesitas migrar a otros lenguajes como =fortran=, =c= o =c++= para escribir
+   funciones especializadas que ejecuten el código "lento", en Julia sólo tienes
+   que verificar el código escrito en Julia.
+4. Julia posee un administrador de paquetes que te permite utilizar código de
+   bibliotecas sin tanta fricción, además te permite crear tus propias
+   bibliotecas para compartirlas con el mundo.
+5. Julia posee herramientas de administración de proyectos que nos permite
+   colaborar en un proyecto con múltiples personas sin morir en el intento (o
+   estar peleando con otros desarrolladores porque "rompen" el código).
+
+** ¿Cuál es el objetivo de Julia?
+
+En resumen: ser un lenguaje sencillo de aprender y utilizar (como =python= y =r=)
+pero rápido y útil para aplicaciones críticas que requieran un cómputo
+especializado (como =c=, =c++= y =fortran=) ¿Cómo se logra esto? Los creadores del
+lenguaje utilizaron una técnica de compilación y parseo llamada =LLVM= (que es un
+estándar) todo el código escrito en Julia se transforma a instrucciones LLVM
+(que son de bajo nivel, pero sin llegar a ser ensamblador), dichas instrucciones
+pueden ser leídas por cualquier computadora (cpu) que tenga implementado LLVM,
+haciendo que el código sea portable (no tenemos que reescribir nuestros
+programas de Julia para distintas arquitecturas de cómputo) y que sea eficiente
+(las instrucciones LLVM se traducen fácilmente a ensamblador)
+
+Podemos tomar como ejemplo las siguientes funciones:
+
+#+begin_src julia
+  mas_tres(x) = x + 3
+  funcion(x) = mas_tres(2 * x)
+#+end_src
+
+Al ejecutar =funcion(3)= obtenemos el valor =9=. Si tuviéramos que indicarle a una
+computadora paso por paso las instrucciones que necesita ejecutar para que el
+código de arriba sea correcto deberíamos de indicar lo siguiente:
+
+1. Calcula el resultado de la operación =2*3=.
+2. Pasa el resultado de la operación anterior a como argumento a la función
+   =mas_tres=.
+3. Calcula la operación =2 + argumento de la función mas_tres=.
+
+Podemos preguntarle a Julia que nos muestre el código que genera utilizando la
+opción =@code_typed= de la siguiente forma dentro del intérprete de Julia:
+
+#+begin_src julia
+  mas_tres(x) = x + 3
+  funcion(x) = mas_tres(2 * x)
+  @code_llvm debuginfo=:none funcion(3)
+#+end_src
+
+Lo cual nos regresa lo siguiente:
+
+#+begin_src julia
+  ; Function Signature: funcion(Int64)
+  define i64 @julia_funcion_944(i64 signext %"x::Int64") #0 {
+  top:
+    %0 = shl i64 %"x::Int64", 1
+    %1 = add i64 %0, 3
+    ret i64 %1
+  }
+#+end_src
+
+El programa generado por Julia (mandar a llamar a la función =funcion(3)=) dice lo
+siguiente:
+
+1. Toma el argumento de la función y su valor, ahora ve la representación en
+   binario de dicho número (bits) y desplaza el bit más pequeño a la izquierda.
+   La operación de desplazamiento a la izquierda de un bit es equivalente a
+   multiplicar por 2. =tarea moral: ¿Por qué pasa esto?=
+2. Súmale 3 al resultado anterior.
+
+Por debajo Julia elimina la llamada a =mas_tres= porque tiene técnicas de
+optimización de código de última generación (de hecho julia es un lenguaje
+"compilado" pero que tiene un intérprete gracias a los avances teóricos en
+técnicas de compilación e intérpretes de lenguajes de programación).
+
+* Introducción a la programación en Julia
+
+Antes que nada la última palabra la tiene la [[https://docs.julialang.org/][documentación oficial]] de Julia, no
+hay mejor recurso para saber cómo funciona el lenguaje o una biblioteca que la
+documentación oficial. Esta sesión *no* te hará un experto en Julia, sólo nos
+ayudará a "perder el miedo" para entender cómo tirar código usando la
+herramienta.
+
+** Ambientes de ejecución
+
+Antes de comenzar con la sintáxis del lenguaje necesitamos saber cómo ejecutar
+código, la forma más fácil de ejecutar código es a través de una herramienta
+llamada =repl=, la cual leerá el código (linea por línea) que le escribamos y nos
+responderá interactivamente evaluando ese código que le dimos.
+
+Para ejecutar la =repl= de julia basta con ejecutar el comando =juia= dentro de
+nuestra línea de comandos (o =julia.exe= si estás en windows). La =rep= se comporta de la siguiente manera:
+
+#+begin_src julia
+  julia> x = 2
+  2
+
+  julia> x + 1
+  3
+#+end_src
+
+Esta forma de evaluar código funciona muy bien para cosas sencillas, pero ¿qué
+pasa si queremos guardar el código que metimos dentro de la sesión? o ¿cómo
+compartimos el código que acabamos de ejecutar? Para ello es mejor escribir un
+"archivo" con terminación =.jl= que contenga todo el código que queremos ejecutar.
+
+Para "cargar" nuestro código dentro de la =repl= podemos utilizar la función
+=include=, si nuestro archivo =script.jl= incluye lo siguiente:
+
+#+begin_src julia
+  x = 3
+  y = 4
+#+end_src
+
+Podemos leer dichas variables de la siguiente forma:
+
+ #+begin_src julia
+   julia> include("script.jl")
+
+   julia> y
+   4
+ #+end_src
+
+¿Está chulo no? Pero ¿Qué pasa si modificamos nuestro código? Tendríamos que
+ejecutar el =include= de nuevo, lo cual es tedioso cuando lo haces múltiples
+veces, por ello existen paquetes que nos ayudan a aumentar las capacidades de
+nuestra =repl=, uno de estos paquetes es =Revise.jl=, para instalarlo debemos de ejecutar en el =repl=:
+
+#+begin_src julia
+  using Pkg
+  Pkg.add("Revise")
+#+end_src
+
+Esto descargará el código fuente de =Revise= y lo instalará para que lo tengamos
+disponibles dentro de nuestro sistema.
+
+Una vez instalado sólo tenemos que introducir el comando:
+
+#+begin_src julia
+  using Revise
+#+end_src
+
+Para que la =repl= esté pendiente de los cambios que hacemos al archivo de manera
+automática, algo más, si no quieres introducir =using Revise= cada vez que inicias
+la =repl= puedes ejecutar este comando para modificar la configuración del =repl= de
+julia:
+
+#+begin_src bash
+  echo "using Revise" >> ~/.julia/config/startup.jl
+#+end_src
+
+
+Otra opción es utilizar bibilotecas como =Pluto.js= para ejecutar un cuaderno a
+través del navegador (similar a los notebooks de Jupyter), salvo que esta
+biblioteca está enfocada 100% a Julia. Para utilizar [[https://github.com/fonsp/Pluto.jl][pluto]] corremos los
+siguientes comandos en la =repl=:
+
+#+begin_src julia
+  using Pkg
+  Pkg.add("Pluto")
+  import Pluto
+  Pluto.run()
+#+end_src
+
+Además tenemos la opción de correr nuestro código en un cuaderno de Jupyter
+(como se vio en clase) o utilizar un editor como VSCode para ejecutar el código
+ahí.
+
+En resumen:
+
+- La forma más fácil de ejecutar código interactivamente es usando =Pluto.jl=.
+- Para proyectos grandes que requieran compartir código podemos usar =VSCode=.
+- Para usados avanzados podemos utilizar =emacs=, =vim= y la =repl=.
+
+
+** Sintáxis
+
+Julia es un lenguaje con tipado dinámico, lo que quiere decir que las variables
+pueden "cambiar de forma" según la información que esté almacenada en ellas, una
+variable le dice a la computadora la cantidad de espacio que necesita para
+almacenar dicha información, los tipos de variables más comunes en Julia son:
+
+- Enteros (=Int64=)
+- Reales (=Float64=)
+- Booleanos (=Bool=)
+- Cadenas de texto (=String=)
+
+Los enteros y los reales se almacenan (por defecto) utilizando 64 bits (de ahí
+el sufijo), si necesitas cambiar el tamaño/precisión puedes optar por las
+variantes =Int8= o =Int128=, aunque la mayor parte del tiempo la opción por defecto
+funciona bien.
+
+Para declarar una variable necesitamos un nombre de variable seguido del operador de asignación ===, por último necesitamos declarar el valor de la variable:
+
+#+begin_src julia
+  nombre = "Julia"
+  edad = 9
+#+end_src
+
+Para obtener el valor de una variable solamente necesitamos escribir el nombre
+que le dimos, si yo escribo =nombre= Julia me regresará la cadena ="Julia"= como
+respuesta. Para actualizar el valor de una variable existente debemos repetir la
+operación de asignación especificando el nuevo valor (esto sobreescribe
+cualquier cosa que estuviera asignada como valor a la variable):
+
+#+begin_src julia
+  edad = 19
+#+end_src
+
+Acá la variable =edad= tiene el valor =19=, a partir de este momento ya no podemos
+acceder al valor anterior. Para obtener el tipo de dato asignado a una variable podemos hacer uso de la función =typeof=:
+
+#+begin_src julia
+  julia> typeof(edad)
+  Int64
+#+end_src
+
+Julia es un lenguaje "vivo" por lo que nos permite examinarlo y nos puede decir
+las cosas que podemos hacer con cada una de las variables que están declaradas
+en un programa, para descubrir eso podemos utilizar la función =methodswith= que
+nos devuelve una lista de operaciones que son compatibles con el tipo de dato
+que le pasamos como argumento:
+
+#+begin_src julia
+  julia> first(methodswith(Int64), 5)
+  [1] AbstractFloat(x::Int64) @ Base float.jl:268
+  [2] Float16(x::Int64) @ Base float.jl:159
+  [3] Float32(x::Int64) @ Base float.jl:159
+  [4] Float64(x::Int64) @ Base float.jl:159
+  [5] Int64(x::Union{Bool, Int32, Int64, UInt16, UInt32, UInt64, UInt8, Int128, Int16, Int8, UInt128}) @ Core boot.jl:784
+#+end_src
+
+¿Qué está pasando aquí? 🤔 estamos "encadenando" funciones, primero llamamos a
+la función =methodswith= con el argumento =Int64=, esto nos regresa una lista de más
+de 200 elementos (más de los que necesitamos por ahora), para no llenar nuestra
+pantalla con jeroglíficos "cortamos" la salida para obtener los primeros 5
+elementos de dicha lista, por esa razón "encadenamos" el resultado anterior con una llamada a la función =first= que toma los primeros N elementos de una lista:
+
+#+begin_src julia
+  julia> first([9,8,7,6,5,4,3,2,1], 3)
+  [9,8,7]
+#+end_src
+
+
+** Tipos de dato definidos por el usuario
+
+Si bien las variables definidas en la bibiloteca estándar de Julia nos sirven
+para realizar cómputo de manera general en ocasiones las abstracciones
+necesarias para resolver un problema no están declaradas ahí, por lo que nos
+toca, como programadores definir dichas abstracciones, imaginen que quiero hacer
+un programa para sacar estadísticas de TikTok, pero Julia no sabe que es un
+tiktok,bueno, nos tocará definir el tipo de dato =tiktok= para poder hacer operaciones sobre él, para ello utilizamos la palabra reservada =struct=:
+
+#+begin_src julia
+  struct Tiktok
+      titulo::String
+      url::String
+      likes::Int64
+      favorito::Bool
+  end
+#+end_src
+
+Para inspeccionar los campos definidos dentro de un =struct= utilizamos la función
+=fieldnames=:
+
+#+begin_src julia
+  julia> fieldnames(Tiktok)
+  (:titulo, :url, :likes, :favorito)
+#+end_src
+
+Si queremos crear una variable de tipo =Tiktok= necesitamos especificar cada uno
+de los atributos que conforman el =struct= (ya que ahí se define lo que
+necesitamos para crear un tiktok válido). Creémos 2 variables de este tipo:
+
+#+begin_src julia
+  video1 = Tiktok("meme", "https://vm.tiktok.com/ZMhpDU3SE/", 13000, false)
+  video2 = Tiktok("gato", "https://vm.tiktok.com/ZMhpDdbar/", 23400, true)
+#+end_src
+
+Algo muy importante, *no podemos cambiar* los atributos de un =struct= una vez
+declarada una variable ya que es una [[https://en.wikipedia.org/wiki/Persistent_data_structure][estructura de datos inmutable]], si se quiere cambiar la definición de los atributos de un =struct= se debe de declarar como una estructura tipo =mutable struct=.
+
+** Operaciones booleanas y comparaciones numéricas
+
+En Julia tenemos los siguientes operadores booleanos:
+
+- Negacion =!=. Por ejemplo =!true= se evalúa a =false=
+- Conjunción =&&=. Por ejemplo =(false && true) || (!false)= se evalúa a =true=
+- Disyunción =||=. Por ejemplo =(6 isa Int64) && (6 isa Real)= se evalúa a =true=
+
+En cuanto a los operadores aritméticos:
+
+- Igualdad ====. Ejemplo =1 == 1= se evalúa a =true=
+- Desigualdad =!==. Ejemplo 1 != 2 se evalúa a =true=
+- Menor qué <, menor o igual <=. Ejemplo 1 < 3 se evalúa a =true=
+- Mayor qué >, mayor o igual =>. Ejmeplo 2 > 1 se evalúa a =false=
+
+Podemos mezclar distintos tipos de número como:
+
+#+begin_src julia
+  1 == 2.123
+#+end_src
+
+** Funciones
+
+La sintáxis básica para una función es:
+
+#+begin_src julia
+  function nombre(argumento1, argumento2, ..., argumentoN)
+      cuerpo de la funcion
+      return valor_de_retorno
+  end
+#+end_src
+
+Las funciones inician con la palabra reservada =function= seguido del nombre de la
+función, dentro de los paréntesis se encuentran cada uno de los argumentos que
+la función necesita separados por comas. Todas las variables que declaremos en
+el cuerpo de la función son eliminadas después de que dicha función se ejecuta,
+si dicha función regresa un valor necesitamos declararlo con la palabra
+reservada =return=, por último necesitamos declarar el fin del cuerpo de la
+función con =end=.
+
+Existe una forma compacta de declarar funciones, la siguiente declaración es equivalente a la declaración anterior:
+
+#+begin_src julia
+  nombre(argumento1, ..., argumentoN) = cuerpo_de_la_funcion_en_una_linea
+#+end_src
+
+En Julia podemos redefinir funciones para que tomen distintos argumentos a la
+declaración original de la función, esto se conoce como =multiple dispatch=,
+cuando tenemos un =struct= y le decimos a Julia que imprima el valor de una
+variable de este tipo Julia manda a llamar a la función =Base.show= que regresa
+una tupla con los valores que tiene la estructura, pues bien, para imprimir algo
+distinto podemos declarar una función que también se llame =Base.show= pero que
+imprima nuestro tiktot de manera distinta.
+
+#+begin_src julia
+  Base.show(io::IO, t::Tiktok) = print(
+      io, t.titulo, " 📹, ",
+      t.url, " 🖥️, ",
+      t.likes, " ❤️, ",
+      t.favorito, " 📔"
+  )
+
+#+end_src
+
+Después de definir esta función podemos imprimir el valor de la variable =video1=:
+
+#+begin_src julia
+  meme 📹, https://vm.tiktok.com/ZMhpDU3SE/ 🖥️, 13000 ❤️, false 📔
+#+end_src
+
+** Multiples valores de retorno
+
+Una función también puede regresar múltiples valores de retorno:
+
+#+begin_src julia
+  function suma_multiplica(x, y)
+      suma = x + y
+      multiplicacion = x * y
+      return suma, multiplicacion
+  end
+#+end_src
+
+En este caso podemos aprovechar estos múltiples valores de retorno de la siguiente forma:
+
+1. Generar 2 variables para que cada una almacene cada valor de retorno:
+
+#+begin_src julia
+  valor1, valor2 = suma_multiplica(2,3)
+#+end_src
+
+La variable =valor1= almacenaría =5=, mientras que la variable =valor2= almacenaría =6=.
+
+2. Definir una única variable que almacenará una tupla que contiene los dos
+   valores, podemos acceder a cada uno con =first= o =last=:
+
+#+begin_src julia
+  valor = suma_multiplica(2,3)
+#+end_src
+
+Si ejecutamos =first(valor)= obtenemos =5=, mientras que =last(valor)= nos regresa =6=.
+
+** Argumentos por defecto
+
+Podemos definir una función que tome argumentos por defecto, supongamos que
+tenemos una función para definir el logaritmo y que si el usuario no especifica
+la base calcularemos el logaritmo base 2 del argumento:
+
+#+begin_src julia
+  function logaritmo(x::Real; base::Real=2.7182818284590)
+      return log(base, x)
+  end
+#+end_src
+
+Si ejecutamos la función con un único argumento =logaritmo(10)= obtenemos algo como =2.30=, sin embargo al querer especificar el argumento opcional debemos de separar los argumentos de la función con un punto y coma (=;=) de la siguiente forma:
+
+#+begin_src julia
+  logaritmo(10; base=2)
+#+end_src
+
+Esto nos regresa =3.32=
+
+** Funciones con signo de admiración (!)
+
+Es una convención dentro de julia el agregar un signo de admiración (=!=) a
+aquellas funciones que modificar el valor de sus argumentos, es decir, que las
+funciones /no puras/ deben tener esta advertencia, pero ¿Qué es una función /no
+pura/? Son aquellas funciones que tienen [[https://en.wikipedia.org/wiki/Pure_function][efectos secundarios]], es decir, que
+después de la ejecución de la función el mundo donde esta función fue declarada
+ya no es lo mismo 😢, imaginemos una función que inserta información en un
+excel, esta función cada que se ejecuta modifica el excel por lo que determinar
+el resultado de la función depende de un estado específico del libro de excel.
+
+#+begin_src julia
+  function suma!(V)
+      for i in eachindex(V)
+          V[i] += 1
+      end
+      return nothing
+  end
+#+end_src
+
+Estas funciones son *dependientes del contexto donde se ejecutan*, un ejemplo de
+cómo modifican su mundo es el siguiente:
+
+#+begin_src julia
+  arreglo = [1, 2, 3]
+  suma!(arreglo)
+  arreglo
+#+end_src
+
+Esto devuelve =[2, 3, 4]=, siendo que el arreglo original tenía los elementos
+=[1,2,3]=
+
+** Funciones anónimas (lambdas)
+
+En ocasiones no nos interesa asociarle un nombre a una función ya que sólo nos
+interesa el resultado de aplicar dicha función (hacemos esto usualmente al
+procesar arreglos o un stream de datos), para estos casos necesitamos declarar
+una *función anónima*, la sintáxis es simple, se utiliza el operador =->= a la
+izquierda se definen los parámetros que requiere la función, mientras que a la
+derecha definimos las operaciones que haremos:
+
+#+begin_src julia
+  x -> x * x
+#+end_src
+
+Podemos aplicar una función anónima a todos los elementos de un arreglo de la
+siguiente manera:
+
+#+begin_src julia
+  map(x -> x * x, [1,2,3,4])
+#+end_src
+
+Esto nos regresa un vector con el contenido =1, 4, 9, 16=.
+
+** Condicionales
+
+La estructura general del condicional =if= es:
+
+#+begin_src julia
+  a = 1
+  b = 2
+
+  if a < b
+      "a es menor que b"
+  elseif a > b
+      "a es mayor que b"
+  else
+      "a is igual to b"
+  end
+#+end_src
+
+Gracias a =elsif= podemos agregar múltiples condiciones dentro de un =if=.
+
+** Ciclos
+*** For
+
+La manera típica de ciclar con Julia es utilizar =for=, este constructo necesita
+que especifiques cómo es que Julia ciclará, la manera más utilizada es hacer uso
+de un "contador" que tomará el valor de cada uno de los elementos de la
+colección sobre la que estamos iterando:
+
+#+begin_src julia
+  for i in 1:10
+      println(i)
+  end
+#+end_src
+
+*** While
+
+En Julia, =while= es una mezcla de los condicionales y el ciclo =for=, la diferencia
+está en que el ciclado dependerá de un enunciado booleano, mientras dicho
+enunciado sea correcto el ciclo se repetirá al infinito:
+
+#+begin_src julia
+  n = 0
+
+  while n < 3
+      global n += 1
+  end
+
+  n
+#+end_src
+
+La etiqueta =global= le dice al ciclo =while= que estamos accediendo a una variable
+declarada fuera del alcance del bloque de código actual.
