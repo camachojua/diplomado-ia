@@ -1,22 +1,17 @@
-package sharding
+package split
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 	"os"
 	"strconv"
 	"strings"
 	"sync"
+	"path/filepath"
 )
 
-func main() {
-	// get cli arguments
-	filename := os.Args[1]
-	totalChunks, err := strconv.Atoi(os.Args[2])
-	if err != nil {
-		panic(err)
-	}
-
+func Split(filename string, totalChunks int, outPath string) {
 	// open file
 	file, err := os.Open(filename)
 
@@ -30,16 +25,16 @@ func main() {
 	fileByteSize := fileStat.Size()
 
 	// get file name without extension
-	fileBaseName := "tmp-" + fileNameWithoutExtension(fileStat.Name())
+	fileBaseName := "tmp_" + fileNameWithoutExtension(fileStat.Name())
 
 	// process in chunks of arbitrary size
-	processFile(file, fileBaseName, fileByteSize/int64(totalChunks))
+	processFile(outPath, file, fileBaseName, fileByteSize/int64(totalChunks))
 
 	// close file
 	file.Close()
 }
 
-func processFile(f *os.File, fileBaseName string, chunkSize int64) {
+func processFile(outPath string, f *os.File, fileBaseName string, chunkSize int64) {
 	// sync.Pool reuses memory so that the GC doesn't do extra work
 	chunkPool := sync.Pool{New: func() interface{} {
 		chunk := make([]byte, chunkSize)
@@ -70,6 +65,7 @@ func processFile(f *os.File, fileBaseName string, chunkSize int64) {
 			break
 		}
 
+		// TODO: what about windows type EOL \r\n?
 		bytesUntilEol, err := reader.ReadBytes('\n')
 
 		if err != nil {
@@ -82,7 +78,8 @@ func processFile(f *os.File, fileBaseName string, chunkSize int64) {
 		// process chunk concurrently
 		wg.Add(1)
 		go func() {
-			processChunk(fileBaseName+strconv.Itoa(chunkId)+".csv", chunk, &chunkPool)
+			outFileName := fmt.Sprintf("%s%02s.csv", fileBaseName, strconv.Itoa(chunkId))
+			processChunk(filepath.Join(outPath, outFileName), chunk, &chunkPool)
 			wg.Done()
 		}()
 
@@ -91,9 +88,9 @@ func processFile(f *os.File, fileBaseName string, chunkSize int64) {
 	wg.Wait()
 }
 
-func processChunk(outFileName string, chunk []byte, chunkPool *sync.Pool) {
+func processChunk(outFilePath string, chunk []byte, chunkPool *sync.Pool) {
 	// TODO: do something to chunk, for example:
-	err := os.WriteFile(outFileName, chunk, 0644)
+	err := os.WriteFile(outFilePath, chunk, 0644)
 
 	if err != nil {
 		panic(err)
