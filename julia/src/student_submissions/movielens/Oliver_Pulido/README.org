@@ -1,0 +1,41 @@
+Éste código implementa una técnica de "Map Reduce" la cuál se encarga de separar un archivo grande en pequeños archivos de menor tamaño.
+Luego se hizo un procesamiento de los datos de éste y otro archivo usando Multi-Threading en Julia.
+
+Se procedió mediante 2 etapas, la primera el Map Reduce y la segunda el procesamiento concurrente.
+
+
+---------------------------------------------------- Primera parte MAP REDUCE -------------------------------------------------------------------
+
+
+El archivo a "particionar" se llama "ratings.csv", éste fue sacado del dataset llamado "Movielens" el cuál contiene un registro de 
+25,000,096 ratings sobre pelícuas.
+
+El archivo ratings.csv contiene las columnas:
+userId  |   movieId |   rating  |   timestamp
+
+La partición se ejecuta de la siguiente forma:
+•   Se crea una función llamada "Particion", ésta función recibe el nombre de un archivo CSV y la cantidad de archivos que se desea extraer.
+    Ésta función lee el archivo "ratings.csv", cuenta el número de filas que hay y hace la división generando nuevos archivos llamados
+    "ratings_i.csv" con i de 1 a 10.
+
+
+---------------------------------------------------- Segunda parte CONCURRENCIA -------------------------------------------------------------------
+
+
+Otro archivo contenido es el de "movies.csv" el cuál también fue extraído del dataset "MovieLens", el cuál contiene 62,424 registros de películas 
+con su género. 
+
+El archivo tiene la siguiente estructura:
+movieId |   title   |   genres
+
+Se implementa una serie de funciones que buscan la cantidad de Ratings que contiene cada género y un rating promedio haciendo uso de Threads
+de la siguiente manera:
+
+•   Se genera una función llamada "find_ratings_worker" la cuál se encarga de leer el archivo "movies.csv" y genera un mapa de los géneros que
+    se encuentran en el archivo, los lista y los guarda en un dataframe, después, lee cada uno de los archivos "ratings_i.csv", y se dedica a 
+    buscar los ratings según el MovieId, una vez hallado el rating, lo cuenta y lo lo guarda. Finalmente notifica al master para que el 
+    master pueda almacenar la información.
+
+•   Se crea una función llamada "find_ratings_master" la cuál contiene una lista con todos los géneros registrados, dos matrices de 2D vacías
+    donde se pondrán el número de ratings y la calificación de cada película. Lee el archivo "movies.csv" y guarda en un dataframe
+    los registros de ratings según el movieId los almacena y al final los muestra en un dataframe indicanco el tiempo que tradó.git 
