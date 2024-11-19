@@ -854,3 +854,115 @@ de la declaración, para "materializar" los elementos de un rango tenemos que ha
 #+begin_src julia
   collect(1:10) # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 #+end_src
+
+*** Arreglos
+
+Un arreglo es una región contigua de memoria que almacena datos, puede almacenar elementos de distintos tipos pero *es preferible utilizar tipos de datos del mismo tipo para mejorar el desempeño*:
+
+#+begin_src julia
+  arreglo = [1,2,3]
+#+end_src
+
+Los arreglos son parte escencial de cualquier lenguaje de programación y también
+son parte escencial para la manipulación de la información.
+
+Dentro de julia existen diversos tipos de arreglos, pero los más comunes son:
+
+- =Vector{T}=: es un arreglo *unidimensional*, la declaración es un alias para
+  =Array{T,1}=.
+- =Matrix{T}=: es un arreglo *de dos dimensiones*, la declaración es un alias para =Array{T,2}=.
+
+Aquí =T= es el tipo de dato que contiene el arreglo (=Int64=, por ejemplo), ambos
+tipos de datos son de tipo =Array=, por lo que, al procesar datos tabulares
+estaremos utilizando estos tipos de datos.
+
+**** Construcción de arreglos
+
+La manera más simple de construir una variable de tipo =Array=, es crear un
+arreglo unidimensional (también llamado =Vector=) utilizando los corchetes =[]=, sin
+embargo existen ocasiones en las que el desempeño del código es escencial y
+necesitamos declarar los arreglos de una forma más "a bajo nivel".
+
+Para declarar un arreglo utilizamos el *constructor por defecto*, un constructor es una función que nos ayuda a decirle a Julia que nos genere una variable de un cierto tipo de datos, en el caso de los arreglos unidimensionales utilizamos el constructor =Vector{T}(valor,tamaño)=, donde =T= es el tipo de dato que almacenará el arreglo y =valor= es el valor por defecto que tendrán los elementos del arreglo mientras que =tamaño= es la cantidad de elementos que contendrá el arreglo:
+
+#+begin_src julia
+  mi_vector = Vector{Float64}(undef, 10)
+#+end_src
+
+En este ejemplo se genera un arreglo unidimensional de números reales, el =undef=
+le dice a Julia que no limpie la memoria al inicializar el arreglo (esto hace
+que la creación del arreglo sea muy rápida, pero no podemos asumir nada sobre el
+valor que contendrá cada una de las entradas que componen dicho arreglo ya que
+estamos leyendo "basura" de la memoria).
+
+Para el caso de matrices necesitamos establecer el número de filas seguido del número de columnas, una matríz de 10x4 se declara como:
+
+#+begin_src julia
+  matriz = Matrix{Float64}(undef, 10, 4)
+#+end_src
+
+Dado que la declaración de arreglos es una actividad constante al momento de analizar información con Julia existen diversos atajos:
+
+- Para inizializar todos los elementos para que sean ceros usamos:
+  #+begin_src julia
+    vector_cero = zeros(10)
+  #+end_src
+- En el caso de las matrices tambiés utilizamos la función =zeros=:
+  #+begin_src julia
+    matriz_cero = zeros(Int64, 10, 4)
+  #+end_src
+- Para establecer todos los elementos con el valor =1=:
+  #+begin_src julia
+    vector_uno = ones(Int64, 10)
+    matriz_unitaria = ones(Int64, 10, 1)
+  #+end_src
+
+Para otros valores es necesario inicializar el vector con =undef= y después
+utilizar la función =fill!=:
+
+#+begin_src julia
+  matriz_pi = Matrix{Float64}(undef, 2, 2)
+  fill!(matriz_pi, 3.14)
+#+end_src
+
+Otra forma de declarar arreglos es utilizando corchetes:
+
+#+begin_src julia
+  [[1 2] [3 4]]
+#+end_src
+
+Esto genera una matriz de 2x2. Una última forma de crear arreglos es utilizar
+algo conocido como *array comprehension*, en donde especificamos que cosa queremos hacer entre los corchetes, de esta forma evitamos hacer uso de loops u operaciones manuales que pueden resultar en errores:
+
+#+begin_src julia
+  [x + 1 for x in 1:10]
+#+end_src
+
+Podemos introducir múltiples variables:
+
+#+begin_src julia
+  [x*y for x in 1:10 for y in 1:2]
+#+end_src
+
+Y condicionales:
+
+#+begin_src julia
+  [x + 1 for x in 1:10 if isodd(x)]
+#+end_src
+
+Por último podemos concatenar arreglos para producir nuevos arreglos:
+
+- =cat= Concatena dos arreglos tomando en cuenta la dimensión que se pasa como parámetro:
+  #+begin_src julia
+    cat(ones(2), zeros(2), dims=1)
+  #+end_src
+
+- =vcat= Concatena dos arreglos utilizando una única dimensión, es una abreviación de =cat(...; dims=1)=:
+  #+begin_src julia
+    vcat(ones(2), zeros(2))
+  #+end_src
+
+- =hcat= Concatena dos arreglos utilizando dos dimensiones, es una abreviación de =hcat(...; dims=2)=:
+  #+begin_src julia
+    hcat(ones(2), zeros(2))
+  #+end_src
