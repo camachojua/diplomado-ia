@@ -776,3 +776,55 @@ error:
 
 
 *** Tuplas
+
+Las tuplas son regiones de memoria de espacio *fijo* que pueden almacenar valores
+de distintos tipos de dato, es una estructura de datos *inmutable*, es decir, no
+puede modificarse después de haberse declarado, para construir una tupla
+utilizamos paréntesis para delimitarla, para separar cada uno de los elementos que conforman la tupla utilzamos una coma:
+
+#+begin_src julia
+  mi_tupla = (1, 3.14, "🙈")
+#+end_src
+
+Acá declaramos una tupla con tres valores: un entero, un flotante y una
+cadena. Para acceder a un valor específico de la tupla utilizamos *índices*, de la
+siguiente manera:
+
+#+begin_src julia
+  mi_tupla(2) # Regresa el valor 3.14
+#+end_src
+
+Podemos iterar sobre las tuplas, aplicarles funciones pero nunca podremos
+cambiar su valor ya que son inmutables. Las funciones que retornan múltiples
+valores regresan una tupla como valor ya que =return a, b= es lo mismo que =return
+(a,b)=. Otra curiosidad, cuando usamos lambdas (funciones anónimas) los argumentos de dichas funciones son tuplas: =map((x,y) -> x * y, 2, 3)=.
+
+Las tuplas nos permiten asignarle un nombre a ciertos (o todos) los valores que
+contienen, cuando se especifica un nombre estamos trabajando con =named tuples=,
+lo único que cambia es la manera de instanciarlas, ya que el nombre del valor se
+establece siguiendo la siguiente sintáxis:
+
+#+begin_src julia
+  tupla = (valor1=1, valor2=3.14, valor3="Julia")
+#+end_src
+
+Para acceder al valor utiliziamos el operador "punto": =tupla.valor3=.
+
+Por último podemos pasar variables como los valores de las tuplas y que los
+nombres de la variable coincidan con el nombre del valor de la tupla, para hacer
+esto necesitamos insertar el caracter "punto y coma" (=;=) antes de definir
+cualquier valor en la tupla:
+
+#+begin_src julia
+  entero = 1
+  flotante = 3.14
+  cadena = "Julia"
+
+  mi_tupla = (; entero, flotante, cadena)
+#+end_src
+
+Lo anterior regresa una tupla que contiene lo siguiente:
+
+#+begin_src julia
+  (entero = 1, flotante = 3.14, cadena = "Julia")
+#+end_src
