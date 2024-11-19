@@ -7,7 +7,6 @@ poner en práctica esa habilidad para generar las conexiones sinápticas que nos
 permitirán a expresar los pensamientos en forma de código (cosa que cualquier
 persona puede aprender).
 
-
 ** ¿De qué trata esto?
 
 La idea general es implementar todos y cada uno de los ejercicios establecidos
@@ -81,7 +80,7 @@ Podemos tomar como ejemplo las siguientes funciones:
 
 #+begin_src julia
   mas_tres(x) = x + 3
-  funcion(x) = mas_tres(2 * x)
+  funcion(x) = mas_tres(x * 3)
 #+end_src
 
 Al ejecutar =funcion(3)= obtenemos el valor =9=. Si tuviéramos que indicarle a una
@@ -144,7 +143,7 @@ llamada =repl=, la cual leerá el código (linea por línea) que le escribamos y
 responderá interactivamente evaluando ese código que le dimos.
 
 Para ejecutar la =repl= de julia basta con ejecutar el comando =juia= dentro de
-nuestra línea de comandos (o =julia.exe= si estás en windows). La =rep= se comporta de la siguiente manera:
+nuestra línea de comandos (o =julia.exe= si estás en windows). La =repl= se comporta de la siguiente manera:
 
 #+begin_src julia
   julia> x = 2
@@ -166,6 +165,8 @@ Para "cargar" nuestro código dentro de la =repl= podemos utilizar la función
   x = 3
   y = 4
 #+end_src
+
+#+RESULTS:
 
 Podemos leer dichas variables de la siguiente forma:
 
@@ -203,7 +204,6 @@ julia:
 #+begin_src bash
   echo "using Revise" >> ~/.julia/config/startup.jl
 #+end_src
-
 
 Otra opción es utilizar bibilotecas como =Pluto.js= para ejecutar un cuaderno a
 través del navegador (similar a los notebooks de Jupyter), salvo que esta
@@ -561,3 +561,218 @@ enunciado sea correcto el ciclo se repetirá al infinito:
 
 La etiqueta =global= le dice al ciclo =while= que estamos accediendo a una variable
 declarada fuera del alcance del bloque de código actual.
+
+** Vectorizar operaciones
+
+Julia posee la capacidad de vectorizar las operaciones (es decir, aplicar la
+operación en una estructura para tratarla como vector) sobre ciertas estructuras
+de datos de manera automática (propiamente llamado /broadcasting/), la forma de
+indicar que una operación será vectorial es haciendo uso del operador "punto"
+(=.=), operaciones como la multiplicación (=*=) o la suma (=+=) pueden ser
+vectorizadas poniendo el operador =.= como un sufijo a dicha operación:
+
+#+begin_src julia
+  [1,2,3] .+ 1
+#+end_src
+
+En el ejemplo anterior se aplica la operación =.+= (suma vectorial) para añadir un
+uno a cada una de las entradas del vector. Este operador "punto" funciona
+métodos infijos (como =+=) o con métodos sufijos:
+
+#+begin_src julia
+  logarithm.([1,2,3])
+#+end_src
+
+** Estructuras de datos
+
+Julia cuenta con muchas estructuras de datos que son parte de su biblioteca
+estándar, eso significa que el programador sólo tiene que aprender a utilizarlas
+y no tiene que preocuparse por su implementación. La mayoría de las estructuras
+de datos son colecciónes que pueden ser utilizadas con el ciclo =for=.
+
+Las estructuras de datos que se mostrarán son =String=, =Tuple=, =NamedTuple=,
+=UnitRange=, =Arrays=, =Pair=, =Dict= y =Symbol=.
+
+Si no estás seguro de las operaciones que puedes aplicar a una estructura de
+datos siempre puedes utilizar el método =methodswith= que nos regresa un vector de
+operaciones válidas que podemos hacer con dicha estructura de datos. Véamos un
+ejemplo de esto con =String=:
+
+#+begin_src julia
+  methodswith(String)
+#+end_src
+
+Los primeros 5 resultados que manda son:
+
+#+begin_src julia
+  [1] String(s::String) @ Core boot.jl:375
+  [2] Symbol(s::String) @ Core boot.jl:513
+  [3] ==(y::PosLenString, x::String) @ WeakRefStrings ~/.julia/packages/WeakRefStrings/31nkb/src/poslenstrings.jl:84
+  [4] ==(x::String, y::PosLenString) @ WeakRefStrings ~/.julia/packages/WeakRefStrings/31nkb/src/poslenstrings.jl:72
+  [5] ==(a::String, b::String) @ Base strings/string.jl:143
+#+end_src
+
+De esta forma podemos descubrir qué operaciones tenemos disponibles dada una
+cierta estructura de datos.
+
+*** String
+
+Las cadenas de texto están representadas por la estructura de datos =String=, una
+cadena de texto es un conjunto de caracteres delimitados por comillas dobles (="=):
+
+#+begin_src julia
+  typeof("Hola, soy una cadena de texto.")
+#+end_src
+
+Una cadena que consiste en múltiples líneas de texto se declara de la siguiente
+forma:
+
+#+begin_src julia
+  text = "
+  Grey as a mouse,
+  Big as a house,
+  Nose like a snake,
+  I make the earth shake,
+  As I tramp through the grass;
+  Trees crack as I pass.
+  "
+#+end_src
+
+En Julia no hay necesidad de especificar los saltos de línea de manera
+explícita, sólo hay que recordar que todo el texto que será asociado a la
+variable esté rodeado pon un par de comillas dobles. Dentro de los usuarios de
+Julia es muy común que los textos multilínea se encuentren rodeados por tres
+comillas dobles (="""=):
+
+#+begin_src julia
+  texto = """
+          With horns in my "mouth"
+          I walk in the South,
+          Flapping big ears.
+          Beyond count of years
+          """
+#+end_src
+
+De esta forma podemol utilizar comillas dobles dentro del texto, además la
+identación (espacio en blanco a la izquierda de cada línea) es ignorada cuando
+usamos comillas triples para algunas personas esto puede aumentar la legibilidad
+del código.
+
+**** Concatenación
+
+Una de las operaciones más comunes que se aplican sobre cadenas de texto es la
+concatenación, esta operación nos permite crear cadenas de texto nuevas a partir
+de cadenas existentes utilizando el operador (=*=) o la función =join=:
+
+#+begin_src julia
+  hola = "Hola"
+  mundo = "mundo"
+
+  hola * mundo
+#+end_src
+
+Al concatenar dos cadenas utilizando el operador =*= vemos que no hay un espacio
+entre las dos palabras, podríamos concateran un espacio =" "= entre ambas
+palabras, pero este método de pegar cadenas no escala ¿Qué pasa si tenemos 20
+variables? Para estos casos es mejor hacer uso de la función =join= ya que nos
+permite definir el caracter con el cual podemos unir las cadenas de texto:
+
+#+begin_src julia
+  join([hola, mundo], " ")
+#+end_src
+
+**** Interpolación de cadenas
+
+Cuando queremos más expresividad al momento de generar las cadenas de texto
+podemos hacer uso de la interpolación de cadenas, que no se trata de otra cosa
+más que juntar texto en "humano" con texto almacenado en variables:
+
+#+begin_src julia
+  animo = "buen"
+
+  "Hoy es un $animo día"
+#+end_src
+
+En el ejemplo podemos cambiar la variable =animo= para reflejar el estado de ánimo
+de una persona, pudiendo cambiar su valor a ="mal"=, ="pésimo"= u =horrible= sin tener
+que modificar la cadena de texto que contiene la mayor parte de la sentencia.
+
+**** Manipulación de cadenas
+
+1. Funciones que buscan información dentro de una cadena y regresan un booleano (=true= / =false=):
+   1. Búsqueda de una subcadena (=substring=).
+      #+begin_src julia
+        contains(mi_texto, "Julia")
+      #+end_src
+
+   2. Si la cadena comienza con cierto valor (=prefix=).
+      #+begin_src julia
+        startswith(mi_texto, "Julia")
+      #+end_src
+
+   3. Si la cadena termina con cierto valor (=suffix=).
+      #+begin_src julia
+        endswith(mi_texto, "Julia")
+      #+end_src
+
+2. Modificación de la capitalización de la cadena.
+   1. Para convertir todo el texto en minúsculas (=lowercase=).
+      #+begin_src julia
+        lowercase(mi_texto)
+      #+end_src
+
+   2. Para convertir todo el texto en mayúsculas (=uppercase=).
+      #+begin_src julia
+        uppercase(mi_texto)
+      #+end_src
+
+   3. Para convertir la primer letra en mayúsculas (=lowercasefirst=).
+      #+begin_src julia
+        lowercasefirst(mi_texto)
+      #+end_src
+
+   4. Para convertir el primer caracter de una palabla en mayúsculas (=titlecase=)
+      #+begin_src julia
+        titlecase(mi_texto)
+      #+end_src
+
+3. Reemplazar texto dentro de la cadena.
+   #+begin_src julia
+     replace(mi_texto, "viejo" => "nuevo")
+   #+end_src
+
+   El segundo argumento de =replace= se conoce como un =Pair=.
+
+4. Separar la cadena en un vector
+   #+begin_src julia
+     split(mi_texto, " ") # Separa cada palabra
+   #+end_src
+
+**** Convertir información a cadenas
+
+Para convertir un número a cadena utilizamos la función =string=:
+
+#+begin_src julia
+  numero = 123
+  string(numero)
+#+end_src
+
+Si queremos realizar la operación inversa (convertir una cadena a otro tipo de
+dato) podemos hacer uso de la función =parse=:
+
+#+begin_src julia
+  cadena = "123"
+  parse(Int64, cadena)
+#+end_src
+
+En ocasiones la cadena de texto no representa algo que se puede evaluar al tipo
+de dato que queremos obtener, para esas ocasiones podemos utilizar =tryparse= que
+regresa una variable con el valor esperado o algo de tipo =nothing= en caso de
+error:
+
+#+begin_src julia
+  tryparse(Int64, "Patito patito color de café 🪿"
+#+end_src
+
+
+*** Tuplas
