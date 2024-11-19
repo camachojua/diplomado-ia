@@ -828,3 +828,29 @@ Lo anterior regresa una tupla que contiene lo siguiente:
 #+begin_src julia
   (entero = 1, flotante = 3.14, cadena = "Julia")
 #+end_src
+
+*** Rangos
+
+Un rango es la representación de un intervalo de números , la sintáxis es
+=inicio:fin=:
+
+#+begin_src julia
+  1:10 # UnitRange{Int64}
+#+end_src
+
+Dado un intervalo podemos iterar sobre sus elementos: =[i for i in 1:10]=
+
+Para establecer el valor del incremento usamos la sintáxis =inicio:incremento:fin=:
+
+#+begin_src julia
+  0.0:0.2:1.0
+#+end_src
+
+Cuando creamos un rango sólo se genera el tipo de dato más nunca se crea la
+secuencia numérica, esto se hace por motivos de desempeño ya que no
+necesariamente utilizamos cada uno de los elementos dentro del rango al momento
+de la declaración, para "materializar" los elementos de un rango tenemos que hacer uso de la función =collect=:
+
+#+begin_src julia
+  collect(1:10) # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+#+end_src
