@@ -966,3 +966,22 @@ Por último podemos concatenar arreglos para producir nuevos arreglos:
   #+begin_src julia
     hcat(ones(2), zeros(2))
   #+end_src
+
+
+**** Accediendo a los valores de los arreglos
+
+Después de declarar arreglos lo más lógico es aprender a leer los valores de
+dichos arreglos, existen múltiples funciones que nos ayudan a obtener
+información, una de las más útiles es =eltype= que nos dice el tipo de elementos
+que están contenidos en un arreglo:
+
+#+begin_src julia
+  eltype(matriz_pi) # Float64
+#+end_src
+
+Después de conocer los tipos de datos almacenados tal vez es buena idea obtener
+información sobre las dimensiones del arreglo:
+
+- =length=: Para obtener la cantidad total de elementos del arreglo.
+- =ndims=: Para obtener el número de dimensiones del arreglo.
+- =size=: Por defecto regresa una tupla que contiene el número de elementos de cada dimension.
