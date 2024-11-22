@@ -41,10 +41,10 @@ md"""## ¿Imágenes? ¿Arreglos?
 	De acuerdo a las notas que se compartieron sabemos que el tipo de dato `Vector` es un arreglo unidimensional, en particular vimos que es un alias ¿Cuál es la forma "original" de una variable cuyo tipo de dato es `Vector{Int64}`? Cambia el valor en la celda que se encuentra a continuación:"""
 
 # ╔═╡ aa50a8dc-62f3-4ba9-9230-d244fdfc9221
-vector_1d = Vector{Int64}(undef, 10)
+vector_1d = Vector{Float64}(rand(10))
 
 # ╔═╡ 12050c8d-8ebf-44bf-93db-797abdee4212
-alias = missing
+alias = Array{Int64, 1}(undef, 10)
 
 # ╔═╡ 70faf3ec-f388-4421-93f9-d32743878c4f
 if !@isdefined(alias)
@@ -72,7 +72,7 @@ md"""Para comenzar a jugar podemos imaginar que tenemos un "duende" que nos perm
 """
 
 # ╔═╡ e6c7771c-2034-40d2-b8bd-27799412ffa0
-imagen1 = colored_line(missing)
+imagen1 = colored_line(vector_1d)
 
 # ╔═╡ ec7640b6-28cb-424a-a01f-c08323f9a642
 md"Si queremos conocer el tipo de dato de una variable podemos hacer uso de la funcion `eltype`."
@@ -126,6 +126,9 @@ else
 		end
 	end
 end
+
+# ╔═╡ 3f63f9d2-6688-41d5-8d89-d5ef056a3d43
+
 
 # ╔═╡ 0a226ed1-5316-4a16-8a7d-f1f067672c6d
 md"🤔 ¿Cómo podrías implementar la función `mi_suma` utilizando `map`?"
@@ -1634,6 +1637,7 @@ version = "17.4.0+2"
 # ╠═437bdc1f-fd3d-4afc-8bb6-06da07c7e43a
 # ╠═da97c1dd-eaf6-43d1-add3-0926426f421c
 # ╟─aaf9cc56-3a94-428f-9f96-c634eca9ab5a
+# ╠═3f63f9d2-6688-41d5-8d89-d5ef056a3d43
 # ╟─0a226ed1-5316-4a16-8a7d-f1f067672c6d
 # ╠═5bd138dc-bbc1-4b03-a186-408c227f9e76
 # ╠═ee0c415e-ffa3-497e-a24f-2e7ecbd9a3a7
