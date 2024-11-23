@@ -56,6 +56,7 @@ integrar WSL con el editor de código.
 - [Dimensionality Reduction: PCA, SD, T-SNE](https://docs.google.com/presentation/d/1ndZRoMAEfyh3txawZXGomAJZkY1p5OvkpFB06PZs1iY/edit#slide=id.g5e632b589d_0_0)
 - [Graphs Revisited in Julia]( https://bit.ly/3SsfnCs )
 - [Bayesian Networks](https://bit.ly/3x2c1L7)
+- [Data Science Exercises](https://docs.google.com/presentation/d/1tSNaUJc2NxEO3wWga_yCK4m61x9pJM2aHaPsn-OLc_s/)
 
 ## Lenguajes de programación
 
