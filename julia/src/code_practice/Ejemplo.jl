@@ -30,7 +30,7 @@ md"# Demostración de Pluto.jl"
 # ╔═╡ 0d669fc3-9d99-45eb-a389-392b46a3432a
 md"""Con `Pluto.jl` podemos generar notebook estilo Jupyter pero con la ventaja de 		tener una gran compatibilidad con el lenguaje.
 
-	Las principales diferencias que tenemos entre `Pluto` y `Jupyter` son:
+	Las principales **diferencias** que tenemos entre `Pluto` y `Jupyter` son:
 
 	- Las celdas sólo pueden contener una única expresión (ya sea una línea de código o un bloque).
 	- Las variables tienen un alcance "global" (dentro de cada cuaderno).
@@ -94,7 +94,7 @@ md"## Interactividad"
 @bind c Slider(-10:10, show_value=true)
 
 # ╔═╡ 4efc7d03-47c6-41a7-a521-2646390fcd91
-plot(x -> a * x^2 + b * x + c, -4, 4)
+plot(x -> a * x^3 + b * x + c, -4, 4)
 
 # ╔═╡ f1f57efd-0864-40fa-a420-391c077706fd
 plot(
@@ -137,7 +137,7 @@ md"""## LaTeX
 	Las cadenas a evaluar con latex tienen un prefijo `L"..."` (si es que es el único valor de una celda) o poniendo nuestro código entre `$`."""
 
 # ╔═╡ 004e2e74-7c9a-4530-8ec2-d0ad47e8a958
-L"x = \frac{1}{\sqrt{2}}"
+L"x = \frac{1}{\sqrt{2 * y}}"
 
 # ╔═╡ e8532309-09be-4f59-82b8-8a2d30050c74
 md"""## Ejemplo: Método de Newton para aproximar funciones no lineales
