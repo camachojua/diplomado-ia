@@ -311,7 +311,7 @@ md"""## 5. Ejercicios con cadenas
 	Genera una cadena de texto que contenga `Anita lava la tina` y asígnaselo a la variable `mi_cadena`."""
 
 # ╔═╡ b5122c14-336c-4f42-b2d2-8b39397b2e88
-mi_cadena = missing
+mi_cadena = "Anita lava la tina"
 
 # ╔═╡ a07c979a-9416-460a-91ab-f3b233807bb5
 md"""Existen varias operaciones que se pueden aplicar a las cadenas:
@@ -329,7 +329,7 @@ md"""Existen varias operaciones que se pueden aplicar a las cadenas:
 md"Comenzaremos revirtiendo una cadena"
 
 # ╔═╡ 2578a164-63b2-44c4-909a-ffd57b6dcdd3
-revertir_cadena = missing
+revertir_cadena = reverse(mi_cadena)
 
 # ╔═╡ 9f579635-c4f4-4b82-a3ed-6a9c831be7e7
 if !@isdefined(revertir_cadena)
@@ -338,8 +338,6 @@ elseif ismissing(revertir_cadena)
 	still_missing()
 elseif typeof(revertir_cadena) != String
 	stil_missing(md"`revertir_cadena` debe ser un `String`")
-elseif revertir_cadena != "Anita lava la tina"
-	keep_working(md"Tienes que establecer el valor correcto en la cadena.")
 elseif revertir_cadena == reverse(mi_cadena)
 	correct()
 end
@@ -2078,7 +2076,7 @@ version = "17.4.0+2"
 # ╟─649e4c6e-48e7-46c5-80c3-945d3db7b295
 # ╠═4448c11d-e01a-419f-b6e5-3352c5f15095
 # ╠═66978d78-ed97-4a5b-8ee8-a91caf2d6dff
-# ╠═2de76067-79f9-4fcb-ba07-eb5b8cec66bd
+# ╟─2de76067-79f9-4fcb-ba07-eb5b8cec66bd
 # ╟─2f778dc2-3755-4dd0-aed4-28097243a3a4
 # ╠═3f76c202-72e9-4b00-8739-2132ed25ef1b
 # ╟─6551235f-4288-4e31-9056-9a7b406c2040
