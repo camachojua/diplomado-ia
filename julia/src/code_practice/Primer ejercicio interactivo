@@ -311,7 +311,7 @@ md"""## 5. Ejercicios con cadenas
 	Genera una cadena de texto que contenga `Anita lava la tina` y asígnaselo a la variable `mi_cadena`."""
 
 # ╔═╡ b5122c14-336c-4f42-b2d2-8b39397b2e88
-mi_cadena = "Anita lava la tina"
+mi_cadena = "anita lava la tina"
 
 # ╔═╡ a07c979a-9416-460a-91ab-f3b233807bb5
 md"""Existen varias operaciones que se pueden aplicar a las cadenas:
@@ -329,7 +329,7 @@ md"""Existen varias operaciones que se pueden aplicar a las cadenas:
 md"Comenzaremos revirtiendo una cadena"
 
 # ╔═╡ 2578a164-63b2-44c4-909a-ffd57b6dcdd3
-revertir_cadena = reverse(mi_cadena)
+revertir_cadena = missing
 
 # ╔═╡ 9f579635-c4f4-4b82-a3ed-6a9c831be7e7
 if !@isdefined(revertir_cadena)
@@ -547,7 +547,8 @@ md"""## DataFrames
 	|Lucero|10.0|34|
 	|Mayra|6.5|28|
 	|Paulina|10.0|25|
-	|Denisse|8.1|33|"""
+	|Denisse|8.1|33|
+	|Pilar|8.7|33|"""
 
 # ╔═╡ 0e8e9341-2f44-4851-b01f-d65cb9de812c
 nombres = ["Sandra", "Angelina", "Valeria", "Amparo", "Anya", "Lucero"]
@@ -571,7 +572,8 @@ md"Con `DataFrames` podemos obtener la información de manera fácil, por ejempl
 select(df, :cal)
 
 # ╔═╡ 82163383-c42f-45d4-95c3-534e0087cd98
-md"¿Cómo obtendrías el mismo resultado si, en lugar de `DataFrame` metieras la información en un `Array`?"
+md"""#### Ejercicio opcional
+	¿Cómo obtendrías el mismo resultado si, en lugar de `DataFrame` metieras la información en un `Array`?"""
 
 # ╔═╡ 903f739a-addc-471f-8f91-790f3da1e3a1
 md"Podemos obtener la representación de una columna entera escribiendo el nombre de la columna después de un punto (`.`), en este ejemplo podemos obtener un `Vector` de nombres ejecutando `df.nombre`"
@@ -584,6 +586,96 @@ md"Para obtener una entrada específica necesitamos ejecutar `df[3,:]` donde `3`
 
 # ╔═╡ 0ff66ab9-dbcd-4ad3-b36f-a9e4f60e9356
 df[3,:]
+
+# ╔═╡ 468b85e3-2956-4816-a771-e533863df9e8
+md"""### Filtrando información de un Dataframe
+	Existen 2 formas de filtrar la información de un `DataFrame`:
+
+	- `filter`
+	- `subset`
+
+	Recordemos la definición que teníamos de la tabla de calificaciones."""
+
+# ╔═╡ 6667ccf8-c9d2-4bc3-96d2-768710d96bcf
+df
+
+# ╔═╡ 877dad0e-2356-449f-8727-bd4c3f82b57d
+md"""Es posible "filtrar" la información haciendo uso de la función `filter`, dicha función tiene la siguiente "firma": `filter(fuente_datos => f::Function, data_frame)`, es decir necesita una función como primer argumento (lo que nos ayuda a "separar" la información) y un `DataFrame` como segundo argumento.
+
+Como podemos pasarle a `filter` cualquier función podemos filtrar por ejemplo aquellas entradas de datos cuya calificación sea mayor a 9:"""
+
+# ╔═╡ 0345f338-67f1-40fc-b33a-245ecb84340d
+buenas_calificaciones(cal::Float64) = cal > 9.0
+
+# ╔═╡ 50d02ae7-514e-441d-b72d-76c1e6a4733d
+md"Definimos la función `buenas_calificaciones` que recibe un entero asociado a una variable llamada `cal` y regresa `true` o `false` dependiendo si `cal` es mayor o igual a `9`."
+
+# ╔═╡ bbb3dd6d-b742-45c5-b44c-c92a86ec803d
+filter(:cal => buenas_calificaciones, df)
+
+# ╔═╡ 17ef5bbb-62f7-4083-b140-70bc10082e3f
+md"""Es muy importante poner el símbolo `:cal =>` **antes** de mandar a llamar la función puesto que de esta forma Julia puede asociar la columna `cal` con el argumento que le estamos pasando al filtro.
+
+¿Qué pasa si queremos obtener aquellas calificaciones que sean menores o iguales a 9? Simplemente **negamos** el valor que obtenemos de la función `buenas_calificaciones`:"""
+
+# ╔═╡ 212ce250-671e-4544-bf0d-34f2f2c9bcac
+filter(:cal => !buenas_calificaciones, df)
+
+# ╔═╡ 137be08c-f1ec-4847-9494-160c34ed99a8
+md"Como los filtros son funciones podemos hacerlos tan complicados como queramos, el siguiente filtro nos dará aquellas entradas donde la calificación sea mayor que 9 pero donde la edad sea mayor a 35"
+
+# ╔═╡ 08987a64-37d4-4473-ba17-192cda21a6e2
+function filtro_complejo(cal::Float64, edad::Int64)
+	if cal > 9.0 && edad > 35
+		return true
+	end
+
+	return false
+end
+
+# ╔═╡ 944b28d8-2895-44d5-9ad8-9da3bc764f72
+md"""##### Tarea moral
+	¿Qué ventaja tiene **no** escribir un `else` dentro de un `if` como en el ejemplo del filtro?"""
+
+# ╔═╡ 79952b39-e9b4-4e51-947e-9b58aa59ae90
+filter([:cal, :edad] => filtro_complejo, df)
+
+# ╔═╡ 9e213047-2ece-4eb7-a8ef-ba2e050792e0
+md"Es importante notar que ahora pusimos un `Vector` en lugar de un simple símbolo, si nuestros filtros necesitan más de un argumento para trabajar es necesario pasar el vector como parámetro."
+
+# ╔═╡ 11fd6fa6-5390-4ac7-bf01-2d1e749050b9
+md""" #### Subset
+	A diferencia de `filter` (que implementa una interfaz estándar dentro de Julia), `subset` es una operación *específica y local* a la biblioteca `DataFrame.jl`, `subset` trabaja por columnas (a diferencia de los filtros), para obtener todas las entradas cuyo nombre comienza con `A` podemos sacar un subconjunto de la siguiente forma:"""
+
+# ╔═╡ ffff98de-9628-4ecb-a896-9c4ec860d1d1
+subset(df, :nombre => ByRow(nombre -> startswith(nombre, "A")))
+
+# ╔═╡ e1540cd7-b8f3-4ab5-9112-8bbea3bedd97
+md"""Más aún donde `subset` brilla es en el manejo de errores ¿Qué pasaría si una 	entrada tiene `cal` o `edad` nula? Con `subset` podemos introducir un tercer parámetro llamado `skipmissing=true` que se encarga de "saltar" a quellas entradas que posean algún errror."""
+
+# ╔═╡ 6847fb1a-832d-4825-baef-8161ba166882
+begin
+	nombre2 = ["Sandra", missing, "Lina"]
+	calificacion2 = [10.0, 8.9, 7.5]
+	edad2 = [37, 33, missing]
+	datos_malos = DataFrame(; nombre=nombre2, cal=calificacion2, edad=edad2)
+
+	# Podemos filtrar datos aunque exista información faltante
+	subset(datos_malos, :cal => ByRow(>(9.0)); skipmissing=true)
+end
+
+# ╔═╡ 7d1161c1-7043-41eb-8003-2341e7926fa2
+md"¿Qué pasaría si aplicamos `filter` en lugar de `subset` 🤔?"
+
+# ╔═╡ 99d0da7d-f8e5-4e23-9062-3fab25535c52
+md"""#### Select
+	Mientras que `filter` elimina filas, `select` elimina **columnas**:"""
+
+# ╔═╡ d4633135-7966-4ced-812e-8e1f9d0c9acb
+select(df, :nombre, :cal)
+
+# ╔═╡ 60697404-4ac0-4847-b3c1-73c13ffdc349
+select(df, :nombre, :edad)
 
 # ╔═╡ 61df9011-8dab-4a4f-8b14-be7c27c451b4
 md"""### Ejercicios
@@ -612,6 +704,90 @@ elseif typeof(fila) != DataFrameRow{DataFrame, DataFrames.Index}
 elseif fila == df[numero, :]
 	correct()
 end
+
+# ╔═╡ 49a65707-4d9a-4e40-8dea-cdcad40ab608
+md"Considera las siguientes tablas:"
+
+# ╔═╡ bc36b1d1-6af8-41d6-9e4f-fbb0bf7ddb2c
+md"""| Nombre | Tipo |
+	|--------|------|
+	|Bulbasaur ![gif](https://archives.bulbagarden.net/media/upload/7/79/Pinani001.png)|planta|
+	|Charmander ![gif](https://archives.bulbagarden.net/media/upload/8/89/Pinani004.png)|fuego|
+	|Squirtle ![gif](https://archives.bulbagarden.net/media/upload/4/49/Pinani007.png)|agua|
+	|Dratini ![gif](https://archives.bulbagarden.net/media/upload/8/8d/Pinani147.png)|dragón|
+	|Pikachu ![gif](https://archives.bulbagarden.net/media/upload/8/83/PinRSani025.png)|eléctrico|
+	|Sandshrew ![gif](https://archives.bulbagarden.net/media/upload/d/df/Pinani027.png)|tierra|"""
+
+# ╔═╡ 3dda157f-7516-4248-93d8-d69e552d4ed6
+md"""|Tipo|Debilidad|Fortaleza|
+	 |----|---------|---------|
+	 |planta|fuego,volador,veneno,hielo,bicho|tierra,roca,agua|
+	 |fuego|tierra,roca,agua|bicho,planta,hielo,acero|
+	 |agua|planta,eléctrico|tierra,roca,fuego|
+	 |dragón|dragón,hielo,hada|dragón|
+	 |eléctrico|tierra|volador,agua|
+	 |tierra|agua,planta,hielo|veneno,roca,fuego,eléctrico,acero|"""
+
+# ╔═╡ cec6a903-fc5e-4fec-8a86-8f499634cf1b
+md"""Dada dicha información necesitamos crear 2 `Dataframes` llamados `pokemones` y `tipos` (respectivamente) y debemos obtener lo siguiente:
+
+	- ¿Qué pokémon sería el más efectivo para utilizar si queremos que tenga la menor de las debilidades contra los listados en la tabla? Mete tu resultado (manipulando los `DataFrame` con las funciones `join`, `select`, `subset`, etc.) en una variable llamada `menos_debil`.
+	- ¿Cuál es el pokemón que posee más debilidades contra los demás? Mete tu resultado (manipulando los `DataFrame` con las funciones `join`, `select`, `subset`, etc.) en una variable llamada `mas_debil`.
+	- Si tuviera que armar un equipo de 2 pokemones que tengan la menor debilidad ante cualquier otro par de pokemones (Es decir, quiero obtener el par que sea más resistente contra cualquier otra combinación de dos pokemones dentro de la tabla) ¿Cuál sería tu elección? Mete tu resultado (manipulando los `DataFrame` con las funciones `join`, `select`, `subset`, etc.) en una variable llamada `dream_team` que contenga un `Vect{String}` de longitud 2.
+
+	Considera que el nombre del pokemon comienza con mayúscula, mientras que el tipo está en minúscula."""
+
+# ╔═╡ 01ae1b49-87ff-43f0-89bc-1c52e9fd8136
+if !@isdefined(pokemones)
+	not_defined(:pokemones)
+elseif typeof(pokemones) != DataFrame
+	keep_working(md"La variable `pokemones` debe ser un `DataFrame`.")
+elseif !hasproperty(pokemones, :nombre) || !hasproperty(pokemones, :tipo)
+	almost(md"El `DataFrame` debe tener las columnas `:nombre` y `:tipo`.")
+elseif pokemones.nombre == ["Bulbasaur", "Charmander", "Squirtle", "Dratini", "Pikachu"]
+	correct()
+end
+
+# ╔═╡ 17688a78-6431-4fe8-98db-ac4b5e9f78cb
+if !@isdefined(tipos)
+	not_defined(:tipos)
+elseif typeof(tipos) != DataFrame
+	keep_working(md"La variable `tipos` debe ser un `DataFrame`.")
+elseif !hasproperty(tipos, :debilidad) || !hasproperty(pokemones, :fortaleza) || !hasproperty(tipos, :tipo)
+	almost(md"El `DataFrame` debe tener las columnas `:tipo`, `:debilidad` y `:fortaleza`.")
+elseif pokemones.tipo == ["planta", "fuego", "agua", "dragón", "eléctrico"]
+	correct()
+end
+
+# ╔═╡ 56c2bd1c-a32b-4098-a5aa-d3c8ec3b9333
+if !@isdefined(menos_debil)
+	not_defined(:menos_debil)
+elseif menos_debil != "Pikachu"
+	almost(md"Aún te falta mucho para ser un maestro pokemón.")
+else
+	correct()
+end
+
+# ╔═╡ 3e52f29e-4858-43bb-913a-cacc32f51311
+if !@isdefined(mas_debil)
+	not_defined(:mas_debil)
+elseif mas_debil != "Bulbasaur"
+	almost(md"La defensa es crítica para tener un equipo balanceado.")
+else
+	correct()
+end
+
+# ╔═╡ c46a9b40-ca5e-4b4d-9fe6-29c54178a15c
+if !@isdefined(dream_team)
+	not_defined(:dream_team)
+elseif dream_team != ["Pikachu", "Dratini"]
+	almost(md"Puedes mejorar, aún te falta mucho por aprender.")
+else
+	correct(md"¿Acaso eres el mismísimo Red que vino a reclamar su trono?")
+end
+
+# ╔═╡ 76ad1b54-d57a-4bc7-9665-58e9df429259
+md"**Tarea moral**: ¿Puedes hacer el análisis anterior considerando fortalezas y debilidades?"
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -2076,7 +2252,7 @@ version = "17.4.0+2"
 # ╟─649e4c6e-48e7-46c5-80c3-945d3db7b295
 # ╠═4448c11d-e01a-419f-b6e5-3352c5f15095
 # ╠═66978d78-ed97-4a5b-8ee8-a91caf2d6dff
-# ╟─2de76067-79f9-4fcb-ba07-eb5b8cec66bd
+# ╠═2de76067-79f9-4fcb-ba07-eb5b8cec66bd
 # ╟─2f778dc2-3755-4dd0-aed4-28097243a3a4
 # ╠═3f76c202-72e9-4b00-8739-2132ed25ef1b
 # ╟─6551235f-4288-4e31-9056-9a7b406c2040
@@ -2100,11 +2276,42 @@ version = "17.4.0+2"
 # ╠═d99a9f8e-5a00-47d7-a93a-3178fec13d07
 # ╟─8b9b15b8-2334-4996-bce3-6a94540ca7ca
 # ╠═0ff66ab9-dbcd-4ad3-b36f-a9e4f60e9356
+# ╟─468b85e3-2956-4816-a771-e533863df9e8
+# ╟─6667ccf8-c9d2-4bc3-96d2-768710d96bcf
+# ╟─877dad0e-2356-449f-8727-bd4c3f82b57d
+# ╠═0345f338-67f1-40fc-b33a-245ecb84340d
+# ╟─50d02ae7-514e-441d-b72d-76c1e6a4733d
+# ╠═bbb3dd6d-b742-45c5-b44c-c92a86ec803d
+# ╟─17ef5bbb-62f7-4083-b140-70bc10082e3f
+# ╠═212ce250-671e-4544-bf0d-34f2f2c9bcac
+# ╟─137be08c-f1ec-4847-9494-160c34ed99a8
+# ╠═08987a64-37d4-4473-ba17-192cda21a6e2
+# ╟─944b28d8-2895-44d5-9ad8-9da3bc764f72
+# ╠═79952b39-e9b4-4e51-947e-9b58aa59ae90
+# ╟─9e213047-2ece-4eb7-a8ef-ba2e050792e0
+# ╟─11fd6fa6-5390-4ac7-bf01-2d1e749050b9
+# ╠═ffff98de-9628-4ecb-a896-9c4ec860d1d1
+# ╟─e1540cd7-b8f3-4ab5-9112-8bbea3bedd97
+# ╠═6847fb1a-832d-4825-baef-8161ba166882
+# ╟─7d1161c1-7043-41eb-8003-2341e7926fa2
+# ╟─99d0da7d-f8e5-4e23-9062-3fab25535c52
+# ╠═d4633135-7966-4ced-812e-8e1f9d0c9acb
+# ╠═60697404-4ac0-4847-b3c1-73c13ffdc349
 # ╟─61df9011-8dab-4a4f-8b14-be7c27c451b4
 # ╠═05b4a421-8ce5-43b8-93d7-ffd0640d0c36
 # ╠═a622e5ab-5d15-41ec-b9d4-21728f783d7b
 # ╠═3b15f13f-f894-4cef-9d8e-fc91d8faafe1
 # ╟─f78e91ca-d156-495d-8679-eeb825d7de26
+# ╟─49a65707-4d9a-4e40-8dea-cdcad40ab608
+# ╟─bc36b1d1-6af8-41d6-9e4f-fbb0bf7ddb2c
+# ╟─3dda157f-7516-4248-93d8-d69e552d4ed6
+# ╟─cec6a903-fc5e-4fec-8a86-8f499634cf1b
+# ╟─01ae1b49-87ff-43f0-89bc-1c52e9fd8136
+# ╟─17688a78-6431-4fe8-98db-ac4b5e9f78cb
+# ╟─56c2bd1c-a32b-4098-a5aa-d3c8ec3b9333
+# ╟─3e52f29e-4858-43bb-913a-cacc32f51311
+# ╟─c46a9b40-ca5e-4b4d-9fe6-29c54178a15c
+# ╟─76ad1b54-d57a-4bc7-9665-58e9df429259
 # ╟─c6567d47-a5bb-44d7-bb00-21a764e34b6b
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
