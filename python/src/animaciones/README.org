@@ -1,0 +1,161 @@
+* Animando escenas con python
+
+Expresar conceptos matemáticos a otras personas no es fácil ya que debes:
+
++ Entender el concepto.
++ Comunicar de manera efectiva el concepto.
++ Crear un espacio en el que la otra persona pueda visualizar la información de
+  tal manera que pueda ser entendida de manera efectiva.
+
+Por esta razón presentaremos una herramienta de animación para la enseñanza de
+las matemáticas, dicha herramienta es una biblioteca de Python llamada =manim=,
+esta es la herramienta de visualización utilizada por el canal de youtube
+llamado [[https://www.youtube.com/@3blue1brown][3blue1brown]] (si no lo conoces, deberías). Lo primero que necesitamos
+antes de utilizar la herramienta es instalar las dependencias y la herramienta
+en sí, para ello es necesario conocer la [[https://docs.manim.community/en/stable/index.html][página oficial del proyecto]] donde se
+encontrará toda la documentación necesaria (así como las instrucciones de
+instalación). Por cuestiones de tiempo sólo se pondrán las instrucciones de
+instalación para sistemas linux (basados en Debian), la instalación para [[MacOs][macos]] y
+[[https://docs.manim.community/en/stable/installation/windows.html][windows]] puede ser seguida desde la [[https://docs.manim.community/en/stable/installation/linux.html][página oficial]].
+
+** Instrucciones de instalación (Linux)
+
+Lo primero que tenemos que hacer es instalar un par de bibliotecas y la
+aplicación =ffmpeg= que se encargará de generar el vídeo:
+
+#+begin_src bash
+  sudo apt update
+  sudo apt install build-essential python3-dev libcairo2-dev libpango1.0-dev ffmpeg texlive texlive-latex-extra
+#+end_src
+
+Otro requerimento es tener instalado =python3-pip= y =venv= y =pkgconfig=:
+
+#+begin_src bash
+  sudo apt install python3-pip python3-venv python3-dev pkg-config
+#+end_src
+
+Por último se instala =manim= con:
+
+#+begin_src bash
+  pip3 install manim
+#+end_src
+
+Esto instala =manim= de manera global, como python es una herramienta que es
+utilizada por varios administradores de paquetes (como =Conda=) lo más
+recomendable es crear un =ambiente virtual= al iniciar con un proyecto nuevo, de
+esta manera las dependencias del proyecto son locales al proyecto (es decir, no
+se comparten de manera global en toda la computadora) ya que en ocasiones pueden
+ocurrir "colisiones" de dependencias donde el proyecto A requiere la version =x=
+de una biblioteca mientras que el proyecto B requiere la versión =y= de la misma
+biblioteca. Lo mejor de esto es que los ambientes virtuales funcionan en
+cualquier sistema operativo.
+
+** Ambientes virtuales en python
+
+Podemos ver un ambiente virtual como una cajita que almacena todos los juguetes
+de la sesión de juego, de esta manera podemos mantener organizado nuestro
+espacio de trabajo sin los dolores de cabeza que conlleva administrar de manera
+general todas las dependencias que los proyectos de python requieren. Para
+generar un ambiente virtual basta con ejecutar el siguiente comando:
+
+#+begin_src bash
+  mkdir mi_proyecto                # Creamos una carpeta para asociarla al proyecto
+  cd mi_proyecto                   # Ingresamos al proyecto
+  python3 -m venv .mi_proyecto     # Creamos un ambiente virtual
+  source .mi_proyecto/bin/activate # Activamos el amiente virtual
+  pip install --upgrade pip        # Refrescamos la versión del administrador de paquetes
+  pip install mis_bibliotecas      # Instalamos las dependencias
+#+end_src
+
+Para nuestra sesión de animación crearemos un proyecto llamado =pixar101= de la
+siguiente forma:
+
+#+begin_src bash
+  mkdir pixar
+  cd pixar
+  python3 -m venv .pixar
+  source .pixar/bin/activate
+  pip install --upgrade pip
+  pip install manim
+#+end_src
+
+** ¡Hola Mundo!
+
+Para comenzar crearemos un archivo llamado =hola_mundo.py= donde vamos a animar
+algo muy sencillo, para =manim= una animación sucede en el contexto de una escena
+(como en el cine), las escenas heredan de la clase =Scene=:
+
+#+begin_src python
+  class HolaMundo(Scene):
+      def construct(self)
+      # Acá van las instrucciones de la animación
+#+end_src
+
+Recuerden que en python los constructores de las clases se definen a través de
+una función llamada =construct=, dentro de este constructor podemos hacer uso de
+objetos como ejes, seguidores de posición/movimiento, animar puntos, etc.
+
+Para ejecutar nuestra animación necesitamos correrla con el siguiente comando:
+
+#+begin_src bash
+  manim hola_mundo.py
+#+end_src
+
+Durante este tutorial estaremos siguiendo los ejemplos más sencillos que se
+muestran en la [[https://docs.manim.community/en/stable/examples.html][guía oficial de manim]]
+
+*** Calentando motores
+
+La animación más simple que podemos generar es una imagen estática (🙈),
+dibujaremos figuras básicas como un cuadrado, un triángulo, un círculo y una
+letra, agregaremos color a dichas figuras y sobrepondremos las imágenes para
+hacerlo más interesante.
+
+La primer cosa que tenemos que hacer dentro de nuestro script es importar la
+biblioteca de animación, para ello necesitamos insertar lo siguiente:
+
+#+begin_src python
+  from manim import *
+#+end_src
+
+Después es necesario declarar el color de fondo que vámos a estar utilizando, el
+color se define utilizando un formato hexadecimal (los códigos de los colores
+pueden ser consultados en esta [[https://htmlcolorcodes.com/][página]]), para acceder a la cámara hacemos
+referencia al objeto =self.camera=, dicho objeto tiene hartos atributos y uno de
+ellos es =background_color=, entonces para establecer el gris de "fondo" escribimos:
+
+#+begin_src python
+  self.background_color = "#ece6e2"
+#+end_src
+
+Ahora definiremos un par de colores, los colores son simplemente cadenas de
+texto con el sufijo =#=:
+
+#+begin_src python
+  verde = "#87c2a5"
+  azul  = "#525893"
+  rojo  = "#e07a5f"
+  negro = "#343434" # Los diseñadores dicen que es "malo" usar el negro puro
+#+end_src
+
+Crear figuras es relativamente fácil, para generar un círculo usamos =Circle=,
+para generar un tríangulo usamos =Triangle= y para generar un cuadrado usamos
+=Square=:
+
+#+begin_src python
+  circulo = Circle(color=azul, fill_opacity=1).shift(LEFT)
+  cuadradado = Square(color=rojo, fill_opacity=1).shift(UP)
+  triangulo = Triangle(color=verde, fill_opacity=1).shift(RIGHT)
+#+end_src
+
+¿Qué es ese =.shift(ALGO)= que pones al final de declarar cada figura? Bien, por
+defecto =manim= dibuja todo lo que le digamos en el centro de la pantalla, para
+evitar que todo se vea encimado movemos (=shift=) cada figura hacia arriba (=UP=), a
+la derecha (=RIGHT=) o a la izquierda (=LEFT=).
+
+Para dibujar las figuras debemos mandar a llamar al método =self.add= seguido de
+una tupla donde le decimos a =manim= qué es lo que queremos dibujar:
+
+#+begin_src python
+  self.add(circulo, cuadrado, triangulo) # El orden de las variables importa!!!
+#+end_src
