@@ -144,7 +144,7 @@ para generar un tríangulo usamos =Triangle= y para generar un cuadrado usamos
 
 #+begin_src python
   circulo = Circle(color=azul, fill_opacity=1).shift(LEFT)
-  cuadradado = Square(color=rojo, fill_opacity=1).shift(UP)
+  cuadrado = Square(color=rojo, fill_opacity=1).shift(UP)
   triangulo = Triangle(color=verde, fill_opacity=1).shift(RIGHT)
 #+end_src
 
@@ -158,4 +158,55 @@ una tupla donde le decimos a =manim= qué es lo que queremos dibujar:
 
 #+begin_src python
   self.add(circulo, cuadrado, triangulo) # El orden de las variables importa!!!
+#+end_src
+
+=manim= soporta el uso de LaTeX, probemos agregar texto a nuestra escena:
+
+#+begin_src python
+  letra = MathTex(r"\mathbb{J}", fill_color=logo_black).scale(6)
+  letra.shift(3 * LEFT + 1.5 * UP)
+#+end_src
+
+Para renderizar latex hacemos una llamada a =MathTex= dentro de la llamada podemos
+poner cualquier cadena de texto para rederizado, por último escalamos la letra 6
+veces (=.scale=), después de definir la letra la movemos 3 unidades a la izquieda
+y 1.5 hacia arriba ¿Alguien identificó una transformacion lineal 🤔?
+
+Después de definir múltiples elementos es posible agruparlos para "imprimirlos"
+de una manera mucho más sencilla, para ello mandamos a llamar a la función
+=VGroup=:
+
+#+begin_src python
+  todo_junto = VGroup(triangulo, cuadrado, circulo, letra) # El orden importa!!!
+  todo_junto.move_to(ORIGIN) # ¿Una traslación?
+  self.add(todo_junto)
+#+end_src
+
+Para cerrar dejo el contenido completo del archivo (dibujando la letra):
+
+#+begin_src python
+  from manim import *
+
+  class HolaMundo(Scene):
+      def construct(self):
+          self.camera.background_color = "#ece6e2"
+
+          verde = "#87c2a5"
+          azul  = "#525893"
+          rojo  = "#e07a5f"
+          negro = "#343434" # Los diseñadores dicen que es "malo" usar el negro puro
+
+          circulo = Circle(color=azul, fill_opacity=1).shift(LEFT)
+          cuadrado = Square(color=rojo, fill_opacity=1).shift(UP)
+          triangulo = Triangle(color=verde, fill_opacity=1).shift(RIGHT)
+
+          letra = MathTex(r"\mathbb{J}", fill_color=logo_black).scale(6)
+          letra.shift(3 * LEFT + 1.5 * UP)
+
+          todo_junto = VGroup(triangulo, cuadrado, circulo, letra) # El orden importa!!!
+          todo_junto.move_to(ORIGIN) # ¿Una traslación?
+          self.add(todo_junto)
+
+          # Recuerda renderizar esto ejecutando lo siguiente en la línea de comandos:
+          # manim hola_mundo.py
 #+end_src
