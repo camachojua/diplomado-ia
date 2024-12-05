@@ -210,3 +210,45 @@ Para cerrar dejo el contenido completo del archivo (dibujando la letra):
           # Recuerda renderizar esto ejecutando lo siguiente en la línea de comandos:
           # manim hola_mundo.py
 #+end_src
+
+
+** Crear anotaciones
+
+Para dibujar un punto se hace uso del método =Dot=, para dibujar una línea usamos
+=Line=, en ocasiones queremos decorar un elemento que fue declarado con
+anterioridad (puede que ese elemento sea el resultado de una transformación),
+uno de los tantos métodos para decorar es =set_color=.
+
+#+begin_src python
+  from manim import *
+
+  class Anotaciones(Scene):
+      def construct(self):
+          punto = Dot([-2, -1, 0]) # Creamos un punto en un plano
+          punto2 = Dot([2, 1, 0])  # Creamos otro punto
+
+          # Con base en los puntos definidos anteriormente creamos una línea
+          linea = Line(punto.get_center(), punto2.get_center()).set_color(ORANGE)
+
+          # Si renderizamos esto obtendríamos una línea anaranjada
+          #self.add(linea, punto, punto2)
+
+          llave1 = Brace(linea) # Decoramos la línea con una llave
+          texto_llave1 = llave1.get_text("Distancia horizontal")
+
+          # Decoramos la línea con otra llave
+          # Pero esta vez le decimos que la dirección de la misma será rotada "pi"
+          # Y sacamos el vector unitario.
+          llave2 = Brace(linea, direction=linea.copy().rotate(PI)).get_unit_vector()
+          texto_llave2 = llave2.get_text("Distancia vertical")
+
+          llave3 = Brace(linea, direction=linea.copy().rotate(PI / 2)).get_unit_vector()
+          texto_llave3 = llave2.get_text("x - x_1")
+
+          self.add(linea, punto, punto2, llave1, llave2, llave3, texto_llave1, texto_llave2, texto_llave3)
+#+end_src
+
+** Dibujando un vector en un plano
+
+Para dibujar un plano hacemos uso del método =NumberPlane=, mientras que, para
+dibujar un vector necesitamos llamar =Arrow=

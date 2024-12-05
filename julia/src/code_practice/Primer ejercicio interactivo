@@ -452,7 +452,7 @@ md"""## 6. Ejercicios con tuplas
 	- `[1,2,3]`"""
 
 # ╔═╡ 3f76c202-72e9-4b00-8739-2132ed25ef1b
-tupla = missing
+tupla = ("árbol", 42, [1,2,3])
 
 # ╔═╡ 6551235f-4288-4e31-9056-9a7b406c2040
 if !@isdefined(tupla)
@@ -479,14 +479,17 @@ md"""## 7. Ejercicios con diccionarios
 
 	Para esto crea una celda con el nombre de variable apropiado."""
 
+# ╔═╡ f9b3478e-eac5-4ca6-a2c7-9815226db257
+diccionario = Dict(:cadena => "Hola mundo", :entero => 42, :flotante => 3.14)
+
 # ╔═╡ 4cdc7ec2-be10-4df9-ada9-f7f45e1bbf9e
 if !@isdefined(diccionario)
 	not_defined(:diccionario)
-elseif typeof(diccionario) != Dict{String, Any}
+elseif typeof(diccionario) != Dict{Symbol, Any}
 	keep_working(md"La variable `diccionario` debe ser un `Dict`.")
-elseif keys(diccionario) != ["cadena", "entero", "flotante"]
+elseif Set(keys(diccionario)) != Set([:cadena, :entero, :flotante])
 	almost(md"La variable `diccionario` debe contener las llaves `cadena`, `entero` y `flotante`.")
-elseif [get(diccionario, k, missing) for k in keys(diccionario)] != ["Hola mundo", 42, 3.14]
+elseif Set([get(diccionario, k, missing) for k in keys(diccionario)]) != Set(["Hola mundo", 42, 3.14])
 	almost(md"Asegúrante de que los valores de las entradas del diccionario son correctos")
 else
 	correct()	
@@ -495,22 +498,28 @@ end
 # ╔═╡ ba32831b-637a-48a2-bebb-a9753bcfefd3
 md"¿Cómo obtendrías un `Vector{String}` que contenga las llaves del diccionario? Guarda el resultado en una variable llamada `llaves`"
 
+# ╔═╡ 4b2d1927-b28c-42a4-a2d0-2347ac385e63
+llaves = collect(keys(diccionario))
+
 # ╔═╡ 57a60f8d-5eb9-47ca-b415-3594555ae23b
 if !@isdefined(llaves)
 	not_defined(:llaves)
-elseif typeof(llaves) != Vector{String}
+elseif typeof(llaves) != Vector{Symbol}
 	keep_working(md"El resultado debe ser un `Vector{String}`")
-elseif llaves == ["cadena", "entero", "flotante"]
+elseif Set(llaves) == Set([:cadena, :entero, :flotante])
 	correct()
 end
 
 # ╔═╡ 6062c516-de31-4806-b1a5-a645b3a62ae9
 md"¿Cómo obtendrías un `Vector` que contenga los **valores** del diccionario? Guarda el resultado en una variable llamada `valores`"
 
+# ╔═╡ b1a2f5ed-7f68-44b6-8a5e-2bf3edfbaf82
+valores = collect(values(diccionario))
+
 # ╔═╡ 14d30735-4f0f-4697-b496-f36f9436c8dd
 if !@isdefined(valores)
 	not_defined(:valores)
-elseif valores == ["Hola mundo", 42, 3.14]
+elseif Set(valores) == Set(["Hola mundo", 42, 3.14])
 	correct()
 else
 	keep_working(md"La variable debe contener un `Vector` cuyos elementos son cada uno de los valores guardados en el diccionario")
@@ -625,8 +634,8 @@ filter(:cal => !buenas_calificaciones, df)
 md"Como los filtros son funciones podemos hacerlos tan complicados como queramos, el siguiente filtro nos dará aquellas entradas donde la calificación sea mayor que 9 pero donde la edad sea mayor a 35"
 
 # ╔═╡ 08987a64-37d4-4473-ba17-192cda21a6e2
-function filtro_complejo(cal::Float64, edad::Int64)
-	if cal > 9.0 && edad > 35
+function filtro_complejo(cal::Float64, edad::Int64, nombre::String)
+	if cal > 8.0 && edad > 30 && contains(nombre, "u")
 		return true
 	end
 
@@ -638,7 +647,7 @@ md"""##### Tarea moral
 	¿Qué ventaja tiene **no** escribir un `else` dentro de un `if` como en el ejemplo del filtro?"""
 
 # ╔═╡ 79952b39-e9b4-4e51-947e-9b58aa59ae90
-filter([:cal, :edad] => filtro_complejo, df)
+filter([:cal, :edad, :nombre] => filtro_complejo, df)
 
 # ╔═╡ 9e213047-2ece-4eb7-a8ef-ba2e050792e0
 md"Es importante notar que ahora pusimos un `Vector` en lugar de un simple símbolo, si nuestros filtros necesitan más de un argumento para trabajar es necesario pasar el vector como parámetro."
@@ -2252,16 +2261,19 @@ version = "17.4.0+2"
 # ╟─649e4c6e-48e7-46c5-80c3-945d3db7b295
 # ╠═4448c11d-e01a-419f-b6e5-3352c5f15095
 # ╠═66978d78-ed97-4a5b-8ee8-a91caf2d6dff
-# ╠═2de76067-79f9-4fcb-ba07-eb5b8cec66bd
+# ╟─2de76067-79f9-4fcb-ba07-eb5b8cec66bd
 # ╟─2f778dc2-3755-4dd0-aed4-28097243a3a4
 # ╠═3f76c202-72e9-4b00-8739-2132ed25ef1b
 # ╟─6551235f-4288-4e31-9056-9a7b406c2040
 # ╟─6f7a1b59-039a-45a8-9276-ea4034b9120b
 # ╟─15f98c76-cbb5-4c8e-9797-4fd91a723e93
+# ╠═f9b3478e-eac5-4ca6-a2c7-9815226db257
 # ╟─4cdc7ec2-be10-4df9-ada9-f7f45e1bbf9e
 # ╟─ba32831b-637a-48a2-bebb-a9753bcfefd3
+# ╠═4b2d1927-b28c-42a4-a2d0-2347ac385e63
 # ╟─57a60f8d-5eb9-47ca-b415-3594555ae23b
 # ╟─6062c516-de31-4806-b1a5-a645b3a62ae9
+# ╠═b1a2f5ed-7f68-44b6-8a5e-2bf3edfbaf82
 # ╟─14d30735-4f0f-4697-b496-f36f9436c8dd
 # ╟─9ddc72eb-58e9-41a7-801c-f092fd014d50
 # ╠═0e8e9341-2f44-4851-b01f-d65cb9de812c
