@@ -21,7 +21,7 @@ normalized_prices = (stock_prices - np.min(stock_prices)) / (np.max(stock_prices
 fig, ax = plt.subplots(figsize=(14, 8))
 lines = []
 for _ in companies:
-    line, = ax.plot([], [], alpha=0.7)
+    line = ax.plot([], [], alpha=0.7)[0]
     lines.append(line)
 
 # Highlight the years of significant military events
