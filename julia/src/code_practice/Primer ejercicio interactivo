@@ -4,11 +4,24 @@
 using Markdown
 using InteractiveUtils
 
+# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
+macro bind(def, element)
+    #! format: off
+    quote
+        local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
+        local el = $(esc(element))
+        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
+        el
+    end
+    #! format: on
+end
+
 # ╔═╡ e7070187-4f4f-44f9-a600-032ec9eb8c9a
 begin
 	using PlutoUI
 	using Images, ImageIO
 	using HypertextLiteral
+	using DataFrames
 end
 
 # ╔═╡ c6567d47-a5bb-44d7-bb00-21a764e34b6b
@@ -292,9 +305,503 @@ else
 	end
 end
 
+# ╔═╡ 52fbd30f-b500-4351-a568-56246f7f9ab4
+md"""## 5. Ejercicios con cadenas
+	En julia declaramos una cadena utilizando las comillas dobles (`"cadena"`)
+	Genera una cadena de texto que contenga `Anita lava la tina` y asígnaselo a la variable `mi_cadena`."""
+
+# ╔═╡ b5122c14-336c-4f42-b2d2-8b39397b2e88
+mi_cadena = "anita lava la tina"
+
+# ╔═╡ a07c979a-9416-460a-91ab-f3b233807bb5
+md"""Existen varias operaciones que se pueden aplicar a las cadenas:
+	- Revertirlas
+	- Pasarlas a mayúsculas
+	- Pasarlas a minúsculas
+	- Escribir la primer letra de una palabra en mayúscula
+	- Escribir la primer letra de la primer palabra de una frase en mayúscula
+	- Buscar sub-cadenas
+	- Combinar cadenas para generar cadenas nuevas
+
+	Para esta sección necesitaremos que apliques **cada una de esas transformaciones** a la cadena `mi_cadena`."""
+
+# ╔═╡ 257f39bd-6d4d-4cfe-ab85-3beaec58dc1f
+md"Comenzaremos revirtiendo una cadena"
+
+# ╔═╡ 2578a164-63b2-44c4-909a-ffd57b6dcdd3
+revertir_cadena = missing
+
+# ╔═╡ 9f579635-c4f4-4b82-a3ed-6a9c831be7e7
+if !@isdefined(revertir_cadena)
+	not_defined(:mi_cadena)
+elseif ismissing(revertir_cadena)
+	still_missing()
+elseif typeof(revertir_cadena) != String
+	stil_missing(md"`revertir_cadena` debe ser un `String`")
+elseif revertir_cadena == reverse(mi_cadena)
+	correct()
+end
+
+# ╔═╡ 1460b1b4-d628-4644-af5b-4ded724698bc
+mayusculas = missing
+
+# ╔═╡ 1cc18816-5021-4001-b278-f7c61e82f3d2
+if !@isdefined(mayusculas)
+	not_defined(:mayusculas)
+elseif typeof(mayusculas) != String
+	still_missing(md"`mayusculas` debe ser una cadena")
+elseif mayusculas != uppercase(mi_cadena)
+	keep_working(md"La variable `mayusculas` debe contener la cadena en MAYÚSCULAS")
+elseif mayusculas == uppercase(mi_cadena)
+	correct()
+end
+
+# ╔═╡ b94b9d8e-e205-4575-8c8d-e9aee7a33216
+minusculas = missing
+
+# ╔═╡ 698fda84-f7cf-4574-ae06-4f56ec1006da
+if !@isdefined(minusculas)
+	not_defined(:minusculas)
+elseif typeof(minusculas) != String
+	still_missing(md"`minusculas` debe ser una cadena")
+elseif minusculas != lowercase(mi_cadena)
+	keep_working(md"La variable `minusculas` debe contener la cadena en minusculas")
+elseif minusculas == lowercase(mi_cadena)
+	correct()
+end
+
+# ╔═╡ 46dd08ec-d338-494b-9167-c4943e1da884
+camel_case = missing # Primer letra de cada palabra en mayúsculas
+
+# ╔═╡ 677fa228-bbb9-483b-8335-910c0b8e0257
+if !@isdefined(camel_case)
+	not_defined(:camel_case)
+elseif typeof(camel_case) != String
+	still_missing(md"`camel_case` debe ser una cadena")
+elseif camel_case != titlecase(mi_cadena)
+	keep_working(md"La variable `camel_case` debe contener la primer letra de cada palabra en mayúscula")
+elseif camel_case == titlecase(mi_cadena)
+	correct()
+end
+
+# ╔═╡ 1373f946-8ca3-47da-879b-7894855763c7
+first_case = missing # Primer letra de la frase en mayúsculas
+
+# ╔═╡ 2d9f3e63-fade-4fa3-a21a-2adbbdfb4caf
+if !@isdefined(first_case)
+	not_defined(:camel_case)
+elseif typeof(first_case) != String
+	still_missing(md"`first_case` debe ser una cadena")
+elseif first_case != uppercasefirst(mi_cadena)
+	keep_working(md"La variable `first_case` debe contener la primer letra de la frase en mayúscula")
+elseif first_case == uppercasefirst(mi_cadena)
+	correct()
+end
+
+# ╔═╡ b08a7fe8-afc8-4ced-850e-499726b071b5
+md"¿Cómo verificamos que `mi_cadena` contiene la subcadena `lava`? En cómputo este tipo de preguntas se responden con un `true` o `false`."
+
+# ╔═╡ 82321fd6-f26d-4180-8876-3e6631c7ce6e
+subcadena = missing
+
+# ╔═╡ c2db3a47-06f5-4d4d-9d53-d5e24a0be370
+if !@isdefined(subcadena)
+	not_defined(:camel_case)
+elseif typeof(subcadena) != Bool
+	still_missing(md"`subcadena` debe ser un booleano")
+elseif subcadena != true
+	keep_working(md"La variable `subcadena` debe responder correctamente.")
+elseif subcadena == occursin(mi_cadena)
+	correct()
+end
+
+# ╔═╡ 649e4c6e-48e7-46c5-80c3-945d3db7b295
+md"""### Ejercicio extra
+	Dificultad: ⋆⋆⋆
+	
+	Genera una función `es_palindromo` que reciba una cadena y regrese `true` si
+	el argumento que recibe es un [palíndromo](https://es.wikipedia.org/wiki/Pal%C3%ADndromo), `false` en otro caso.
+
+	Ejemplo: `es_palindromo("Anita lava la tina")` regresa `true`."""
+
+# ╔═╡ 4448c11d-e01a-419f-b6e5-3352c5f15095
+function es_palindromo(cadena)
+	# Determina si la cadena es un palíndromo o no
+	return missing
+end
+
+# ╔═╡ 66978d78-ed97-4a5b-8ee8-a91caf2d6dff
+resultado = es_palindromo("Son robos, no solo son sobornos")
+
+# ╔═╡ 2de76067-79f9-4fcb-ba07-eb5b8cec66bd
+if !@isdefined(resultado)
+	not_defined(:camel_case)
+elseif typeof(resultado) != Bool
+	still_missing(md"`es_palindromo` debe regresar un booleano")
+elseif es_palindromo("Dennis and Edna sinned") != true
+	keep_working(md"""La cadena "Dennis and Edna sinned" es un palíndromo pero tu función dice que no lo es :(""")
+elseif resultado == true
+	correct()
+end
+
+# ╔═╡ 2f778dc2-3755-4dd0-aed4-28097243a3a4
+md"""## 6. Ejercicios con tuplas
+	Define una tupla que tenga los siguientes elementos en orden:
+	- `"árbol"`
+	- `42`
+	- `[1,2,3]`"""
+
+# ╔═╡ 3f76c202-72e9-4b00-8739-2132ed25ef1b
+tupla = ("árbol", 42, [1,2,3])
+
+# ╔═╡ 6551235f-4288-4e31-9056-9a7b406c2040
+if !@isdefined(tupla)
+	not_defined(:tupla)
+elseif typeof(tupla) != Tuple
+	still_missing(md"`tupla` debe ser del tipo `Tuple`.")
+elseif (tupla[1] != "árbol") && (tupla[2] != 42) && (tupla[3] != [1,2,3])
+	keep_working(md"La tupla debe contener los elementos indicados")
+elseif set(tupla) == ("àrbol", 42, [1,2,3])
+	correct()
+end
+
+# ╔═╡ 6f7a1b59-039a-45a8-9276-ea4034b9120b
+md"¿Recuerdas cómo asociar a un elemento específico de la tupla asociándole un nombre? 🤔"
+
+# ╔═╡ 15f98c76-cbb5-4c8e-9797-4fd91a723e93
+md"""## 7. Ejercicios con diccionarios
+
+	Crea un diccionario que contenga lo siguiente:
+
+	- Una entrada llamada `cadena` que contenga el valor `"Hola mundo"`
+	- Una entrada llamada `entero` que contenga el valor `42`
+	- Una entrada llamada `flotante` que contenga el valor `3.14`
+
+	Para esto crea una celda con el nombre de variable apropiado."""
+
+# ╔═╡ f9b3478e-eac5-4ca6-a2c7-9815226db257
+diccionario = Dict(:cadena => "Hola mundo", :entero => 42, :flotante => 3.14)
+
+# ╔═╡ 4cdc7ec2-be10-4df9-ada9-f7f45e1bbf9e
+if !@isdefined(diccionario)
+	not_defined(:diccionario)
+elseif typeof(diccionario) != Dict{Symbol, Any}
+	keep_working(md"La variable `diccionario` debe ser un `Dict`.")
+elseif Set(keys(diccionario)) != Set([:cadena, :entero, :flotante])
+	almost(md"La variable `diccionario` debe contener las llaves `cadena`, `entero` y `flotante`.")
+elseif Set([get(diccionario, k, missing) for k in keys(diccionario)]) != Set(["Hola mundo", 42, 3.14])
+	almost(md"Asegúrante de que los valores de las entradas del diccionario son correctos")
+else
+	correct()	
+end
+
+# ╔═╡ ba32831b-637a-48a2-bebb-a9753bcfefd3
+md"¿Cómo obtendrías un `Vector{String}` que contenga las llaves del diccionario? Guarda el resultado en una variable llamada `llaves`"
+
+# ╔═╡ 4b2d1927-b28c-42a4-a2d0-2347ac385e63
+llaves = collect(keys(diccionario))
+
+# ╔═╡ 57a60f8d-5eb9-47ca-b415-3594555ae23b
+if !@isdefined(llaves)
+	not_defined(:llaves)
+elseif typeof(llaves) != Vector{Symbol}
+	keep_working(md"El resultado debe ser un `Vector{String}`")
+elseif Set(llaves) == Set([:cadena, :entero, :flotante])
+	correct()
+end
+
+# ╔═╡ 6062c516-de31-4806-b1a5-a645b3a62ae9
+md"¿Cómo obtendrías un `Vector` que contenga los **valores** del diccionario? Guarda el resultado en una variable llamada `valores`"
+
+# ╔═╡ b1a2f5ed-7f68-44b6-8a5e-2bf3edfbaf82
+valores = collect(values(diccionario))
+
+# ╔═╡ 14d30735-4f0f-4697-b496-f36f9436c8dd
+if !@isdefined(valores)
+	not_defined(:valores)
+elseif Set(valores) == Set(["Hola mundo", 42, 3.14])
+	correct()
+else
+	keep_working(md"La variable debe contener un `Vector` cuyos elementos son cada uno de los valores guardados en el diccionario")
+end
+
+# ╔═╡ 9ddc72eb-58e9-41a7-801c-f092fd014d50
+md"""## DataFrames
+
+	Al analizar la información disponible en cualquier libro de introducción a ciencia de datos es muy común que la información venga en un formato tabular (`csv`, `xls`, `xlsx`, por ejemplo). Por tabular nos referimos a que la información está distribuida en 2 dimensiones: filas y columnas.
+
+	Un ejemplo de información tabular es la lista de las series más populares en Netflix durante el año 2024.
+
+	| # | Título (en Inglés) | Horas vistas | Duración (horas) | Espectadores |
+	|---|--------------------|--------------|------------------|--------------|
+	|1|Fool Me Once: Limited Series|153,300,000|6:25|23,900,000|
+	|2|The Brothers Sun: Season 1|50,500,000|7:20|6,900,000|
+	|3|Jeffrey Epstein: Filthy Rich: Limited Series|15,100,000|3:46|4,000,000|
+
+	Lo más natural es preguntarnos cosas como ¿Cuántas horas en total sumaron los espectadores viendo las 10 series más populares? o ¿Qué país se la pasa viendo más de una hora diaria la Rosa de Guadalupe 🤔? Alguna de estas preguntas implica realizar operaciones de búsqueda y manipulación de la información (operaciones entre filas y columnas), para esto existe el paquete `DataFrames.jl` que nos permite procesar información tabular de manera muy simple.
+
+	A diferencia de otras bibliotecas como `pandas`, `DataFrame` se encuentra íntimamente integrado con Julia, es decir, la biblioteca trata de exponer un conjunto mínimo de funciones nuevas y permite utilizar funciones que ya conocemos (como `map`, `filter` y `reduce`).
+
+	Antes de comensar puedes instalar la biblioteca con `using DataFrames` desde el intérprete.
+
+	Definir una "tabla" con `DataFrames` es muy simple, tomemos como ejemplo la siguiente tabla:
+
+	|Nombre|Calificación|Edad|
+	|------|------------|----|
+	|Sandra|10.0|37|
+	|Angelina|7.5|27|
+	|Valeria|8.8|26|
+	|Amparo|9.0|35|
+	|Anya|9.5|30|
+	|Lucero|10.0|34|
+	|Mayra|6.5|28|
+	|Paulina|10.0|25|
+	|Denisse|8.1|33|
+	|Pilar|8.7|33|"""
+
+# ╔═╡ 0e8e9341-2f44-4851-b01f-d65cb9de812c
+nombres = ["Sandra", "Angelina", "Valeria", "Amparo", "Anya", "Lucero"]
+
+# ╔═╡ 7d0bb93a-61ed-4e4d-8e59-39c9523716c6
+md"Faltan algunas entradas en estas variables ¿Podrías agregarlas?"
+
+# ╔═╡ b61e377c-d2ed-414d-a95a-71d3ec6a354c
+calificacion = [10.0,7.5,8.8,9.0,9.5,10.0]
+
+# ╔═╡ 102b2df7-749d-4d9b-b01e-1d59d326983a
+edad = [37,27,26,35,30,34]
+
+# ╔═╡ 0d453748-3c4b-47ce-b35f-215e729efcb0
+df = DataFrame(; nombre=nombres,cal=calificacion,edad=edad)
+
+# ╔═╡ e82de518-884a-437f-8b1a-81c3a6469f21
+md"Con `DataFrames` podemos obtener la información de manera fácil, por ejemplo si queremos acceder únicamente a las calificaciones podemos ejecutar lo siguiente"
+
+# ╔═╡ d53648e6-1e71-47d3-8693-3cecb2b6bdf7
+select(df, :cal)
+
+# ╔═╡ 82163383-c42f-45d4-95c3-534e0087cd98
+md"""#### Ejercicio opcional
+	¿Cómo obtendrías el mismo resultado si, en lugar de `DataFrame` metieras la información en un `Array`?"""
+
+# ╔═╡ 903f739a-addc-471f-8f91-790f3da1e3a1
+md"Podemos obtener la representación de una columna entera escribiendo el nombre de la columna después de un punto (`.`), en este ejemplo podemos obtener un `Vector` de nombres ejecutando `df.nombre`"
+
+# ╔═╡ d99a9f8e-5a00-47d7-a93a-3178fec13d07
+df.nombre
+
+# ╔═╡ 8b9b15b8-2334-4996-bce3-6a94540ca7ca
+md"Para obtener una entrada específica necesitamos ejecutar `df[3,:]` donde `3` es la tercer fila del data frame"
+
+# ╔═╡ 0ff66ab9-dbcd-4ad3-b36f-a9e4f60e9356
+df[3,:]
+
+# ╔═╡ 468b85e3-2956-4816-a771-e533863df9e8
+md"""### Filtrando información de un Dataframe
+	Existen 2 formas de filtrar la información de un `DataFrame`:
+
+	- `filter`
+	- `subset`
+
+	Recordemos la definición que teníamos de la tabla de calificaciones."""
+
+# ╔═╡ 6667ccf8-c9d2-4bc3-96d2-768710d96bcf
+df
+
+# ╔═╡ 877dad0e-2356-449f-8727-bd4c3f82b57d
+md"""Es posible "filtrar" la información haciendo uso de la función `filter`, dicha función tiene la siguiente "firma": `filter(fuente_datos => f::Function, data_frame)`, es decir necesita una función como primer argumento (lo que nos ayuda a "separar" la información) y un `DataFrame` como segundo argumento.
+
+Como podemos pasarle a `filter` cualquier función podemos filtrar por ejemplo aquellas entradas de datos cuya calificación sea mayor a 9:"""
+
+# ╔═╡ 0345f338-67f1-40fc-b33a-245ecb84340d
+buenas_calificaciones(cal::Float64) = cal > 9.0
+
+# ╔═╡ 50d02ae7-514e-441d-b72d-76c1e6a4733d
+md"Definimos la función `buenas_calificaciones` que recibe un entero asociado a una variable llamada `cal` y regresa `true` o `false` dependiendo si `cal` es mayor o igual a `9`."
+
+# ╔═╡ bbb3dd6d-b742-45c5-b44c-c92a86ec803d
+filter(:cal => buenas_calificaciones, df)
+
+# ╔═╡ 17ef5bbb-62f7-4083-b140-70bc10082e3f
+md"""Es muy importante poner el símbolo `:cal =>` **antes** de mandar a llamar la función puesto que de esta forma Julia puede asociar la columna `cal` con el argumento que le estamos pasando al filtro.
+
+¿Qué pasa si queremos obtener aquellas calificaciones que sean menores o iguales a 9? Simplemente **negamos** el valor que obtenemos de la función `buenas_calificaciones`:"""
+
+# ╔═╡ 212ce250-671e-4544-bf0d-34f2f2c9bcac
+filter(:cal => !buenas_calificaciones, df)
+
+# ╔═╡ 137be08c-f1ec-4847-9494-160c34ed99a8
+md"Como los filtros son funciones podemos hacerlos tan complicados como queramos, el siguiente filtro nos dará aquellas entradas donde la calificación sea mayor que 9 pero donde la edad sea mayor a 35"
+
+# ╔═╡ 08987a64-37d4-4473-ba17-192cda21a6e2
+function filtro_complejo(cal::Float64, edad::Int64, nombre::String)
+	if cal > 8.0 && edad > 30 && contains(nombre, "u")
+		return true
+	end
+
+	return false
+end
+
+# ╔═╡ 944b28d8-2895-44d5-9ad8-9da3bc764f72
+md"""##### Tarea moral
+	¿Qué ventaja tiene **no** escribir un `else` dentro de un `if` como en el ejemplo del filtro?"""
+
+# ╔═╡ 79952b39-e9b4-4e51-947e-9b58aa59ae90
+filter([:cal, :edad, :nombre] => filtro_complejo, df)
+
+# ╔═╡ 9e213047-2ece-4eb7-a8ef-ba2e050792e0
+md"Es importante notar que ahora pusimos un `Vector` en lugar de un simple símbolo, si nuestros filtros necesitan más de un argumento para trabajar es necesario pasar el vector como parámetro."
+
+# ╔═╡ 11fd6fa6-5390-4ac7-bf01-2d1e749050b9
+md""" #### Subset
+	A diferencia de `filter` (que implementa una interfaz estándar dentro de Julia), `subset` es una operación *específica y local* a la biblioteca `DataFrame.jl`, `subset` trabaja por columnas (a diferencia de los filtros), para obtener todas las entradas cuyo nombre comienza con `A` podemos sacar un subconjunto de la siguiente forma:"""
+
+# ╔═╡ ffff98de-9628-4ecb-a896-9c4ec860d1d1
+subset(df, :nombre => ByRow(nombre -> startswith(nombre, "A")))
+
+# ╔═╡ e1540cd7-b8f3-4ab5-9112-8bbea3bedd97
+md"""Más aún donde `subset` brilla es en el manejo de errores ¿Qué pasaría si una 	entrada tiene `cal` o `edad` nula? Con `subset` podemos introducir un tercer parámetro llamado `skipmissing=true` que se encarga de "saltar" a quellas entradas que posean algún errror."""
+
+# ╔═╡ 6847fb1a-832d-4825-baef-8161ba166882
+begin
+	nombre2 = ["Sandra", missing, "Lina"]
+	calificacion2 = [10.0, 8.9, 7.5]
+	edad2 = [37, 33, missing]
+	datos_malos = DataFrame(; nombre=nombre2, cal=calificacion2, edad=edad2)
+
+	# Podemos filtrar datos aunque exista información faltante
+	subset(datos_malos, :cal => ByRow(>(9.0)); skipmissing=true)
+end
+
+# ╔═╡ 7d1161c1-7043-41eb-8003-2341e7926fa2
+md"¿Qué pasaría si aplicamos `filter` en lugar de `subset` 🤔?"
+
+# ╔═╡ 99d0da7d-f8e5-4e23-9062-3fab25535c52
+md"""#### Select
+	Mientras que `filter` elimina filas, `select` elimina **columnas**:"""
+
+# ╔═╡ d4633135-7966-4ced-812e-8e1f9d0c9acb
+select(df, :nombre, :cal)
+
+# ╔═╡ 60697404-4ac0-4847-b3c1-73c13ffdc349
+select(df, :nombre, :edad)
+
+# ╔═╡ 61df9011-8dab-4a4f-8b14-be7c27c451b4
+md"""### Ejercicios
+
+	Genera una función que reciba un `DataFrame` y entero para regresar la i-ésima fila de una tabla representada como un `DataFrame`, como referencia utiliza el ejemplo anterior que accede a la tercer fila de la tabla.
+
+	Recuerda que las funciones **no** deben modificar los datos de entrada."""
+
+# ╔═╡ 05b4a421-8ce5-43b8-93d7-ffd0640d0c36
+function get_entry(data_frame, i)
+	# Obtiene la i-ésima entrada de un DataFrame
+	return missing
+end
+
+# ╔═╡ a622e5ab-5d15-41ec-b9d4-21728f783d7b
+@bind numero Slider(1:9, default=1)
+
+# ╔═╡ 3b15f13f-f894-4cef-9d8e-fc91d8faafe1
+fila = get_entry(df, numero)
+
+# ╔═╡ f78e91ca-d156-495d-8679-eeb825d7de26
+if !@isdefined(fila)
+	not_defined(:fila)
+elseif typeof(fila) != DataFrameRow{DataFrame, DataFrames.Index}
+	keep_working(md"La función debe regresar un `DataFrameRow`.")
+elseif fila == df[numero, :]
+	correct()
+end
+
+# ╔═╡ 49a65707-4d9a-4e40-8dea-cdcad40ab608
+md"Considera las siguientes tablas:"
+
+# ╔═╡ bc36b1d1-6af8-41d6-9e4f-fbb0bf7ddb2c
+md"""| Nombre | Tipo |
+	|--------|------|
+	|Bulbasaur ![gif](https://archives.bulbagarden.net/media/upload/7/79/Pinani001.png)|planta|
+	|Charmander ![gif](https://archives.bulbagarden.net/media/upload/8/89/Pinani004.png)|fuego|
+	|Squirtle ![gif](https://archives.bulbagarden.net/media/upload/4/49/Pinani007.png)|agua|
+	|Dratini ![gif](https://archives.bulbagarden.net/media/upload/8/8d/Pinani147.png)|dragón|
+	|Pikachu ![gif](https://archives.bulbagarden.net/media/upload/8/83/PinRSani025.png)|eléctrico|
+	|Sandshrew ![gif](https://archives.bulbagarden.net/media/upload/d/df/Pinani027.png)|tierra|"""
+
+# ╔═╡ 3dda157f-7516-4248-93d8-d69e552d4ed6
+md"""|Tipo|Debilidad|Fortaleza|
+	 |----|---------|---------|
+	 |planta|fuego,volador,veneno,hielo,bicho|tierra,roca,agua|
+	 |fuego|tierra,roca,agua|bicho,planta,hielo,acero|
+	 |agua|planta,eléctrico|tierra,roca,fuego|
+	 |dragón|dragón,hielo,hada|dragón|
+	 |eléctrico|tierra|volador,agua|
+	 |tierra|agua,planta,hielo|veneno,roca,fuego,eléctrico,acero|"""
+
+# ╔═╡ cec6a903-fc5e-4fec-8a86-8f499634cf1b
+md"""Dada dicha información necesitamos crear 2 `Dataframes` llamados `pokemones` y `tipos` (respectivamente) y debemos obtener lo siguiente:
+
+	- ¿Qué pokémon sería el más efectivo para utilizar si queremos que tenga la menor de las debilidades contra los listados en la tabla? Mete tu resultado (manipulando los `DataFrame` con las funciones `join`, `select`, `subset`, etc.) en una variable llamada `menos_debil`.
+	- ¿Cuál es el pokemón que posee más debilidades contra los demás? Mete tu resultado (manipulando los `DataFrame` con las funciones `join`, `select`, `subset`, etc.) en una variable llamada `mas_debil`.
+	- Si tuviera que armar un equipo de 2 pokemones que tengan la menor debilidad ante cualquier otro par de pokemones (Es decir, quiero obtener el par que sea más resistente contra cualquier otra combinación de dos pokemones dentro de la tabla) ¿Cuál sería tu elección? Mete tu resultado (manipulando los `DataFrame` con las funciones `join`, `select`, `subset`, etc.) en una variable llamada `dream_team` que contenga un `Vect{String}` de longitud 2.
+
+	Considera que el nombre del pokemon comienza con mayúscula, mientras que el tipo está en minúscula."""
+
+# ╔═╡ 01ae1b49-87ff-43f0-89bc-1c52e9fd8136
+if !@isdefined(pokemones)
+	not_defined(:pokemones)
+elseif typeof(pokemones) != DataFrame
+	keep_working(md"La variable `pokemones` debe ser un `DataFrame`.")
+elseif !hasproperty(pokemones, :nombre) || !hasproperty(pokemones, :tipo)
+	almost(md"El `DataFrame` debe tener las columnas `:nombre` y `:tipo`.")
+elseif pokemones.nombre == ["Bulbasaur", "Charmander", "Squirtle", "Dratini", "Pikachu"]
+	correct()
+end
+
+# ╔═╡ 17688a78-6431-4fe8-98db-ac4b5e9f78cb
+if !@isdefined(tipos)
+	not_defined(:tipos)
+elseif typeof(tipos) != DataFrame
+	keep_working(md"La variable `tipos` debe ser un `DataFrame`.")
+elseif !hasproperty(tipos, :debilidad) || !hasproperty(pokemones, :fortaleza) || !hasproperty(tipos, :tipo)
+	almost(md"El `DataFrame` debe tener las columnas `:tipo`, `:debilidad` y `:fortaleza`.")
+elseif pokemones.tipo == ["planta", "fuego", "agua", "dragón", "eléctrico"]
+	correct()
+end
+
+# ╔═╡ 56c2bd1c-a32b-4098-a5aa-d3c8ec3b9333
+if !@isdefined(menos_debil)
+	not_defined(:menos_debil)
+elseif menos_debil != "Pikachu"
+	almost(md"Aún te falta mucho para ser un maestro pokemón.")
+else
+	correct()
+end
+
+# ╔═╡ 3e52f29e-4858-43bb-913a-cacc32f51311
+if !@isdefined(mas_debil)
+	not_defined(:mas_debil)
+elseif mas_debil != "Bulbasaur"
+	almost(md"La defensa es crítica para tener un equipo balanceado.")
+else
+	correct()
+end
+
+# ╔═╡ c46a9b40-ca5e-4b4d-9fe6-29c54178a15c
+if !@isdefined(dream_team)
+	not_defined(:dream_team)
+elseif dream_team != ["Pikachu", "Dratini"]
+	almost(md"Puedes mejorar, aún te falta mucho por aprender.")
+else
+	correct(md"¿Acaso eres el mismísimo Red que vino a reclamar su trono?")
+end
+
+# ╔═╡ 76ad1b54-d57a-4bc7-9665-58e9df429259
+md"**Tarea moral**: ¿Puedes hacer el análisis anterior considerando fortalezas y debilidades?"
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
 ImageIO = "82e4d734-157c-48bb-816b-45c225c6df19"
 Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
@@ -302,6 +809,7 @@ PlutoTeachingTools = "661c6b06-c737-4d37-b85c-46df65de6f69"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
+DataFrames = "~1.7.0"
 HypertextLiteral = "~0.9.5"
 ImageIO = "~0.6.8"
 Images = "~0.26.1"
@@ -315,7 +823,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.11.1"
 manifest_format = "2.0"
-project_hash = "3b2dc25a66b0aa392e94587d17e65467080371ed"
+project_hash = "e985d8662a30ccc9b04ea385611a039facf8b565"
 
 [[deps.AbstractFFTs]]
 deps = ["LinearAlgebra"]
@@ -527,6 +1035,11 @@ git-tree-sha1 = "fcbb72b032692610bfbdb15018ac16a36cf2e406"
 uuid = "adafc99b-e345-5852-983c-f28acb93d879"
 version = "0.3.1"
 
+[[deps.Crayons]]
+git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
+uuid = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
+version = "4.1.1"
+
 [[deps.CustomUnitRanges]]
 git-tree-sha1 = "1a3f97f907e6dd8983b744d2642651bb162a3f7a"
 uuid = "dc8bdbbb-1ca9-579f-8c36-e416f6a65cce"
@@ -537,11 +1050,22 @@ git-tree-sha1 = "abe83f3a2f1b857aac70ef8b269080af17764bbe"
 uuid = "9a962f9c-6df0-11e9-0e5d-c546b8b5ee8a"
 version = "1.16.0"
 
+[[deps.DataFrames]]
+deps = ["Compat", "DataAPI", "DataStructures", "Future", "InlineStrings", "InvertedIndices", "IteratorInterfaceExtensions", "LinearAlgebra", "Markdown", "Missings", "PooledArrays", "PrecompileTools", "PrettyTables", "Printf", "Random", "Reexport", "SentinelArrays", "SortingAlgorithms", "Statistics", "TableTraits", "Tables", "Unicode"]
+git-tree-sha1 = "fb61b4812c49343d7ef0b533ba982c46021938a6"
+uuid = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+version = "1.7.0"
+
 [[deps.DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
 git-tree-sha1 = "1d0a14036acb104d9e89698bd408f63ab58cdc82"
 uuid = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
 version = "0.18.20"
+
+[[deps.DataValueInterfaces]]
+git-tree-sha1 = "bfc1187b79289637fa0ef6d4436ebdfe6905cbd6"
+uuid = "e2d170a0-9d28-54be-80f0-106bbe20a464"
+version = "1.0.0"
 
 [[deps.Dates]]
 deps = ["Printf"]
@@ -796,6 +1320,19 @@ git-tree-sha1 = "d1b1b796e47d94588b3757fe84fbf65a5ec4a80d"
 uuid = "d25df0c9-e2be-5dd7-82c8-3ad0b3e990b9"
 version = "0.1.5"
 
+[[deps.InlineStrings]]
+git-tree-sha1 = "45521d31238e87ee9f9732561bfee12d4eebd52d"
+uuid = "842dd82b-1e85-43dc-bf29-5d0ee9dffc48"
+version = "1.4.2"
+
+    [deps.InlineStrings.extensions]
+    ArrowTypesExt = "ArrowTypes"
+    ParsersExt = "Parsers"
+
+    [deps.InlineStrings.weakdeps]
+    ArrowTypes = "31f734f8-188a-4ce0-8406-c8a06bd891cd"
+    Parsers = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
+
 [[deps.IntegralArrays]]
 deps = ["ColorTypes", "FixedPointNumbers", "IntervalSets"]
 git-tree-sha1 = "be8e690c3973443bec584db3346ddc904d4884eb"
@@ -836,6 +1373,11 @@ weakdeps = ["Random", "RecipesBase", "Statistics"]
     IntervalSetsRecipesBaseExt = "RecipesBase"
     IntervalSetsStatisticsExt = "Statistics"
 
+[[deps.InvertedIndices]]
+git-tree-sha1 = "0dc7b50b8d436461be01300fd8cd45aa0274b038"
+uuid = "41ab1584-1d38-5bbf-9106-f11c6c58b48f"
+version = "1.3.0"
+
 [[deps.IrrationalConstants]]
 git-tree-sha1 = "630b497eafcc20001bba38a4651b327dcfc491d2"
 uuid = "92d709cd-6900-40b7-9082-c6be49f344b6"
@@ -845,6 +1387,11 @@ version = "0.2.2"
 git-tree-sha1 = "42d5f897009e7ff2cf88db414a389e5ed1bdd023"
 uuid = "c8e1da08-722c-5040-9ed9-7db0dc04731e"
 version = "1.10.0"
+
+[[deps.IteratorInterfaceExtensions]]
+git-tree-sha1 = "a3f24677c21f5bbe9d2a714f95dcd58337fb2856"
+uuid = "82899510-4779-5014-852e-03e436cf321d"
+version = "1.0.0"
 
 [[deps.JLD2]]
 deps = ["FileIO", "MacroTools", "Mmap", "OrderedCollections", "PrecompileTools", "Requires", "TranscodingStreams"]
@@ -1232,6 +1779,12 @@ version = "4.0.11"
     MakieCore = "20f20a25-4f0e-4fdf-b5d1-57303727442b"
     MutableArithmetics = "d8a4904e-b15c-11e9-3269-09a3773c0cb0"
 
+[[deps.PooledArrays]]
+deps = ["DataAPI", "Future"]
+git-tree-sha1 = "36d8b4b899628fb92c2749eb488d884a926614d3"
+uuid = "2dfb63ee-cc39-5dd5-95bd-886bf059d720"
+version = "1.4.3"
+
 [[deps.PrecompileTools]]
 deps = ["Preferences"]
 git-tree-sha1 = "5aa36f7049a63a1528fe8f7c3f2113413ffd4e1f"
@@ -1243,6 +1796,12 @@ deps = ["TOML"]
 git-tree-sha1 = "9306f6085165d270f7e3db02af26a400d580f5c6"
 uuid = "21216c6a-2e73-6563-6e65-726566657250"
 version = "1.4.3"
+
+[[deps.PrettyTables]]
+deps = ["Crayons", "LaTeXStrings", "Markdown", "PrecompileTools", "Printf", "Reexport", "StringManipulation", "Tables"]
+git-tree-sha1 = "1101cd475833706e4d0e7b122218257178f48f34"
+uuid = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
+version = "2.4.0"
 
 [[deps.Printf]]
 deps = ["Unicode"]
@@ -1357,6 +1916,12 @@ deps = ["IfElse", "Static", "VectorizationBase"]
 git-tree-sha1 = "456f610ca2fbd1c14f5fcf31c6bfadc55e7d66e0"
 uuid = "476501e8-09a2-5ece-8869-fb82de89a1fa"
 version = "0.6.43"
+
+[[deps.SentinelArrays]]
+deps = ["Dates", "Random"]
+git-tree-sha1 = "d0553ce4031a081cc42387a9b9c8441b7d99f32d"
+uuid = "91c51154-3ec4-41a3-a24f-3f23e20d615c"
+version = "1.4.7"
 
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
@@ -1477,6 +2042,12 @@ git-tree-sha1 = "5cf7606d6cef84b543b483848d4ae08ad9832b21"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 version = "0.34.3"
 
+[[deps.StringManipulation]]
+deps = ["PrecompileTools"]
+git-tree-sha1 = "a6b1675a536c5ad1a60e5a5153e1fee12eb146e3"
+uuid = "892a3eda-7b42-436c-8928-eab12a02cf0e"
+version = "0.4.0"
+
 [[deps.StyledStrings]]
 uuid = "f489334b-da3d-4c2e-b8f0-e476e12c162b"
 version = "1.11.0"
@@ -1490,6 +2061,18 @@ version = "7.7.0+0"
 deps = ["Dates"]
 uuid = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
 version = "1.0.3"
+
+[[deps.TableTraits]]
+deps = ["IteratorInterfaceExtensions"]
+git-tree-sha1 = "c06b2f539df1c6efa794486abfb6ed2022561a39"
+uuid = "3783bdb8-4a98-5b6b-af9a-565f29a5fe9c"
+version = "1.0.1"
+
+[[deps.Tables]]
+deps = ["DataAPI", "DataValueInterfaces", "IteratorInterfaceExtensions", "OrderedCollections", "TableTraits"]
+git-tree-sha1 = "598cd7c1f68d1e205689b1c2fe65a9f85846f297"
+uuid = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
+version = "1.12.0"
 
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
@@ -1658,6 +2241,89 @@ version = "17.4.0+2"
 # ╠═4acd06d1-c331-4fee-bfb3-82375e5702e3
 # ╠═cbb6e559-bf09-42a8-b481-52c8350aedba
 # ╟─9a3aecdc-b3f6-48c4-98a3-58545fc540d2
+# ╟─52fbd30f-b500-4351-a568-56246f7f9ab4
+# ╠═b5122c14-336c-4f42-b2d2-8b39397b2e88
+# ╟─a07c979a-9416-460a-91ab-f3b233807bb5
+# ╟─257f39bd-6d4d-4cfe-ab85-3beaec58dc1f
+# ╠═2578a164-63b2-44c4-909a-ffd57b6dcdd3
+# ╟─9f579635-c4f4-4b82-a3ed-6a9c831be7e7
+# ╠═1460b1b4-d628-4644-af5b-4ded724698bc
+# ╟─1cc18816-5021-4001-b278-f7c61e82f3d2
+# ╠═b94b9d8e-e205-4575-8c8d-e9aee7a33216
+# ╟─698fda84-f7cf-4574-ae06-4f56ec1006da
+# ╠═46dd08ec-d338-494b-9167-c4943e1da884
+# ╟─677fa228-bbb9-483b-8335-910c0b8e0257
+# ╠═1373f946-8ca3-47da-879b-7894855763c7
+# ╟─2d9f3e63-fade-4fa3-a21a-2adbbdfb4caf
+# ╟─b08a7fe8-afc8-4ced-850e-499726b071b5
+# ╠═82321fd6-f26d-4180-8876-3e6631c7ce6e
+# ╟─c2db3a47-06f5-4d4d-9d53-d5e24a0be370
+# ╟─649e4c6e-48e7-46c5-80c3-945d3db7b295
+# ╠═4448c11d-e01a-419f-b6e5-3352c5f15095
+# ╠═66978d78-ed97-4a5b-8ee8-a91caf2d6dff
+# ╟─2de76067-79f9-4fcb-ba07-eb5b8cec66bd
+# ╟─2f778dc2-3755-4dd0-aed4-28097243a3a4
+# ╠═3f76c202-72e9-4b00-8739-2132ed25ef1b
+# ╟─6551235f-4288-4e31-9056-9a7b406c2040
+# ╟─6f7a1b59-039a-45a8-9276-ea4034b9120b
+# ╟─15f98c76-cbb5-4c8e-9797-4fd91a723e93
+# ╠═f9b3478e-eac5-4ca6-a2c7-9815226db257
+# ╟─4cdc7ec2-be10-4df9-ada9-f7f45e1bbf9e
+# ╟─ba32831b-637a-48a2-bebb-a9753bcfefd3
+# ╠═4b2d1927-b28c-42a4-a2d0-2347ac385e63
+# ╟─57a60f8d-5eb9-47ca-b415-3594555ae23b
+# ╟─6062c516-de31-4806-b1a5-a645b3a62ae9
+# ╠═b1a2f5ed-7f68-44b6-8a5e-2bf3edfbaf82
+# ╟─14d30735-4f0f-4697-b496-f36f9436c8dd
+# ╟─9ddc72eb-58e9-41a7-801c-f092fd014d50
+# ╠═0e8e9341-2f44-4851-b01f-d65cb9de812c
+# ╟─7d0bb93a-61ed-4e4d-8e59-39c9523716c6
+# ╠═b61e377c-d2ed-414d-a95a-71d3ec6a354c
+# ╠═102b2df7-749d-4d9b-b01e-1d59d326983a
+# ╠═0d453748-3c4b-47ce-b35f-215e729efcb0
+# ╟─e82de518-884a-437f-8b1a-81c3a6469f21
+# ╠═d53648e6-1e71-47d3-8693-3cecb2b6bdf7
+# ╟─82163383-c42f-45d4-95c3-534e0087cd98
+# ╟─903f739a-addc-471f-8f91-790f3da1e3a1
+# ╠═d99a9f8e-5a00-47d7-a93a-3178fec13d07
+# ╟─8b9b15b8-2334-4996-bce3-6a94540ca7ca
+# ╠═0ff66ab9-dbcd-4ad3-b36f-a9e4f60e9356
+# ╟─468b85e3-2956-4816-a771-e533863df9e8
+# ╟─6667ccf8-c9d2-4bc3-96d2-768710d96bcf
+# ╟─877dad0e-2356-449f-8727-bd4c3f82b57d
+# ╠═0345f338-67f1-40fc-b33a-245ecb84340d
+# ╟─50d02ae7-514e-441d-b72d-76c1e6a4733d
+# ╠═bbb3dd6d-b742-45c5-b44c-c92a86ec803d
+# ╟─17ef5bbb-62f7-4083-b140-70bc10082e3f
+# ╠═212ce250-671e-4544-bf0d-34f2f2c9bcac
+# ╟─137be08c-f1ec-4847-9494-160c34ed99a8
+# ╠═08987a64-37d4-4473-ba17-192cda21a6e2
+# ╟─944b28d8-2895-44d5-9ad8-9da3bc764f72
+# ╠═79952b39-e9b4-4e51-947e-9b58aa59ae90
+# ╟─9e213047-2ece-4eb7-a8ef-ba2e050792e0
+# ╟─11fd6fa6-5390-4ac7-bf01-2d1e749050b9
+# ╠═ffff98de-9628-4ecb-a896-9c4ec860d1d1
+# ╟─e1540cd7-b8f3-4ab5-9112-8bbea3bedd97
+# ╠═6847fb1a-832d-4825-baef-8161ba166882
+# ╟─7d1161c1-7043-41eb-8003-2341e7926fa2
+# ╟─99d0da7d-f8e5-4e23-9062-3fab25535c52
+# ╠═d4633135-7966-4ced-812e-8e1f9d0c9acb
+# ╠═60697404-4ac0-4847-b3c1-73c13ffdc349
+# ╟─61df9011-8dab-4a4f-8b14-be7c27c451b4
+# ╠═05b4a421-8ce5-43b8-93d7-ffd0640d0c36
+# ╠═a622e5ab-5d15-41ec-b9d4-21728f783d7b
+# ╠═3b15f13f-f894-4cef-9d8e-fc91d8faafe1
+# ╟─f78e91ca-d156-495d-8679-eeb825d7de26
+# ╟─49a65707-4d9a-4e40-8dea-cdcad40ab608
+# ╟─bc36b1d1-6af8-41d6-9e4f-fbb0bf7ddb2c
+# ╟─3dda157f-7516-4248-93d8-d69e552d4ed6
+# ╟─cec6a903-fc5e-4fec-8a86-8f499634cf1b
+# ╟─01ae1b49-87ff-43f0-89bc-1c52e9fd8136
+# ╟─17688a78-6431-4fe8-98db-ac4b5e9f78cb
+# ╟─56c2bd1c-a32b-4098-a5aa-d3c8ec3b9333
+# ╟─3e52f29e-4858-43bb-913a-cacc32f51311
+# ╟─c46a9b40-ca5e-4b4d-9fe6-29c54178a15c
+# ╟─76ad1b54-d57a-4bc7-9665-58e9df429259
 # ╟─c6567d47-a5bb-44d7-bb00-21a764e34b6b
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
