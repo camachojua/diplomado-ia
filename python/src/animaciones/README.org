@@ -354,8 +354,653 @@ ejemplo están las funciones =GrowFromCenter=, =Transform=, =MoveAlongPath= y =R
           self.wait()
 #+end_src
 
+Podemos escalar y rotar objetos:
+
+#+begin_src python
+  from manim import *
+
+  class MovingAround(Scene):
+      def construct(self):
+          square = Square(color=BLUE, fill_opacity=1)
+          circle = Circle(color=BLUE, fill_opacity=0.8)
+
+          self.play(square.animate.shift(LEFT))
+          self.play(square.animate.set_fill(PINK))
+          self.play(square.animate.scale(0.3))
+          self.play(square.animate.rotate(2.5))
+          self.play(square.animate.shift(RIGHT))
+          self.play(Transform(square, circle))
+#+end_src
+
 ** Ejercicio
 
 ¿Cómo harías la siguiente animación?
 
-[[file+sys:ejercicio1.mp4][Video]]
+Ver el archivo =ejercicio1.mp4=
+
+** Poner etiquetas mientras animamos
+
+#+begin_src python
+  from manim import *
+
+  class MovingAngle(Scene):
+      def construct(self):
+          centro_rotacion = LEFT
+
+          posicion_theta = ValueTracker(110)
+          linea = Line(LEFT, RIGHT)
+          linea_que_se_mueve = Line(LEFT, RIGHT)
+          referencia = linea_que_se_mueve.copy()
+          linea_que_se_mueve.rotate(
+              posicion_theta.get_value() * DEGREES, about_point=centro_rotacion
+          )
+          a = Angle(linea, linea_que_se_mueve, radius=0.5, other_angle=False)
+          tex = MathTex(r"\theta").move_to(
+              Angle(
+                  linea, linea_que_se_mueve, radius=0.5 + 3 * SMALL_BUFF, other_angle=False
+              ).point_from_proportion(0.5)
+          )
+
+          self.add(linea, linea_que_se_mueve, a, tex)
+          self.wait()
+
+          linea_que_se_mueve.add_updater(
+              lambda x: x.become(referencia.copy()).rotate(
+                  posicion_theta.get_value() * DEGREES, about_point=centro_rotacion
+              )
+          )
+
+          a.add_updater(
+              lambda x: x.become(Angle(linea, linea_que_se_mueve, radius=0.5, other_angle=False))
+          )
+          tex.add_updater(
+              lambda x: x.move_to(
+                  Angle(
+                      linea, linea_que_se_mueve, radius=0.5 + 3 * SMALL_BUFF, other_angle=False
+                  ).point_from_proportion(0.5)
+              )
+          )
+
+          self.play(posicion_theta.animate.set_value(40))
+          self.play(posicion_theta.animate.increment_value(140))
+          self.play(tex.animate.set_color(RED), run_time=0.5)
+          self.play(posicion_theta.animate.set_value(300))
+#+end_src
+
+** Moviendo puntos
+
+#+begin_src python
+  from manim import *
+
+  class MovingDots(Scene):
+      def construct(self):
+          d1,d2=Dot(color=BLUE),Dot(color=GREEN)
+          dg=VGroup(d1,d2).arrange(RIGHT,buff=1)
+          l1=Line(d1.get_center(),d2.get_center()).set_color(RED)
+          x=ValueTracker(0)
+          y=ValueTracker(0)
+          d1.add_updater(lambda z: z.set_x(x.get_value()))
+          d2.add_updater(lambda z: z.set_y(y.get_value()))
+          l1.add_updater(lambda z: z.become(Line(d1.get_center(),d2.get_center())))
+          self.add(d1,d2,l1)
+          self.play(x.animate.set_value(5))
+          self.play(y.animate.set_value(4))
+          self.wait()
+#+end_src
+
+** Moviendo grupos de objetos
+
+#+begin_src python
+  from manim import *
+
+  class MovingGroupToDestination(Scene):
+      def construct(self):
+          group = VGroup(Dot(LEFT), Dot(ORIGIN), Dot(RIGHT, color=RED), Dot(2 * RIGHT)).scale(1.4)
+          dest = Dot([3, 3, 0], color=YELLOW)
+          self.add(group, dest)
+          self.play(group.animate.shift(dest.get_center() - group[2].get_center()))
+          self.wait(0.6)
+#+end_src
+
+** Frame Box
+
+En ocasiones presentamos texto y queremos enfocar la atención a una parte de
+éste, para eso existe el frame box, para declararlo utilizamos la función
+=SurroundingRectangle=, cuando escribimos ecuaciones es buena idea separar los
+elementos de la misma para poder enfocar el frame box en un elemento:
+
+ #+begin_src python
+   from manim import *
+
+   class MovingFrameBox(Scene):
+       def construct(self):
+           text=MathTex(
+               "\\frac{d}{dx}f(x)g(x)=",
+               "f(x)\\frac{d}{dx}g(x)",
+               "+",
+               "g(x)\\frac{d}{dx}f(x)",
+           )
+           titulo = Text("Derivada de una multiplicación").next_to(text, UP, buff = 1)
+           self.play(Write(titulo))
+           self.play(Write(text))
+           framebox1 = SurroundingRectangle(text[1], buff = .1)
+           framebox2 = SurroundingRectangle(text[3], buff = .1)
+           framebox3 = SurroundingRectangle(text, buff = .3)
+           self.play(
+               Create(framebox1),
+           )
+           self.wait()
+           self.play(
+               ReplacementTransform(framebox1,framebox2),
+           )
+           self.wait()
+           self.play(
+               ReplacementTransform(framebox2, framebox3),
+           )
+           self.wait()
+ #+end_src
+
+
+También podemos hacer zoom a partes de la ecuación:
+
+#+begin_src python
+  class ZoomCamara(MovingCameraScene):
+      def construct(self):
+          equation = MathTex("4x^2-8x+1", "=", "2*(2x-1)^2")
+
+          self.add(equation)
+          self.play(self.camera.frame.animate.move_to(equation[0]).set(width=equation[0].width*2))
+          self.wait(0.3)
+          self.play(self.camera.frame.animate.move_to(equation[2]).set(width=equation[2].width*2))
+#+end_src
+
+** Seguir un trazo con un punto
+
+#+begin_src python
+  from manim import *
+
+  class PointWithTrace(Scene):
+      def construct(self):
+          path = VMobject()
+          dot = Dot()
+          path.set_points_as_corners([dot.get_center(), dot.get_center()])
+
+          def update_path(path):
+              previous_path = path.copy()
+              previous_path.add_points_as_corners([dot.get_center()])
+              path.become(previous_path)
+
+          path.add_updater(update_path)
+          self.add(path, dot)
+          self.play(Rotating(dot, radians=PI, about_point=RIGHT, run_time=2))
+          self.wait()
+          self.play(dot.animate.shift(UP))
+          self.play(dot.animate.shift(LEFT))
+          self.wait()
+#+end_src
+
+** Graficando con Manim
+
+Manim puede ser utilizado para generar gráficas:
+
+#+begin_src python
+  from manim import *
+
+
+  class CreateGraph(Scene):
+      def construct(self):
+          axes = Axes(
+              x_range=[-3, 3],
+              y_range=[-5, 5],
+              axis_config={"color": BLUE},
+          )
+
+          # Create Graph
+          graph = axes.plot(lambda x: x**2, color=WHITE)
+          graph_label = axes.get_graph_label(graph, label='x^{2}')
+
+          graph2 = axes.plot(lambda x: x**3, color=WHITE)
+          graph_label2 = axes.get_graph_label(graph2, label='x^{3}')
+
+          # Display graph
+          self.play(Create(axes), Create(graph), Write(graph_label))
+          self.wait(1)
+          self.play(Transform(graph, graph2), Transform(graph_label, graph_label2))
+          self.wait(1)
+#+end_src
+
+#+begin_src python
+  from manim import *
+
+  class SinAndCosFunctionPlot(Scene):
+      def construct(self):
+          axes = Axes(
+              x_range=[-10, 10.3, 1],
+              y_range=[-1.5, 1.5, 1],
+              x_length=10,
+              axis_config={"color": GREEN},
+              x_axis_config={
+                  "numbers_to_include": np.arange(-10, 10.01, 2),
+                  "numbers_with_elongated_ticks": np.arange(-10, 10.01, 2),
+              },
+              tips=False,
+          )
+          axes_labels = axes.get_axis_labels()
+          sin_graph = axes.plot(lambda x: np.sin(x), color=BLUE)
+          cos_graph = axes.plot(lambda x: np.cos(x), color=RED)
+
+          sin_label = axes.get_graph_label(
+              sin_graph, "\\sin(x)", x_val=-10, direction=UP / 2
+          )
+          cos_label = axes.get_graph_label(cos_graph, label="\\cos(x)")
+
+          vert_line = axes.get_vertical_line(
+              axes.i2gp(TAU, cos_graph), color=YELLOW, line_func=Line
+          )
+          line_label = axes.get_graph_label(
+              cos_graph, "x=2\pi", x_val=TAU, direction=UR, color=WHITE
+          )
+
+          plot = VGroup(axes, sin_graph, cos_graph, vert_line)
+          labels = VGroup(axes_labels, sin_label, cos_label, line_label)
+          self.add(plot, labels)
+#+end_src
+
+Para graficar en 3D nuestra escena debe heredar de =TheeDScene=:
+
+#+begin_src python
+  from manim import *
+
+  class threeDGraph(ThreeDScene):
+      def construct(self):
+          axes = ThreeDAxes()
+          circle=Circle()
+          self.set_camera_orientation(phi=75 * DEGREES, theta=30 * DEGREES)
+          text3d = Text("Texto en 3D")
+          self.add(circle,axes)
+          self.add_fixed_in_frame_mobjects(text3d)
+          text3d.to_corner(UL)
+          self.add(axes)
+          self.wait()
+#+end_src
+
+** Uso con numpy
+
+Podemos hacer uso de la función =numpy.argmin= para encontrar el valor mínimo de
+una matriz:
+
+#+begin_src python
+  from manim import *
+
+  class ArgMinExample(Scene):
+      def construct(self):
+          ax = Axes(
+              x_range=[0, 10], y_range=[0, 100, 10], axis_config={"include_tip": False}
+          )
+          labels = ax.get_axis_labels(x_label="x", y_label="f(x)")
+
+          t = ValueTracker(0)
+
+          def func(x):
+              return 2 * (x - 5) ** 2
+          graph = ax.plot(func, color=MAROON)
+
+          initial_point = [ax.coords_to_point(t.get_value(), func(t.get_value()))]
+          dot = Dot(point=initial_point)
+
+          # c2p es una abreviación de la función coords_to_point()
+          dot.add_updater(lambda x: x.move_to(ax.c2p(t.get_value(), func(t.get_value()))))
+          x_space = np.linspace(*ax.x_range[:2],200)
+          minimum_index = func(x_space).argmin()
+
+          self.add(ax, labels, graph, dot)
+          self.play(t.animate.set_value(x_space[minimum_index]))
+          self.wait()
+#+end_src
+
+** Dibujando áreas bajo la curva
+
+#+begin_src python
+  from manim import *
+
+  class GraphAreaPlot(Scene):
+      def construct(self):
+          ax = Axes(
+              x_range=[0, 5],
+              y_range=[0, 6],
+              x_axis_config={"numbers_to_include": [2, 3]},
+              tips=False,
+          )
+
+          labels = ax.get_axis_labels()
+
+          curve_1 = ax.plot(lambda x: 4 * x - x ** 2, x_range=[0, 4], color=BLUE_C)
+          curve_2 = ax.plot(
+              lambda x: 0.8 * x ** 2 - 3 * x + 4,
+              x_range=[0, 4],
+              color=GREEN_B,
+          )
+
+          line_1 = ax.get_vertical_line(ax.input_to_graph_point(2, curve_1), color=YELLOW)
+          line_2 = ax.get_vertical_line(ax.i2gp(3, curve_1), color=YELLOW)
+
+          riemann_area = ax.get_riemann_rectangles(curve_1, x_range=[0.3, 0.6], dx=0.03, color=BLUE, fill_opacity=0.5)
+          area = ax.get_area(curve_2, [2, 3], bounded_graph=curve_1, color=GREY, opacity=0.5)
+
+          self.add(ax, labels, curve_1, curve_2, line_1, line_2, riemann_area, area)
+#+end_src
+
+El área bajo la curva no debe de ser estático:
+
+#+begin_src python
+  from manim import *
+
+  class PolygonOnAxes(Scene):
+      def get_rectangle_corners(self, bottom_left, top_right):
+          return [
+              (top_right[0], top_right[1]),
+              (bottom_left[0], top_right[1]),
+              (bottom_left[0], bottom_left[1]),
+              (top_right[0], bottom_left[1]),
+          ]
+
+      def construct(self):
+          ax = Axes(
+              x_range=[0, 10],
+              y_range=[0, 10],
+              x_length=6,
+              y_length=6,
+              axis_config={"include_tip": False},
+          )
+
+          t = ValueTracker(5)
+          k = 25
+
+          graph = ax.plot(
+              lambda x: k / x,
+              color=YELLOW_D,
+              x_range=[k / 10, 10.0, 0.01],
+              use_smoothing=False,
+          )
+
+          def get_rectangle():
+              polygon = Polygon(
+                  ,*[
+                      ax.c2p(*i)
+                      for i in self.get_rectangle_corners(
+                          (0, 0), (t.get_value(), k / t.get_value())
+                      )
+                  ]
+              )
+              polygon.stroke_width = 1
+              polygon.set_fill(BLUE, opacity=0.5)
+              polygon.set_stroke(YELLOW_B)
+              return polygon
+
+          polygon = always_redraw(get_rectangle)
+
+          dot = Dot()
+          dot.add_updater(lambda x: x.move_to(ax.c2p(t.get_value(), k / t.get_value())))
+          dot.set_z_index(10)
+
+          self.add(ax, graph, dot)
+          self.play(Create(polygon))
+          self.play(t.animate.set_value(10))
+          self.play(t.animate.set_value(k / 10))
+          self.play(t.animate.set_value(5))
+#+end_src
+
+
+** Efectos de cámara
+
+#+begin_src python
+  from manim import *
+
+  class FollowingGraphCamera(MovingCameraScene):
+      def construct(self):
+          self.camera.frame.save_state()
+
+          # create the axes and the curve
+          ax = Axes(x_range=[-1, 10], y_range=[-1, 10])
+          graph = ax.plot(lambda x: np.sin(x), color=BLUE, x_range=[0, 3 * PI])
+
+          # create dots based on the graph
+          moving_dot = Dot(ax.i2gp(graph.t_min, graph), color=ORANGE)
+          dot_1 = Dot(ax.i2gp(graph.t_min, graph))
+          dot_2 = Dot(ax.i2gp(graph.t_max, graph))
+
+          self.add(ax, graph, dot_1, dot_2, moving_dot)
+          self.play(self.camera.frame.animate.scale(0.5).move_to(moving_dot))
+
+          def update_curve(mob):
+              mob.move_to(moving_dot.get_center())
+
+          self.camera.frame.add_updater(update_curve)
+          self.play(MoveAlongPath(moving_dot, graph, rate_func=linear))
+          self.camera.frame.remove_updater(update_curve)
+
+          self.play(Restore(self.camera.frame))
+#+end_src
+
+#+begin_src python
+  from manim import *
+
+  class MovingZoomedSceneAround(ZoomedScene):
+  # contributed by TheoremofBeethoven, www.youtube.com/c/TheoremofBeethoven
+      def __init__(self, **kwargs):
+          ZoomedScene.__init__(
+              self,
+              zoom_factor=0.3,
+              zoomed_display_height=1,
+              zoomed_display_width=6,
+              image_frame_stroke_width=20,
+              zoomed_camera_config={
+                  "default_frame_stroke_width": 3,
+                  },
+              ,**kwargs
+          )
+
+      def construct(self):
+          dot = Dot().shift(UL * 2)
+          image = ImageMobject(np.uint8([[0, 100, 30, 200],
+                                         [255, 0, 5, 33]]))
+          image.height = 7
+          frame_text = Text("Frame", color=PURPLE, font_size=67)
+          zoomed_camera_text = Text("Zoomed camera", color=RED, font_size=67)
+
+          self.add(image, dot)
+          zoomed_camera = self.zoomed_camera
+          zoomed_display = self.zoomed_display
+          frame = zoomed_camera.frame
+          zoomed_display_frame = zoomed_display.display_frame
+
+          frame.move_to(dot)
+          frame.set_color(PURPLE)
+          zoomed_display_frame.set_color(RED)
+          zoomed_display.shift(DOWN)
+
+          zd_rect = BackgroundRectangle(zoomed_display, fill_opacity=0, buff=MED_SMALL_BUFF)
+          self.add_foreground_mobject(zd_rect)
+
+          unfold_camera = UpdateFromFunc(zd_rect, lambda rect: rect.replace(zoomed_display))
+
+          frame_text.next_to(frame, DOWN)
+
+          self.play(Create(frame), FadeIn(frame_text, shift=UP))
+          self.activate_zooming()
+
+          self.play(self.get_zoomed_display_pop_out_animation(), unfold_camera)
+          zoomed_camera_text.next_to(zoomed_display_frame, DOWN)
+          self.play(FadeIn(zoomed_camera_text, shift=UP))
+          # Scale in        x   y  z
+          scale_factor = [0.5, 1.5, 0]
+          self.play(
+              frame.animate.scale(scale_factor),
+              zoomed_display.animate.scale(scale_factor),
+              FadeOut(zoomed_camera_text),
+              FadeOut(frame_text)
+          )
+          self.wait()
+          self.play(ScaleInPlace(zoomed_display, 2))
+          self.wait()
+          self.play(frame.animate.shift(2.5 * DOWN))
+          self.wait()
+          self.play(self.get_zoomed_display_pop_out_animation(), unfold_camera, rate_func=lambda t: smooth(1 - t))
+          self.play(Uncreate(zoomed_display_frame), FadeOut(frame))
+          self.wait()
+#+end_src
+
+** Animación "avanzada"
+
+#+begin_src python
+  from manim import *
+
+  class OpeningManim(Scene):
+      def construct(self):
+          title = Tex(r"Texto escrito en \LaTeX")
+          basel = MathTex(r"\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}")
+          VGroup(title, basel).arrange(DOWN)
+          self.play(
+              Write(title),
+              FadeIn(basel, shift=DOWN),
+          )
+          self.wait()
+
+          transform_title = Tex("Transformación")
+          transform_title.to_corner(UP + LEFT)
+          self.play(
+              Transform(title, transform_title),
+              LaggedStart(*[FadeOut(obj, shift=DOWN) for obj in basel]),
+          )
+          self.wait()
+
+          grid = NumberPlane()
+          grid_title = Tex("Creando una malla", font_size=72)
+          grid_title.move_to(transform_title)
+
+          self.add(grid, grid_title)  # Make sure title is on top of grid
+          self.play(
+              FadeOut(title),
+              FadeIn(grid_title, shift=UP),
+              Create(grid, run_time=3, lag_ratio=0.1),
+          )
+          self.wait()
+
+          grid_transform_title = Tex(
+              r"Aplicando una transoframción no lineal \\ a la malla"
+          )
+          grid_transform_title.move_to(grid_title, UL)
+          grid.prepare_for_nonlinear_transform()
+          self.play(
+              grid.animate.apply_function(
+                  lambda p: p
+                            + np.array(
+                      [
+                          np.sin(p[1]),
+                          np.sin(p[0]),
+                          0,
+                      ]
+                  )
+              ),
+              run_time=3,
+          )
+          self.wait()
+          self.play(Transform(grid_title, grid_transform_title))
+          self.wait()
+#+end_src
+
+#+begin_src python
+  from manim import *
+
+  class SineCurveUnitCircle(Scene):
+      # contributed by heejin_park, https://infograph.tistory.com/230
+      def construct(self):
+          self.show_axis()
+          self.show_circle()
+          self.move_dot_and_draw_curve()
+          self.wait()
+
+      def show_axis(self):
+          x_start = np.array([-6,0,0])
+          x_end = np.array([6,0,0])
+
+          y_start = np.array([-4,-2,0])
+          y_end = np.array([-4,2,0])
+
+          x_axis = Line(x_start, x_end)
+          y_axis = Line(y_start, y_end)
+
+          self.add(x_axis, y_axis)
+          self.add_x_labels()
+
+          self.origin_point = np.array([-4,0,0])
+          self.curve_start = np.array([-3,0,0])
+
+      def add_x_labels(self):
+          x_labels = [
+              MathTex("\pi"), MathTex("2 \pi"),
+              MathTex("3 \pi"), MathTex("4 \pi"),
+          ]
+
+          for i in range(len(x_labels)):
+              x_labels[i].next_to(np.array([-1 + 2*i, 0, 0]), DOWN)
+              self.add(x_labels[i])
+
+      def show_circle(self):
+          circle = Circle(radius=1)
+          circle.move_to(self.origin_point)
+          self.add(circle)
+          self.circle = circle
+
+      def move_dot_and_draw_curve(self):
+          orbit = self.circle
+          origin_point = self.origin_point
+
+          dot = Dot(radius=0.08, color=YELLOW)
+          dot.move_to(orbit.point_from_proportion(0))
+          self.t_offset = 0
+          rate = 0.25
+
+          def go_around_circle(mob, dt):
+              self.t_offset += (dt * rate)
+              # print(self.t_offset)
+              mob.move_to(orbit.point_from_proportion(self.t_offset % 1))
+
+          def get_line_to_circle():
+              return Line(origin_point, dot.get_center(), color=BLUE)
+
+          def get_line_to_curve():
+              x = self.curve_start[0] + self.t_offset * 4
+              y = dot.get_center()[1]
+              return Line(dot.get_center(), np.array([x,y,0]), color=YELLOW_A, stroke_width=2 )
+
+
+          self.curve = VGroup()
+          self.curve.add(Line(self.curve_start,self.curve_start))
+          def get_curve():
+              last_line = self.curve[-1]
+              x = self.curve_start[0] + self.t_offset * 4
+              y = dot.get_center()[1]
+              new_line = Line(last_line.get_end(),np.array([x,y,0]), color=YELLOW_D)
+              self.curve.add(new_line)
+
+              return self.curve
+
+          dot.add_updater(go_around_circle)
+
+          origin_to_circle_line = always_redraw(get_line_to_circle)
+          dot_to_curve_line = always_redraw(get_line_to_curve)
+          sine_curve_line = always_redraw(get_curve)
+
+          self.add(dot)
+          self.add(orbit, origin_to_circle_line, dot_to_curve_line, sine_curve_line)
+          self.wait(8.5)
+
+          dot.remove_updater(go_around_circle)
+#+end_src
+
+** Ejemplos
+
+- Animación de encontrar mínimo en [[https://colab.research.google.com/drive/1QTVHgyXXEXkLNydGm2RiD56XB1b4uflp?usp=sharing][Google Colab]]
+- Tutorial de Manim en [[https://www.youtube.com/watch?v=rUsUrbWb2D4][youtube]].
+- Código fuente de todos los vídeos de 3blue1brown en [[https://github.com/3b1b/videos/tree/master][github]].
