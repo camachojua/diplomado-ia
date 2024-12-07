@@ -200,7 +200,7 @@ Para cerrar dejo el contenido completo del archivo (dibujando la letra):
           cuadrado = Square(color=rojo, fill_opacity=1).shift(UP)
           triangulo = Triangle(color=verde, fill_opacity=1).shift(RIGHT)
 
-          letra = MathTex(r"\mathbb{J}", fill_color=logo_black).scale(6)
+          letra = MathTex(r"\mathbb{J}", fill_color=negro).scale(6)
           letra.shift(3 * LEFT + 1.5 * UP)
 
           todo_junto = VGroup(triangulo, cuadrado, circulo, letra) # El orden importa!!!
@@ -239,11 +239,11 @@ uno de los tantos métodos para decorar es =set_color=.
           # Decoramos la línea con otra llave
           # Pero esta vez le decimos que la dirección de la misma será rotada "pi"
           # Y sacamos el vector unitario.
-          llave2 = Brace(linea, direction=linea.copy().rotate(PI)).get_unit_vector()
+          llave2 = Brace(linea, direction=linea.copy().rotate(PI).get_unit_vector())
           texto_llave2 = llave2.get_text("Distancia vertical")
 
-          llave3 = Brace(linea, direction=linea.copy().rotate(PI / 2)).get_unit_vector()
-          texto_llave3 = llave2.get_text("x - x_1")
+          llave3 = Brace(linea, direction=linea.copy().rotate(PI / 2).get_unit_vector())
+          texto_llave3 = llave2.get_text("$x - x_1$")
 
           self.add(linea, punto, punto2, llave1, llave2, llave3, texto_llave1, texto_llave2, texto_llave3)
 #+end_src
