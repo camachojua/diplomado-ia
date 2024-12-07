@@ -81,6 +81,8 @@ siguiente forma:
 
 ** ¡Hola Mundo!
 
+Los ejemplos de este documento fueron sacados del [[https://docs.manim.community/en/stable/tutorials/quickstart.html][tutorial oficial de manim]]
+
 Para comenzar crearemos un archivo llamado =hola_mundo.py= donde vamos a animar
 algo muy sencillo, para =manim= una animación sucede en el contexto de una escena
 (como en el cine), las escenas heredan de la clase =Scene=:
