@@ -511,9 +511,12 @@ También podemos hacer zoom a partes de la ecuación:
           equation = MathTex("4x^2-8x+1", "=", "2*(2x-1)^2")
 
           self.add(equation)
+          self.camera.frame.save_state()
           self.play(self.camera.frame.animate.move_to(equation[0]).set(width=equation[0].width*2))
           self.wait(0.3)
           self.play(self.camera.frame.animate.move_to(equation[2]).set(width=equation[2].width*2))
+
+          self.play(Restore(self.camera.frame))
 #+end_src
 
 ** Seguir un trazo con un punto
