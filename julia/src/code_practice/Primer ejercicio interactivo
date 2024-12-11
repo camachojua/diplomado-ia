@@ -457,11 +457,11 @@ tupla = ("árbol", 42, [1,2,3])
 # ╔═╡ 6551235f-4288-4e31-9056-9a7b406c2040
 if !@isdefined(tupla)
 	not_defined(:tupla)
-elseif typeof(tupla) != Tuple
+elseif !(tupla isa Tuple)
 	still_missing(md"`tupla` debe ser del tipo `Tuple`.")
 elseif (tupla[1] != "árbol") && (tupla[2] != 42) && (tupla[3] != [1,2,3])
 	keep_working(md"La tupla debe contener los elementos indicados")
-elseif set(tupla) == ("àrbol", 42, [1,2,3])
+elseif tupla == ("árbol", 42, [1,2,3])
 	correct()
 end
 
@@ -821,7 +821,7 @@ PlutoUI = "~0.7.60"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.11.1"
+julia_version = "1.11.2"
 manifest_format = "2.0"
 project_hash = "e985d8662a30ccc9b04ea385611a039facf8b565"
 
