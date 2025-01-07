@@ -1,0 +1,153 @@
+* Orientación a objetos en Python
+
+** Clases
+Para definir una clase necesitamos escribir la palabra reservada =class=,
+supongamos que queremos "modelar" el reino animal, un animal necesita alimento
+para poder sobrevivir. En todos los lenguajes de programación que implementan la
+orientación a objetos es necesario definir tres cosas para modelar un objeto:
+
+- El "nombre de la clase" a la que pertenecerá el objeto.
+- Los "atributos" que tendrá el objeto, es decir las características que tiene
+  dicho objeto.
+- Los "métodos" a los que responde el objeto, es decir las "acciones" que puede
+  realizar el objeto.
+
+Nuestra clase =Animal= tendrá un atributo =cantidad_alimento= que hace referencia a
+la cantidad de alimento en kilogramos que necesita el animal para no morir,
+agregaremos un método llamado =cuanto_comes= que le pregunta al animal cuánto
+come al mes.
+
+Para definir los atributos es necesario hacerlo en un método especial llamado
+"constructor", en python el constructor por defecto se llama =__init__= (así con
+los guiones bajos), técnicamente el método =__init__= es un inicializador que se
+manda a llamar después de instanciar un método, el constructor real sería el
+método =__new__=, pero para fines prácticos el método =__init__= es un constructor.
+
+#+begin_src python
+  class Animal:
+      def __init__(self, cantidad_alimento):
+          self.cantidad_alimento = cantidad_alimento
+
+      def cuanto_comes(self):
+          print("Este animal necesita %f kg de comida al mes para sobrevivir." self.cantidad_alimento)
+#+end_src
+
+Para "instanciar" una clase necesitamos escribir el nombre de la clase y pasarle
+los atributos que tendrá nuestra instancia, podemos cargar el código de la clase
+desde el intérpretre con =exec(open("animal.py").read())
+
+#+begin_src python
+  rana = Animal("0.3")
+  elefante = Animal("100")
+
+  rana.cuanto_comes()
+  elefante.cuanto_comes()
+#+end_src
+
+Es importante notar los paréntesis al final de =cuanto_comes()=, ya que los
+paréntesis implican una invocación al método, sin los paréntesis no se ejecutará
+nada.
+
+Para obtener el "tipo" de un objeto necesitamos ejecutar el métod =type=, de la siguiente forma:
+
+#+begin_src python
+  type(rana)
+#+end_src
+
+Para preguntar si un objeto pertenece a una clase hacemos:
+
+#+begin_src python
+  type(rana) is Animal
+#+end_src
+
+La documentación oficial de las clases en python puede ser encontrada [[https://docs.python.org/3/tutorial/classes.html][aquí]].
+
+** Herencia
+
+La herencia nos permite "especializar" los objetos, en nuestro ejemplo definimos
+la clase =Animal= que nos dice cuánto alimento es necesario para que un animal
+sobreviva ¿Pero qué pasa si queremos saber el nombre del sonido que hace el
+animal? Un perro ladra, un gato maulla, un caballo relincha, un elefante barrita
+y una vaca muge ¡Son hartos nombres para cada uno de los sonidos que representa
+la voz de un animal! Y un ejemplo perfecto para generar "subclases" que nos
+permitan definir el nombre de la voz.
+
+En Python especificamos que una clase "hereda"/"es subclase de" utilizando
+paréntesis que se ponen después de declarar el nombre de clase:
+
+#+begin_src python
+  class Perro(Animal):
+      def voz(self):
+          print("Un perro ladra")
+
+  class Gato(Animal):
+      def voz(self):
+          print("Un gato maulla")
+
+  class Vaca(Animal):
+      def voz(self):
+          print("Una vaca muge")
+
+  class Elefante(Animal):
+      def voz(self):
+          print("Un elefante barrita")
+#+end_src
+
+Como podemos ver el constructor no necesitó ser declarado de nuevo, ya que, al
+ser animales todos necesitan ser instanciados de la misma forma (necesitan que
+indiquemos la cantidad de comida), ahora, todas estas "subclases" declarar un
+método llamado =voz= el cual tiene un comportamiento particular dependientdo del
+"tipo de dato" que tenga un animal, de esta forma la clase =Perro= se comporta
+distinta de la clase =Vaca= (aunque ambos sean un animal), para instanciar
+nuestros nuevos animales debemos ejecutar:
+
+#+begin_src python
+  perro = Perro(10)
+  gato = Gato(2)
+  vaca = Vaca(100)
+  elefante = Elefante(100)
+
+  perro.voz()
+  gato.voz()
+  vaca.voz()
+  elefante.voz()
+#+end_src
+
+¿Qué pasa si un biólogo viene y nos regaña diciendo que nuestro modelo de animal
+no es correcto? Al parecer a este biólogo le interesa saber la "talla" de un
+animal, supongamos que, por azares del destino no podemos modificar la clase
+=Animal=, por lo que nos tocará agregar el atributo extra en las subclases, esto
+también se conoce como especializar el constructor de una subclase:
+
+#+begin_src python
+  class Perro(Animal):
+      def __init__(self, cantidad_alimento, talla):
+          self.talla = talla
+          super().__init__(cantidad_alimento)
+
+      def voz(self):
+          print("El perro ladra")
+
+      def talla(self):
+          print("El perro es un animal %s", self.talla)
+#+end_src
+
+Después de declarar un nuevo atributo mandamos a llamar al método =super()= para
+asociar la cantidad de comida con lo que necesita la clase =Animal=.
+
+Hasta ahora tenemos todo en un único archivo ¿Qué pasa si queremos separar los
+archivos para que el perro viva en su propio lugar? Tenemos que considerar dos
+cosas:
+
+- El nombre del archivo donde está declarada la clase animal (=animal.py=)
+- El nombre de la clase de la que vámos a heredar (=Animal=)
+
+Crearemos un archivo =perro.py= donde la primer línea contiene:
+
+#+begin_src python
+  from animal import Animal # Recuerden poner el nombre del archivo en minúsculas (o como se llame en el disco)
+#+end_src
+
+Después de eso podemos poner el contenido de nuestra clase, como ejercicio sería
+buena idea que separen el contenido de las demás clases y los pongan en su
+propio archivo
