@@ -1,0 +1,3 @@
+[matplotlib.backend]
+ipympl = ipympl.backend_nbagg
+widget = ipympl.backend_nbagg
