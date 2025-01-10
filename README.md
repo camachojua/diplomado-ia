@@ -112,6 +112,7 @@ integrar WSL con el editor de código.
 - [Judea Pearl: Probabilistic Reasoning](https://onlinelibrary.wiley.com/doi/epdf/10.1002/9781118445112.stat00258)
 - [Castillo: Bayesian Networks](https://onlinelibrary.wiley.com/doi/epdf/10.1002/9781118445112.stat00258)
 - [Algorithms for Decision Making:  Mykel J. Kochenderfer Tim A. Wheeler Kyle H. Wray, Stanford](https://algorithmsbook.com/files/dm.pdf)
+- [An Algorithm for Finding Minimum d-Separating Sets in Belief Networks](https://arxiv.org/pdf/1302.3549)
 
 # ¿Cómo colaboramos?
 Para discutir un tema específico podemos abrir un [issue](https://github.com/camachojua/diplomado-ia/issues/new) para preguntar sobre algo específico.
