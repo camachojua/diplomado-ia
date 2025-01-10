@@ -1,6 +1,0 @@
-*.archivo_grande filter=lfs diff=lfs merge=lfs -text
-*.reg_aleman_juan filter=lfs diff=lfs merge=lfs -text
-reg_aleman_juan.zip filter=lfs diff=lfs merge=lfs -text
-bottle.csv filter=lfs diff=lfs merge=lfs -text
-julia/src/student_submissions/exploratory_data_analysis/aleman_juan/eda_aleman_juan/exercise_one/data/bottle.csv filter=lfs diff=lfs merge=lfs -text
-julia/src/student_submissions/regression/aleman_juan/reg_aleman_juan/exercise_two/data/bottle.csv filter=lfs diff=lfs merge=lfs -text
