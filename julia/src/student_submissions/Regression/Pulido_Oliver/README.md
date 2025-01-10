@@ -7,4 +7,5 @@ Aquí se sube la carpeta comprimida que contiene el proyecto de Regresión Linea
 
 ## Notas Importantes:
 
-El reporte es un archivo tipo ".md" pero puede guardarse como ".ipynb" ya que es un Notebook. Si no corre el código que viene en el archivo ".jl", puede ver el Notebook, donde está Todo el código bien explicado.
+1. El reporte es un archivo tipo ".md" pero puede guardarse como ".ipynb" ya que es un Notebook. Si no corre el código que viene en el archivo ".jl", puede ver el Notebook, donde está Todo el código bien explicado.
+2. Se recomienda ver el código desde el Notebook
