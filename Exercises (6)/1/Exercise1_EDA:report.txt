@@ -1,0 +1,50 @@
+Informe de Análisis Exploratorio de Datos (EDA)
+
+1. Información general:
+El archivo contiene 790980 filas y 24 columnas.
+   
+2. Porcentaje de datos faltantes por columna:
+   Dict("pH2" => 99.99884374750683, "SiO3uM" => 59.058139844114045, "LightP" => 97.84347347498968, "MeanAp" => 97.63465427472327, "Cst_Cnt" => 0.0, "TA2" => 99.97294369165984, "R_O2" => 19.501585800294382, "R_DYNHT" => 5.394727257380649, "TA1" => 99.75903698042349, "O2Satq" => 74.81716757451758, "DarkAs" => 97.38120372822054, "PO4q" => 47.76213111209521, "R_SVA" => 6.101660031704443, "NH3q" => 6.540226602363611, "R_NO3" => 60.98676900272066, "T_qual" => 97.32593485904704, "R_SALINITY" => 5.475318056154559, "O2ml_L" => 19.501585800294382, "S_prec" => 5.475318056154559, "STheta" => 6.092178761260454, "Phaqua" => 26.095809394089002, "Phaeop" => 73.95298446112274, "IncTim" => 98.33071827561129, "Sta_ID" => 0.0, "S_qual" => 91.33805007267047, "SiO3qu" => 40.930991382450166, "R_CHLA" => 73.95240633487616, "DIC1" => 99.76886512661542, "BtlNum" => 86.27909853930622, "DIC2" => 99.97409994415301, "R_POTEMP" => 5.324195855297313, "NO3q" => 38.726364753724, "C14A2q" => 1.877754048907168, "O_qual" => 78.64679145714408, "DarkAp" => 97.63465427472327, "R_O2Sat" => 22.941783843221412, "P_qual" => 22.096910146462502, "R_TEMP" => 1.2675996082616552, "R_PO4" => 52.209193826074184, "C14As1" => 98.33129640185787, "C14As2" => 98.33337765634556, "R_Depth" => 0.0, "Chlqua" => 26.096271895086275, "O2Sat" => 23.54002888318728, "R_SAMP" => 85.89302583183695, "MeanAs" => 97.38108810297122, "DIC Quality Comment" => 99.99364061128757, "Salnty" => 5.475318056154559, "T_prec" => 1.2675996082616552, "Depth_ID" => 0.0, "NO3uM" => 60.987694004715195, "MeanAq" => 2.824031089317036, "pH1" => 99.99028747905737, "PO4uM" => 52.210118828068715, "R_SIGMA" => 6.111488177896383, "NO2q" => 38.77943674316048, "R_NH4" => 92.48644004888635, "R_NO2" => 60.966765834588834, "R_SIO3" => 59.0572148421195, "RecInd" => 0.0, "SThtaq" => 92.3891992142108, "C14A1p" => 98.5246218187158, "T_degC" => 1.2675996082616552, "Depthm" => 0.0, "ChlorA" => 73.95286883587343, "C14A1q" => 1.879835303394873, "Btl_Cnt" => 0.0, "NH3uM" => 92.4887525538727, "C14A2p" => 98.5267030732035, "R_PHAEO" => 73.95252196012547, "R_PRES" => 0.0, "Oxy_µmol/Kg" => 23.54072263468318, "NO2uM" => 60.967690836583365, "DarkAq" => 2.8239154640677193)
+
+3. Columnas eliminadas debido a datos faltantes:
+   ["O2ml_L", "O2Sat", "Oxy_µmol/Kg", "BtlNum", "T_qual", "S_qual", "P_qual", "O_qual", "SThtaq", "O2Satq", "ChlorA", "Chlqua", "Phaeop", "Phaqua", "PO4uM", "PO4q", "SiO3uM", "SiO3qu", "NO2uM", "NO2q", "NO3uM", "NO3q", "NH3uM", "C14As1", "C14A1p", "C14As2", "C14A2p", "DarkAs", "DarkAp", "MeanAs", "MeanAp", "IncTim", "LightP", "R_O2", "R_O2Sat", "R_SIO3", "R_PO4", "R_NO3", "R_NO2", "R_NH4", "R_CHLA", "R_PHAEO", "R_SAMP", "DIC1", "DIC2", "TA1", "TA2", "pH2", "pH1", "DIC Quality Comment"]
+
+4. Descripción de los datos:
+   24×7 DataFrame
+ Row │ variable    mean      min                                median    max                                nmissing  eltype
+     │ Symbol      Union…    Any                                Union…    Any                                Int64     Type
+─────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+   1 │ Cst_Cnt     17138.8   1                                  16848.0   34404                                     0  Int64
+   2 │ Btl_Cnt     432432.0  1                                  432432.0  864863                                    0  Int64
+   3 │ Sta_ID                001.0 168.0                                  176.7 030.0                               0  String15
+   4 │ Depth_ID              19-4903CR-HY-060-0930-05400560-0…            20-1611SR-PR-324-1700-07670700-0…         0  String
+   5 │ Depthm      226.832   0                                  125.0     5351                                      0  Int64
+   6 │ T_degC      10.7997   1.44                               10.06     31.14                                 10963  Union{Missing, Float64}
+   7 │ Salnty      33.8404   28.431                             33.863    37.034                                47354  Union{Missing, Float64}
+   8 │ STheta      25.8194   20.934                             25.996    250.784                               52689  Union{Missing, Float64}
+   9 │ RecInd      4.70027   3                                  3.0       7                                         0  Int64
+  10 │ T_prec      2.01715   1                                  2.0       3                                     10963  Union{Missing, Int64}
+  11 │ S_prec      2.71679   2                                  3.0       3                                     47354  Union{Missing, Int64}
+  12 │ NH3q        8.94767   4                                  9.0       9                                     56564  Union{Missing, Int64}
+  13 │ C14A1q      8.99999   8                                  9.0       9                                     16258  Union{Missing, Int64}
+  14 │ C14A2q      8.99999   8                                  9.0       9                                     16240  Union{Missing, Int64}
+  15 │ DarkAq      8.99999   8                                  9.0       9                                     24423  Union{Missing, Int64}
+  16 │ MeanAq      8.99999   8                                  9.0       9                                     24424  Union{Missing, Int64}
+  17 │ R_Depth     226.832   0.0                                125.0     5351.0                                    0  Float64
+  18 │ R_TEMP      10.7997   1.44                               10.06     31.14                                 10963  Union{Missing, Float64}
+  19 │ R_POTEMP    10.8423   0.0                                10.1      31.14                                 46047  Union{Missing, Float64}
+  20 │ R_SALINITY  33.8403   4.57                               33.863    37.034                                47354  Union{Missing, Float64}
+  21 │ R_SIGMA     25.811    20.934                             25.99     250.784                               52856  Union{Missing, Float64}
+  22 │ R_SVA       220.939   0.4                                203.2     683.4                                 52771  Union{Missing, Float64}
+  23 │ R_DYNHT     0.431763  0.0                                0.34      3.88                                  46657  Union{Missing, Float64}
+  24 │ R_PRES      228.396   0                                  126.0     5458                                      0  Int64
+
+5. Outliers eliminados con el IQR:
+73883
+
+6. Matriz de correlación:
+/Users/michelletorres/Desktop/heatmap.png
+   
+7. Conclusión:
+Se completó el análisis de manera satisfactoria, limpiando los datos faltantes, eliminando outliers y mostrando la matriz de correlación entre las variables.
+
