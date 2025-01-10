@@ -12,3 +12,5 @@ Aquí subo mi carpeta comprimida correspondiente al primer ejercicio de "EDA".
 Por lo que en mi carpeta ".zip" NO agregaré el Archivo CSV que contiene los datos.
 
 2. El reporte es un archivo tipo "md", sin embargo puede guardarse como ".ipynb" y abrirse así ya que en realidad es un Notebook.
+
+3. Se recomienda ver el código desde el Notebook
