@@ -1,0 +1,2 @@
+Debes tener en tu carpeta fuera del repo el archi zip de wiki
+
