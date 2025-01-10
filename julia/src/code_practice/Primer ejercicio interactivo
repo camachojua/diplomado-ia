@@ -9,7 +9,7 @@ begin
 	using PlutoUI
 	using Images, ImageIO
 	using HypertextLiteral
-end
+end 
 
 # ╔═╡ c6567d47-a5bb-44d7-bb00-21a764e34b6b
 using PlutoTeachingTools
@@ -1617,7 +1617,7 @@ version = "17.4.0+2"
 # ╔═╡ Cell order:
 # ╟─a71640de-710a-49ec-ad73-e9f864b6af29
 # ╟─635b048e-a860-11ef-14ae-5d21081aae2d
-# ╟─5368d349-01ee-4b83-911a-2d08313b17cf
+# ╠═5368d349-01ee-4b83-911a-2d08313b17cf
 # ╠═e7070187-4f4f-44f9-a600-032ec9eb8c9a
 # ╟─1e27d1b9-7054-4fa5-beb0-a79a1e35c8b2
 # ╟─62f96bf6-5555-45d3-8762-d0baf20df1ef
