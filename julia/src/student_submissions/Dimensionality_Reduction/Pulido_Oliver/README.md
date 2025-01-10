@@ -8,4 +8,4 @@ Aquí entrego mi cuarto proyecto "Reducción de Dimensionalidad"
 
 4. El reporte es un archivo tipo ".md" pero puede guardarse como ".ipynb" ya que es un Notebook. Si no corre el código que viene en el archivo ".jl", puede ver el Notebook, donde está Todo el código bien explicado.
 
-5. Se recoienda ver los resultados desde el Notebook para evitar escribir demasiado en el archivo ".jl", ya que en éste sólo se ve el ejemplo para la primera imagen.
+5. Se recomienda ver los resultados desde el Notebook para evitar escribir demasiado en el archivo ".jl", ya que en éste sólo se ve el ejemplo para la primera imagen.
