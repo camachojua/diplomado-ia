@@ -2,4 +2,6 @@
 
 ## Creado en Jupyter
 
-[Jupyter EDA](./1.EDA.ipynb)
+Ver funciones desarrolladas para análisis de información [Jupyter EDA](./1.EDA.ipynb)
+
+Es indispensable contar con el siguiente archivo *./dat/bottle.csv* (no cargado por gran tamaño)
