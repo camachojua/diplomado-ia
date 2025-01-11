@@ -51,11 +51,12 @@ integrar WSL con el editor de código.
 - [Data Science and GoNum](https://docs.google.com/presentation/d/1WPJbHCltFM-gky3Be3S2jVLDDztNvrqvyvmC10T38AM)
 - [Modelos de Clasificación en Data Science](https://docs.google.com/presentation/d/1zOikKpq_FGpoptS3rTKSr1s7ILBI_5Dgx0aloXe3j04/edit#slide=id.p)
 - [Julia ISL Book](https://bit.ly/3PBqLIP)
-- [Data Science PCA and SVD](https://docs.google.com/presentation/d/1ndZRoMAEfyh3txawZXGomAJZkY1p5OvkpFB06PZs1iY/edit#slide=id.g5e632b589d_0_0)
 - [Data Science in Julia](https://bit.ly/482MfIt)
-- [Dimensionality Reduction: PCA, SD, T-SNE](https://docs.google.com/presentation/d/1ndZRoMAEfyh3txawZXGomAJZkY1p5OvkpFB06PZs1iY/edit#slide=id.g5e632b589d_0_0)
 - [Clustering Methods in Data Science](https://bit.ly/4faYGV1)
+- [Dimensionality Reduction: PCA, SD, T-SNE](https://docs.google.com/presentation/d/1ndZRoMAEfyh3txawZXGomAJZkY1p5OvkpFB06PZs1iY/edit#slide=id.g5e632b589d_0_0)
+- [Graphs Revisited in Julia]( https://bit.ly/3SsfnCs )
 - [Bayesian Networks](https://bit.ly/3x2c1L7)
+- [Data Science Exercises](https://docs.google.com/presentation/d/1tSNaUJc2NxEO3wWga_yCK4m61x9pJM2aHaPsn-OLc_s/)
 
 ## Lenguajes de programación
 
@@ -111,6 +112,7 @@ integrar WSL con el editor de código.
 - [Judea Pearl: Probabilistic Reasoning](https://onlinelibrary.wiley.com/doi/epdf/10.1002/9781118445112.stat00258)
 - [Castillo: Bayesian Networks](https://onlinelibrary.wiley.com/doi/epdf/10.1002/9781118445112.stat00258)
 - [Algorithms for Decision Making:  Mykel J. Kochenderfer Tim A. Wheeler Kyle H. Wray, Stanford](https://algorithmsbook.com/files/dm.pdf)
+- [An Algorithm for Finding Minimum d-Separating Sets in Belief Networks](https://arxiv.org/pdf/1302.3549)
 
 # ¿Cómo colaboramos?
 Para discutir un tema específico podemos abrir un [issue](https://github.com/camachojua/diplomado-ia/issues/new) para preguntar sobre algo específico.
