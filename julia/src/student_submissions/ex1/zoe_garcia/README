@@ -1,0 +1,58 @@
+README
+
+Para compilar los archivos hace falta setear el directorio en la carpeta donde estarían los ejercicios:
+
+En el caso de este primer ejercicio, seteé el directorio de trabajo como:
+
+cd("/...student_submissions/")
+
+"student_submissions" contiene todas las carpetas de ejercicios:
+ex1 ---> ex6
+
+para posteriormente obtener el dataframe dependiendo del problema, ejemplo ejercicio 1:
+
+"ex1/zoe_garcia/Exercise2/dat/bottle.csv"
+
+Aquí además cargo paquetería del ejercicio 1, lo que debería cambiar el directorio a 
+
+Status de las paqueterías usadas y versiones:
+
+CSV v0.10.15
+CUDA v5.5.2
+CairoMakie v0.12.9
+ColorTypes v0.11.5
+DataFrames v1.7.0
+DataStructures v0.18.20
+DecisionTree v0.12.4
+Distances v0.10.12
+Distributions v0.25.116
+EvalMetrics v0.3.0
+FileIO v1.16.6
+Flux v0.16.0
+GLM v1.9.0
+GLMNet v0.7.4
+GLMakie v0.10.9
+GraphMakie v0.5.12
+GraphPlot v0.5.2
+Graphs v1.9.0
+ImageTransformations v0.10.1
+ImageView v0.12.6
+Images v0.26.1
+LIBSVM v0.8.1
+LightGraphs v1.3.5
+MLBase v0.9.2
+Makie v0.21.9
+MultivariateStats v0.10.3
+NamedArrays v0.10.3
+NearestNeighbors v0.4.21
+OneHotArrays v0.2.6
+PlotlyJS v0.18.15
+Plots v1.40.9
+ProgressMeter v1.10.2
+ROCAnalysis v0.3.6
+SortingAlgorithms v1.2.1
+Statistics v1.11.1
+StatsBase v0.34.4
+StatsPlots v0.15.7
+cuDNN v1.4.0
+Random v1.11.0
