@@ -57,6 +57,7 @@ integrar WSL con el editor de código.
 - [Graphs Revisited in Julia]( https://bit.ly/3SsfnCs )
 - [Bayesian Networks](https://bit.ly/3x2c1L7)
 - [Data Science Exercises](https://docs.google.com/presentation/d/1tSNaUJc2NxEO3wWga_yCK4m61x9pJM2aHaPsn-OLc_s/)
+- [Deep Learning Introduction](https://bit.ly/4i1rZM3)
 
 ## Lenguajes de programación
 
