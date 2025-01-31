@@ -58,7 +58,9 @@ integrar WSL con el editor de código.
 - [Bayesian Networks](https://bit.ly/3x2c1L7)
 - [Data Science Exercises](https://docs.google.com/presentation/d/1tSNaUJc2NxEO3wWga_yCK4m61x9pJM2aHaPsn-OLc_s/)
 - [Deep Learning Introduction](https://bit.ly/4i1rZM3)
-- [Deepl Learning 2a. Math Foundations, Software](https://docs.google.com/presentation/d/1SjYGyzzUU47m0E70LqW8wVYhfBBrLZW4xfTcV1-UKSw)
+- [Deep Learning 2a. Math Foundations, Software](https://docs.google.com/presentation/d/1SjYGyzzUU47m0E70LqW8wVYhfBBrLZW4xfTcV1-UKSw)
+- [Deep Learning 2b: Software Frameworks and Examples](https://docs.google.com/presentation/d/1BXhQ7WJtHBPFzIPVAeYFm0cMt8AhTllymDtxNvX_Arg/edit#slide=id.p4)
+- [Deep Learning with Pytorch](https://docs.google.com/presentation/d/1pqYDpU9C51bw7Qd6w8NhvRZPRYYtFsExFNdH97XUVAI/edit#slide=id.p)
 
 ## Lenguajes de programación
 
