@@ -61,6 +61,9 @@ integrar WSL con el editor de código.
 - [Deep Learning 2a. Math Foundations, Software](https://docs.google.com/presentation/d/1SjYGyzzUU47m0E70LqW8wVYhfBBrLZW4xfTcV1-UKSw)
 - [Deep Learning 2b: Software Frameworks and Examples](https://docs.google.com/presentation/d/1BXhQ7WJtHBPFzIPVAeYFm0cMt8AhTllymDtxNvX_Arg/edit#slide=id.p4)
 - [Deep Learning with Pytorch](https://docs.google.com/presentation/d/1pqYDpU9C51bw7Qd6w8NhvRZPRYYtFsExFNdH97XUVAI/edit#slide=id.p)
+- [Deep Learning CNNs for Image Processing: Classification](https://docs.google.com/presentation/d/12wkkuzepk6-sOIGHNDqJMPdfITnYeD9DeTv5Mb2KpGc/edit#slide=id.p4)
+- [Deep Learning for Image Processing: Segmentation](https://docs.google.com/presentation/d/1eHczndhJl27bX8_V4iOL5x7j6t8xdCshoTuVFYQlkDk/edit#slide=id.p4)
+- [Deep Learning for Image Processing: Visualization](https://docs.google.com/presentation/d/1lCuLq0F-W_aPzUo4sk1shvlyxcP5ucNUnVymWKDh6JA/edit#slide=id.p4)
 
 ## Lenguajes de programación
 
