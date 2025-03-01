@@ -1,0 +1,13 @@
+# AlexNet Challenge
+
+- Recreate AlexNet from scratch using pytorch and tensorflow/keras.
+- The network must have 5 convolutional layers, 3 max poooling layers and 3
+  dense layers, for a total of 11 layers.
+- Use the CIFAR-10 data to compare the performance of the models you create from
+  scratch vs the pretrained models from tensorflow and from pytorch.
+- Write a report (no longer than 5 pages) explaining your work, results and
+  conclusions.
+- Assignation date: 28/02/2025.
+- You must put your report whithin a subfolder called =lastname_firstname=. So the
+  absolute path of your report must recide on a folder called
+  =/route/to/this/repository/python/src/student_submissions/alexnet/lastname_firstname=.

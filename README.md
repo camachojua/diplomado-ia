@@ -64,6 +64,7 @@ integrar WSL con el editor de código.
 - [Deep Learning CNNs for Image Processing: Classification](https://docs.google.com/presentation/d/12wkkuzepk6-sOIGHNDqJMPdfITnYeD9DeTv5Mb2KpGc/edit#slide=id.p4)
 - [Deep Learning for Image Processing: Segmentation](https://docs.google.com/presentation/d/1eHczndhJl27bX8_V4iOL5x7j6t8xdCshoTuVFYQlkDk/edit#slide=id.p4)
 - [Deep Learning for Image Processing: Visualization](https://docs.google.com/presentation/d/1lCuLq0F-W_aPzUo4sk1shvlyxcP5ucNUnVymWKDh6JA/edit#slide=id.p4)
+- [Image Processing in Pytorch](https://docs.google.com/presentation/d/1z3nT1tHy11-e9zT2dmGfQIw2qy3Z1XcqLhpmKxM5xmU/edit?pli=1#slide=id.p)
 
 ## Lenguajes de programación
 
