@@ -1,3 +1,21 @@
+# **AlexNet**
+
+## **Introducción**
+
+El objetivo de este proyecto es recrear la arquitectura de AlexNet desde cero utilizando las bibliotecas de Python TensorFlow y Keras, y compararla con el rendimiento de modelos preentrenados. 
+
+AlexNet es una red neuronal convolucional (CNN) la cual tuvo un fuerte impacto, pues obtuvo resultados destacables en el desafío ImageNet 2012; en el presente trabajo, se implementó AlexNet, tal que, se entrenó utilizando el conjunto de datos CIFAR-10 y se evaluó su rendimiento. También se comparó con un modelo preentrenado, en este caso, VGG16, para evaluar la efectividad del entrenamiento desde cero frente a modelos que ya han sido entrenados.
+
+Por su parte, el conjunto de datos CIFAR-10 contiene imágenes de 10 clases diferentes, lo que lo hace adecuado para el propósito de evaluar modelos de clasificación de imágenes, es decir, se entrenaron y evaluaron dos modelos: AlexNet desde cero y VGG16 preentrenado. 
+
+## **Metodología**
+
+###*Creación de AlexNet*
+
+En el código siguiente, se creó y entrenó el modelo de AlexNet desde cero utilizando la biblioteca TensorFlow y Keras. La red cuenta con cinco capas convolucionales, tres capas de max pooling y tres capas densas.
+
+Para ello, se cargó y preprocesó el conjunto de datos CIFAR-10, que consiste en imágenes de 32x32 píxeles. Luego, se definió la arquitectura de AlexNet, comenzando con una capa convolucional seguida de la capa de max pooling,...
+
 import tensorflow as tf
 from tensorflow.keras import layers, models
 from tensorflow.keras.datasets import cifar10 # Cargar el conjunto de datos CIFAR-10
@@ -44,6 +62,13 @@ def create_alexnet_model():
     model.add(layers.Dense(10, activation='softmax'))
 
     return model
+
+###*Entrenamiento de AlexNet*
+
+Consecuentemente, se creó el generador de aumento de datos para la rotación y desplazamiento de las imágenes durante el entrenamiento, pues ayuda a mejorar la capacidad de generalización del modelo. Después, se compiló y entrenó el modelo, utilizando un optimizador Adam con una tasa de aprendizaje pequeña y aplicando un esquema de ajuste de la tasa de aprendizaje (se observó que al aplicarlo, mejoró el accuracy de manera considerable).
+
+Así mismo, se fue modificando el número de épocas hasta 50, pues se observó que de reducirlas, bajaba el accuracy de manera significativa, llegando a apenas 40-60% ; se compiló previamente con 10, 20,..., hasta llegar a 50 épocas.
+
 # Generador aumento de datos
 datagen = ImageDataGenerator(
     rotation_range=20,
@@ -80,6 +105,9 @@ test_loss, test_accuracy = model_keras.evaluate(x_test, y_test, verbose=2)
 print(f'Pérdida en el conjunto de prueba (AlexNet desde cero): {test_loss}')
 print(f'Precisión en el conjunto de prueba (AlexNet desde cero): {test_accuracy}')
 
+###*Comparación con VGG16 preentrenado*
+Luego de entrenar AlexNet, se procedió a cargar un modelo preentrenado (VGG16). Este modelo ya ha sido entrenado en el conjunto de datos ImageNet, lo que resulta útil para la clasificación en CIFAR-10. Para este caso, VGG16 se ajustó tal que se adaptara a las 10 clases de CIFAR-10.
+
 base_model = VGG16(weights='imagenet', include_top=False, input_shape=(32, 32, 3)) # Cargar modelo preentrenado VGG16 sin la capa superior (para CIFAR-10)
 
 # Añadir nuevas capas para adaptarlo a CIFAR-10
@@ -97,3 +125,13 @@ history_pretrained = model_pretrained.fit(x_train, y_train, epochs=10, batch_siz
 # Evaluar el preentrenado en el conjunto de prueba
 test_loss_pretrained, test_accuracy_pretrained = model_pretrained.evaluate(x_test, y_test)
 print(f'Modelo preentrenado (VGG16) - Pérdida: {test_loss_pretrained}, Precisión: {test_accuracy_pretrained}')
+
+### **Conclusión**
+
+AlexNet y VGG16 muestran un notable desempeño en cuanto a accuracy y pérdida. En el caso de AlexNet, el modelo obtuvo una precisión en el conjunto de prueba de aproximadamente 79.12%, con una pérdida de 0.6170. Este desempeño mostró buen desempeño considerando que se entrenó desde cero. Alcanzó un rendimiento sólido tras 19 épocas.
+
+
+Así mismo, el modelo VGG16 preentrenado alcanzó una precisión en el conjunto de prueba de 78.62% con una pérdida de 0.7258, es decir, el modelo preentrenado no mejoró significativamente la precisión respecto al modelo AlexNet.
+
+
+Lamentablemente, debido al límite de Google Colab para utilizar GPU, no se pudo continuar con la modificación del código para realizar optimizaciones adicionales. Se intentó continuar el trabajo utilizando plataformas como Kaggle y Azure, pero ambas presentaron restricciones que no permitieron trabajar el código, por lo que se vió limitada la capacidad de afinar el modelo y por tanto mejorar su rendimiento.
