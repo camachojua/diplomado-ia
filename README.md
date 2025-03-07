@@ -56,6 +56,15 @@ integrar WSL con el editor de código.
 - [Dimensionality Reduction: PCA, SD, T-SNE](https://docs.google.com/presentation/d/1ndZRoMAEfyh3txawZXGomAJZkY1p5OvkpFB06PZs1iY/edit#slide=id.g5e632b589d_0_0)
 - [Graphs Revisited in Julia]( https://bit.ly/3SsfnCs )
 - [Bayesian Networks](https://bit.ly/3x2c1L7)
+- [Data Science Exercises](https://docs.google.com/presentation/d/1tSNaUJc2NxEO3wWga_yCK4m61x9pJM2aHaPsn-OLc_s/)
+- [Deep Learning Introduction](https://bit.ly/4i1rZM3)
+- [Deep Learning 2a. Math Foundations, Software](https://docs.google.com/presentation/d/1SjYGyzzUU47m0E70LqW8wVYhfBBrLZW4xfTcV1-UKSw)
+- [Deep Learning 2b: Software Frameworks and Examples](https://docs.google.com/presentation/d/1BXhQ7WJtHBPFzIPVAeYFm0cMt8AhTllymDtxNvX_Arg/edit#slide=id.p4)
+- [Deep Learning with Pytorch](https://docs.google.com/presentation/d/1pqYDpU9C51bw7Qd6w8NhvRZPRYYtFsExFNdH97XUVAI/edit#slide=id.p)
+- [Deep Learning CNNs for Image Processing: Classification](https://docs.google.com/presentation/d/12wkkuzepk6-sOIGHNDqJMPdfITnYeD9DeTv5Mb2KpGc/edit#slide=id.p4)
+- [Deep Learning for Image Processing: Segmentation](https://docs.google.com/presentation/d/1eHczndhJl27bX8_V4iOL5x7j6t8xdCshoTuVFYQlkDk/edit#slide=id.p4)
+- [Deep Learning for Image Processing: Visualization](https://docs.google.com/presentation/d/1lCuLq0F-W_aPzUo4sk1shvlyxcP5ucNUnVymWKDh6JA/edit#slide=id.p4)
+- [Image Processing in Pytorch](https://docs.google.com/presentation/d/1z3nT1tHy11-e9zT2dmGfQIw2qy3Z1XcqLhpmKxM5xmU/edit?pli=1#slide=id.p)
 
 ## Lenguajes de programación
 
@@ -111,6 +120,7 @@ integrar WSL con el editor de código.
 - [Judea Pearl: Probabilistic Reasoning](https://onlinelibrary.wiley.com/doi/epdf/10.1002/9781118445112.stat00258)
 - [Castillo: Bayesian Networks](https://onlinelibrary.wiley.com/doi/epdf/10.1002/9781118445112.stat00258)
 - [Algorithms for Decision Making:  Mykel J. Kochenderfer Tim A. Wheeler Kyle H. Wray, Stanford](https://algorithmsbook.com/files/dm.pdf)
+- [An Algorithm for Finding Minimum d-Separating Sets in Belief Networks](https://arxiv.org/pdf/1302.3549)
 
 # ¿Cómo colaboramos?
 Para discutir un tema específico podemos abrir un [issue](https://github.com/camachojua/diplomado-ia/issues/new) para preguntar sobre algo específico.
