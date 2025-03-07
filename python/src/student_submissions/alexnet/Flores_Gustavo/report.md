@@ -37,11 +37,11 @@ A continuación, se presentan los resultados detallados de entrenamiento y evalu
 
 | Época | Accuracy (%) |
 |-------|--------------|
-| 1     | 27.47        |
-| 2     | 53.16        |
-| 3     | 65.47        |
-| 4     | 72.23        |
-| 5     | 76.50        |
+| 1     | 26.48        |
+| 2     | 57.19        |
+| 3     | 64.49        |
+| 4     | 74.29        |
+| 5     | 77.57        |
 
 **Tiempo total de entrenamiento:** 90 min
 
@@ -51,16 +51,15 @@ A continuación, se presentan los resultados detallados de entrenamiento y evalu
 
 | Época | Accuracy (%) | Val_accuracy (%) |
 |-------|--------------|-----------------|
-| 1     | 30.96        | 56.33           |
-| 2     | 58.80        | 69.73           |
-| 3     | 70.21        | 72.53           |
-| 4     | 75.69        | 76.30           |
-| 5     | 79.59        | 74.53           |
+| 1     | 32.96        | 54.33           |
+| 2     | 54.80        | 69.73           |
+| 3     | 71.21        | 74.53           |
+| 4     | 77.69        | 72.30           |
+| 5     | 78.59        | 73.53           |
 
 
 **Tiempo total de entrenamiento:** 35 min.
 
-**Precisión en el conjunto de test (Prueba):** 79.13%
 
 ### 3.2. Modelos Preentrenados (Fine-tuning)
 
@@ -68,30 +67,29 @@ A continuación, se presentan los resultados detallados de entrenamiento y evalu
 
 | Época | Accuracy (%) |
 |-------|--------------|
-| 1     | 69.11        |
-| 2     | 80.45        |
-| 3     | 84.88        |
-| 4     | 87.04        |
-| 5     | 88.89        |
+| 1     | 68.11        |
+| 2     | 81.43        |
+| 3     | 84.82        |
+| 4     | 87.12        |
+| 5     | 90.46        |
 
 
 **Tiempo total de entrenamiento:**  67 min
 
-**Precisión en el conjunto de test (Prueba):** 86.11%
+
 
 #### VGG16 en Keras
 
 | Época | Accuracy (%) | Val_accuracy (%) |
 |-------|--------------|-----------------|
-| 1     | 53.42        | 83.25           |
-| 2     | 76.72        | 84.71           |
-| 3     | 81.47        | 85.49           |
-| 4     | 84.64        | 86.16           |
-| 5     | 86.84        | 86.56           |
-
+| 1     | 54.42        | 84.25           |
+| 2     | 73.76        | 88.71           |
+| 3     | 80.45        | 89.49           |
+| 4     | 82.64        | 82.16           |
+| 5     | 85.82        | 84.56           |
 **Tiempo total de entrenamiento:** 50 min
 
-**Precisión en el conjunto de test (Prueba):** 87.96%
+
 
 
 ## 4. Conclusiones
