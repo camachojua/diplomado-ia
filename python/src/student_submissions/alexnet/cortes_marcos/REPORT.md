@@ -23,7 +23,7 @@
       * Almacenamiento: M.2 1TB
       * GPU: NVIDIA GeForce RTX 3060 12GB
     * El modelo se entrenó para 20 epocas demorando 21min 42seg
-        [Accuracy](./img/AccuracyModelPytorchE20.png)
+        ![Accuracy](./img/AccuracyModelPytorchE20.png)
     * Con un accuracy de 64%
 
 ### Desarrollando AlexNet desde cero en TF/Keras
@@ -33,7 +33,7 @@
     * Se realizó el entrenamiendo en la misma máquina para 20 epocas
     * Para 20 epocas el entrenamiento demoró casi el mismo tiempo de 20min
     * Se realizó un segundo entrenamiendo con 30 épocas tomando un total de 29min
-      *  [Accuracy](./img/AccuracyModelTFE30.png)
+      *  ![Accuracy](./img/AccuracyModelTFE30.png)
     * Con un accuracy de 81%
 
 ### Conclusión
@@ -47,8 +47,8 @@
     * Analizaremos nuevamente el modelo y como fue entrenado el modelo para revisar si se cometió algún error
     * Observamos que ambas bibliotecas Pytorch y Keras son relativamente fáciles de usar para crear modelos, aunque tienen sus diferencias
     * Es importante medir la cantidad de recursos que se tienen en la máquina ya que para el entrenamiento se ocupa todos o la mayoria. Se muestran algunas capturas
-        [RecursosCPU](./img/RecursosCPUMEM.png)
-        [RecursosGPU](./img/RecursosGPU.png)
+        ![RecursosCPU](./img/RecursosCPUMEM.png)
+        ![RecursosGPU](./img/RecursosGPU.png)
 
 
 
