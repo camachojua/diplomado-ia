@@ -57,6 +57,15 @@ integrar WSL con el editor de código.
 - [Graphs Revisited in Julia]( https://bit.ly/3SsfnCs )
 - [Bayesian Networks](https://bit.ly/3x2c1L7)
 - [Data Science Exercises](https://docs.google.com/presentation/d/1tSNaUJc2NxEO3wWga_yCK4m61x9pJM2aHaPsn-OLc_s/)
+- [Deep Learning Introduction](https://bit.ly/4i1rZM3)
+- [Deep Learning 2a. Math Foundations, Software](https://docs.google.com/presentation/d/1SjYGyzzUU47m0E70LqW8wVYhfBBrLZW4xfTcV1-UKSw)
+- [Deep Learning 2b: Software Frameworks and Examples](https://docs.google.com/presentation/d/1BXhQ7WJtHBPFzIPVAeYFm0cMt8AhTllymDtxNvX_Arg/edit#slide=id.p4)
+- [Deep Learning with Pytorch](https://docs.google.com/presentation/d/1pqYDpU9C51bw7Qd6w8NhvRZPRYYtFsExFNdH97XUVAI/edit#slide=id.p)
+- [Deep Learning CNNs for Image Processing: Classification](https://docs.google.com/presentation/d/12wkkuzepk6-sOIGHNDqJMPdfITnYeD9DeTv5Mb2KpGc/edit#slide=id.p4)
+- [Deep Learning for Image Processing: Segmentation](https://docs.google.com/presentation/d/1eHczndhJl27bX8_V4iOL5x7j6t8xdCshoTuVFYQlkDk/edit#slide=id.p4)
+- [Deep Learning for Image Processing: Visualization](https://docs.google.com/presentation/d/1lCuLq0F-W_aPzUo4sk1shvlyxcP5ucNUnVymWKDh6JA/edit#slide=id.p4)
+- [Image Processing in Pytorch](https://docs.google.com/presentation/d/1z3nT1tHy11-e9zT2dmGfQIw2qy3Z1XcqLhpmKxM5xmU/edit?pli=1#slide=id.p)
+- [Modern Text Pre processing](https://docs.google.com/presentation/d/1nY5F-3GIJ7VMPetahfxC7Esl_sIx7r-vlBjQ850i6nI/edit#slide=id.p4)
 
 ## Lenguajes de programación
 
