@@ -1,0 +1,99 @@
+import tensorflow as tf
+from tensorflow.keras import layers, models
+from tensorflow.keras.datasets import cifar10 # Cargar el conjunto de datos CIFAR-10
+(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+
+x_train, x_test = x_train / 255.0, x_test / 255.0 # Normalización
+
+# Convertir las etiquetas a formato one-hot
+y_train = tf.keras.utils.to_categorical(y_train, 10)
+y_test = tf.keras.utils.to_categorical(y_test, 10)
+
+# Crear el modelo de AlexNet (desde cero)
+def create_alexnet_model():
+    model = models.Sequential()
+
+    # Capa de entrada - convolución
+    model.add(layers.Conv2D(96, (5, 5), strides=1, activation='relu', input_shape=(32, 32, 3)))  # Ajuste del tamaño del filtro
+    model.add(layers.MaxPooling2D((2, 2), strides=2))  # Del tamaño de pooling...
+
+    # Capa 2
+    model.add(layers.Conv2D(256, (5, 5), padding='same', activation='relu'))
+    model.add(layers.MaxPooling2D((2, 2), strides=2))
+
+    # Capa 3
+    model.add(layers.Conv2D(384, (3, 3), padding='same', activation='relu'))
+
+    # Capa 4
+    model.add(layers.Conv2D(384, (3, 3), padding='same', activation='relu'))
+
+    # Capa 5
+    model.add(layers.Conv2D(256, (3, 3), padding='same', activation='relu'))
+    model.add(layers.MaxPooling2D((2, 2), strides=2))  # Ajuste tamaño de pooling
+
+    
+    model.add(layers.Flatten()) # Aplanado
+
+    # Capa densa 1
+    model.add(layers.Dense(4096, activation='relu'))
+
+    # Capa densa 2
+    model.add(layers.Dense(4096, activation='relu'))
+
+    # Capa de salida
+    model.add(layers.Dense(10, activation='softmax'))
+
+    return model
+# Generador aumento de datos
+datagen = ImageDataGenerator(
+    rotation_range=20,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    horizontal_flip=True,
+    fill_mode='nearest'
+)
+
+datagen.fit(x_train) # Ajustar el generador a los datos de entrenamiento
+
+model_keras = create_alexnet_model()
+
+# Optimizador
+optimizer = tf.keras.optimizers.Adam(learning_rate=0.0001)
+
+# Compilar el modelo
+model_keras.compile(optimizer=optimizer,
+                    loss='categorical_crossentropy',
+                    metrics=['accuracy'])
+
+# Configurar callbacks
+early_stopping = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
+lr_scheduler = LearningRateScheduler(lambda epoch: 0.0001 * 10**(epoch / 20))
+
+# Entrenar utilizando el generador de aumento de datos
+history = model_keras.fit(datagen.flow(x_train, y_train, batch_size=64),
+                          epochs=50,  # Aumentar el número de épocas
+                          validation_data=(x_test, y_test),
+                          callbacks=[early_stopping, lr_scheduler])
+
+# Evaluar el modelo desde cero en el conjunto de prueba
+test_loss, test_accuracy = model_keras.evaluate(x_test, y_test, verbose=2)
+print(f'Pérdida en el conjunto de prueba (AlexNet desde cero): {test_loss}')
+print(f'Precisión en el conjunto de prueba (AlexNet desde cero): {test_accuracy}')
+
+base_model = VGG16(weights='imagenet', include_top=False, input_shape=(32, 32, 3)) # Cargar modelo preentrenado VGG16 sin la capa superior (para CIFAR-10)
+
+# Añadir nuevas capas para adaptarlo a CIFAR-10
+model_pretrained = models.Sequential()
+model_pretrained.add(base_model)
+model_pretrained.add(layers.GlobalAveragePooling2D())  # Aplanado global
+model_pretrained.add(layers.Dense(10, activation='softmax'))  # Capa de salida para 10 clases
+
+# Compilar (el preentrenado)
+model_pretrained.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+# Entrenamiento del preentrenado (ajustando las capas superiores)
+history_pretrained = model_pretrained.fit(x_train, y_train, epochs=10, batch_size=64, validation_data=(x_test, y_test))
+
+# Evaluar el preentrenado en el conjunto de prueba
+test_loss_pretrained, test_accuracy_pretrained = model_pretrained.evaluate(x_test, y_test)
+print(f'Modelo preentrenado (VGG16) - Pérdida: {test_loss_pretrained}, Precisión: {test_accuracy_pretrained}')
