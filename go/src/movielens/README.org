@@ -47,7 +47,7 @@ un lenguaje de programación es programando, la parte más importante en la
 implementación de la solución se dará utilizando pseudo-código que deberán
 convertir al lenguaje de programación =go= o =julia= .
 *** Fecha de entrega de la solución 100% implementada
-La fecha máxima de recepción del [[https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request][pull request]] es el *01 de Noviembre a las 20:00 GMT-4*,
+La fecha máxima de recepción del [[https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request][pull request]] es el *08 de Noviembre a las 20:00 GMT-4*,
 hay que recordar que la solución a este problema debe de estar dentro de la
 carpeta =go/src/student_submissions/movielens/apellido_nombre= o ==julia/src/student_submissions/movielens/apellido_nombre= donde
 =apellido_nombre= es el nombre y apellido del participante que está enviando la
@@ -352,3 +352,15 @@ Responder los siguientes formularios:
 
 - Para Julia: https://forms.gle/rHZjB1in8of9ijEt8
 - Para Go: https://forms.gle/mHMSjqe2SyKjcDCJ9
+- Formulario del sábado: https://docs.google.com/forms/d/e/1FAIpQLSfINnaA4SnOOombakgLoQR0cV8vVyl4xcf7efdyJu2wAIf-0A/viewform
+
+* Tarea moral
+
+- ¿Cómo conecto 2 o más computadoras distintas vía wifi sin meterle mano a los
+  routers inalámbricos? Sean creativos
+- ¿Cómo conecto 2 o más computadoras utilizando internet? Consideren que alguien
+  puede vivir en CDMX y la otra persona puede estar en Ensenada. Sean creativos
+  (un ejemplo podría ser mandarse mensajes por whatsapp pero no es lo óptimo).
+- ¿Qué tipo de información podemos compartir? ¿Cómo mandarían "código ejecutable" a otra máquina?
+- Leer de nuevo la presentación "[[https://docs.google.com/presentation/d/1KSH5QQfSwUNQ779VjZ3lGYLqC8Uysv13ycpJ335N2xY/edit#slide=id.p][Distributing Computing in Go]]"
+- Indispensable leer [[https://grpc.io/docs/guides/][gRPC]] (más que nada para entender el contexto)

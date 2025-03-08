@@ -1,17 +1,10 @@
-module movielens
+module movilens
 
-go 1.23
+go 1.18
 
-require (
-	github.com/xitongsys/parquet-go v1.6.2
-	github.com/xitongsys/parquet-go-source v0.0.0-20240122235623-d6294584ab18
-)
+require github.com/go-gota/gota v0.12.0
 
 require (
-	github.com/apache/arrow/go/arrow v0.0.0-20200730104253-651201b0f516 // indirect
-	github.com/apache/thrift v0.16.0 // indirect
-	github.com/golang/snappy v0.0.4 // indirect
-	github.com/klauspost/compress v1.15.9 // indirect
-	github.com/pierrec/lz4/v4 v4.1.8 // indirect
-	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
+	golang.org/x/net v0.0.0-20210423184538-5f58ad60dda6 // indirect
+	gonum.org/v1/gonum v0.9.1 // indirect
 )
