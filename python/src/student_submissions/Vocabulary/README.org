@@ -14,3 +14,4 @@
 4. Produce a 2 page report to describe your experience, methods, etc.
 5. Write code in a language of your choosing from this set (Go, Julia, Python)
 6. Submit by 14/03/2025 @ 16:00 UTC-6 (Mexico City Time), inside the "python/src/student_submissions/Vocabulary" folder.
+7. You must create a folder named "lastname_firstname" to put your report.
