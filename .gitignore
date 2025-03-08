@@ -23,4 +23,5 @@ docs/site/
 # environment.
 Manifest.toml
 .DS_Store
-*Zone.Identifier
+*Zone.Identifier.DS_Store
+.DS_Store
