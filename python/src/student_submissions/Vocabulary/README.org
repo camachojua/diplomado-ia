@@ -1,0 +1,16 @@
+* Vocabulary Challenge
+
+1. Get the book "Los Miserables" by Victor Hugo, from Carlos Slim Foundation. 
+   - https://aprende.org/pruebasat?sectionId=6
+2. Convert the book into text (CSV)
+3. Clean the csv file:
+   - Standarize (no upper chars, no whitespace, no punctuation, accents, if possible).
+   - Create a vocabulary with the words in the book, following the ideas when discussed how to create a vocabulary in the notes of this slide set.
+   - Store the vocabulary in parquet format.
+   - Do statistics, including:
+     + How many words in book.
+     + How many different words in vocabulary.
+     + Print the 100 most frequent words.
+4. Produce a 2 page report to describe your experience, methods, etc.
+5. Write code in a language of your choosing from this set (Go, Julia, Python)
+6. Submit by 14/03/2025 @ 16:00 UTC-6 (Mexico City Time), inside the "python/src/student_submissions/Vocabulary" folder.
