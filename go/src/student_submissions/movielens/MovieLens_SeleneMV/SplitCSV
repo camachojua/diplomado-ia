@@ -1,0 +1,158 @@
+//Split huge file ratings.csv
+package main
+
+import (
+	"encoding/csv"
+	"fmt"
+	"os"
+	"runtime"
+	"sync"
+
+	// "strings"
+	"time"
+)
+
+// const mvLDir = "/home/luna/Downloads/ml-latest/"
+const mvLDir = "/home/luna/Downloads/ml-25m/"
+
+func readAndDivideCSV(filePath string, parts int) ([][][]string, error) {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("error al abrir el archivo: %w", err)
+	}
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	lines, err := reader.ReadAll()
+	if err != nil {
+		return nil, fmt.Errorf("error al leer el CSV: %w", err)
+	}
+
+	totalLines := len(lines)
+	fmt.Print("Total de lineas por archivo:", totalLines)
+	if totalLines == 0 {
+		return nil, fmt.Errorf("el archivo CSV está vacío")
+	}
+	if parts <= 0 {
+		return nil, fmt.Errorf("el número de partes debe ser mayor que la cantidad de partes")
+	}
+
+	linesPerPart := totalLines / parts
+	fmt.Print(" \n Lineas por parte:", linesPerPart)
+	if totalLines%parts != 0 {
+		linesPerPart++
+	}
+
+	// Extraer cabecera
+	header := lines[0]
+
+	var divided [][][]string
+	for i := 1; i < totalLines; i += linesPerPart {
+		end := i + linesPerPart
+		if end > totalLines {
+			end = totalLines
+		}
+		part := make([][]string, end-i+1) // Excluye el registro de la cabecera dentro del conteo de partes
+		part[0] = header                  // Agrega la cabecera en cada parte.
+		copy(part[1:], lines[i:end])
+		divided = append(divided, part)
+	}
+
+	return divided, nil
+}
+
+// func writePartToCsv(divided [][][]string, ch chan string) {
+func writePartToCsv(divided [][][]string, workload int, wg *sync.WaitGroup, ch chan string) {
+	defer wg.Done()
+	time.Sleep(3 * time.Second)
+	for j, block := range divided {
+		saveToParquet(block, j)
+	}
+	ch <- "Archivo creado: ratings_%d .csv"
+}
+
+func saveToParquet(block [][]string, index int) error {
+
+	filename := fmt.Sprintf(mvLDir+"ratings_%02d"+".csv", index)
+	file, err := os.Create(filename)
+
+	if err != nil {
+		return fmt.Errorf("no se pudo crear el archivo: %v", err)
+	}
+	defer file.Close()
+
+	// Crear un escritor CSV
+	writer := csv.NewWriter(file)
+	defer writer.Flush()
+
+	// Escribir cada fila del bloque en el archivo CSV
+
+	for _, row := range block {
+		if err := writer.Write(row); err != nil {
+			return fmt.Errorf("no se pudo escribir la fila: %v", err)
+		}
+	}
+
+	return nil
+}
+
+func main() {
+	var start time.Time = time.Now()
+	var totalTime time.Time = time.Now()
+
+	filePath := mvLDir + "ratings.csv"
+	parts := 10
+
+	// Leer y dividir el archivo CSV
+	dividedData, err := readAndDivideCSV(filePath, parts)
+	if err != nil {
+		fmt.Printf("Error leyendo y dividiendo el archivo CSV: %v\n", err)
+		return
+	}
+	elapsed := time.Since(start)
+	fmt.Printf("\n Lectura y division completado en %s\n", elapsed)
+	fmt.Print("\n Numero de bloques:", len(dividedData))
+
+	// Se utiliza un "WaitGroup" para esperar a que todas los gorutinas terminen
+	// Usar ambos (WaitGroup y channel) juntos es común cuando necesitas:
+	// Esperar a que las goroutines terminen (WaitGroup) y
+	// Recoger mensajes o datos de cada goroutine (channel).
+	var wg sync.WaitGroup
+	ch := make(chan string)
+
+	//wg.Add(len(dividedData))
+
+	// Escribir cada parte en un archivo CSV usando concurrencia
+	start = time.Now()
+	// Configura el uso completo de los núcleos de la CPU
+	numCPUs := runtime.NumCPU()
+	runtime.GOMAXPROCS(numCPUs)
+
+	// Tamaño de la carga de trabajo y número de goroutines
+	numGoroutines := numCPUs
+	workload := 3_400_000 // Porción de trabajo para cada goroutine
+
+	wg.Add(numGoroutines)
+
+	for i := 0; i < numGoroutines; i++ {
+		//go writeCSVFile(i, parts)
+		//}
+		//wg.Add(numGoroutines)
+		go writePartToCsv(dividedData, workload, &wg, ch)
+		//	go fmt.Printf("Esta es:", i, part, &wg)
+	}
+
+	go func() {
+		wg.Wait()
+		close(ch) // Cerrar canal después de que todas las goroutines terminen
+	}()
+
+	for message := range ch {
+		fmt.Println(message) // Imprime cada mensaje recibido del canal
+	}
+
+	elapsed = time.Since(start)
+	fmt.Printf("Guardado de archivos completado en %s\n", elapsed)
+	elapsedTwo := time.Since(totalTime)
+	fmt.Printf("Proceso total completado en %s\n", elapsedTwo)
+}
