@@ -1,0 +1,235 @@
+package main
+
+import (
+	"encoding/csv"
+	"fmt"
+	"io"
+	"log"
+	"os"
+	"strconv"
+	"strings"
+	"time"
+)
+
+func main() {
+	Mt_FindRatingsMaster() // Call your master function or any other entry logic
+}
+
+// Estructura para representar una película
+type MovieObj struct {
+	MovieId int64
+	Title   string
+	Genres  string
+}
+
+// Estructura para representar una calificación
+type RatingObj struct {
+	UserId    int64
+	MovieId   int64
+	Rating    float64
+	Timestamp int64
+}
+
+// -------------------------------------------- Función ReadMoviesCsvFile ---------------------------------------------------------------------
+
+// Función para leer el archivo de ratings CSV
+func ReadRatingsCsvFile(filename string) ([]RatingObj, error) {
+	var ratings []RatingObj
+
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, fmt.Errorf("no se pudo abrir el archivo: %w", err)
+	}
+	defer file.Close()
+
+	// Crear un lector CSV
+	reader := csv.NewReader(file)
+	reader.Read() // Ignorar el encabezado
+
+	// Leer el archivo fila por fila
+	for {
+		record, err := reader.Read()
+		if err == io.EOF {
+			break
+		} else if err != nil {
+			return nil, fmt.Errorf("error al leer el archivo: %w", err)
+		}
+
+		// Parsear cada campo del registro y crear un objeto RatingObj
+		userId, _ := strconv.ParseInt(record[0], 10, 64)
+		movieId, _ := strconv.ParseInt(record[1], 10, 64)
+		rating, _ := strconv.ParseFloat(record[2], 64)
+		timestamp, _ := strconv.ParseInt(record[3], 10, 64)
+
+		ratings = append(ratings, RatingObj{
+			UserId:    userId,
+			MovieId:   movieId,
+			Rating:    rating,
+			Timestamp: timestamp,
+		})
+	}
+
+	return ratings, nil
+}
+
+// -------------------------------------------- Función ReadMoviesCsvFile ---------------------------------------------------------------------
+
+// Función para leer el archivo de películas CSV
+func ReadMoviesCsvFile(filename string) []MovieObj {
+	var movies []MovieObj
+
+	// Abrir el archivo
+	file, err := os.Open(filename)
+	if err != nil {
+		log.Fatalf("No se pudo abrir el archivo: %s", err)
+	}
+	defer file.Close()
+
+	// Crear un lector CSV
+	reader := csv.NewReader(file)
+	reader.Read() // Ignorar el encabezado
+
+	// Leer el archivo fila por fila
+	for {
+		record, err := reader.Read()
+		if err == io.EOF {
+			break
+		} else if err != nil {
+			log.Fatalf("Error al leer el archivo: %s", err)
+		}
+
+		// Parsear cada campo del registro y crear un objeto MovieObj
+		movieId, _ := strconv.ParseInt(record[0], 10, 64)
+		title := record[1]
+		genres := record[2]
+
+		movies = append(movies, MovieObj{
+			MovieId: movieId,
+			Title:   title,
+			Genres:  genres,
+		})
+	}
+
+	return movies
+}
+
+// -------------------------------------------- Función Worker ----------------------------------------------------------------------------
+func Mt_FindRatingsWorker(w int, ci chan int, kg []string, ca *[][]int, va *[][]float64, movies []MovieObj) {
+	aFileName := "ratings_" + fmt.Sprintf("%02d", w) + ".csv"
+	println("El Worker ", fmt.Sprintf("%02d", w), " está procesando el archivo ", aFileName, "\n")
+
+	// Leer el archivo de ratings
+	ratings, err := ReadRatingsCsvFile(aFileName)
+	if err != nil {
+		log.Printf("No se pudo abrir el archivo %s: %v\n", aFileName, err)
+		ci <- 1 // Notificar que el worker terminó, aunque sin procesar nada
+		return
+	}
+
+	// Crear un mapa para buscar los géneros por movieId rápidamente
+	movieGenres := make(map[int64]string)
+	for _, movie := range movies {
+		movieGenres[movie.MovieId] = movie.Genres
+	}
+
+	ng := len(kg)
+	start := time.Now()
+
+	// Procesar los ratings
+	for ig := 0; ig < ng; ig++ {
+		for _, rating := range ratings {
+			// Buscar los géneros del movieId actual en el mapa
+			genres, exists := movieGenres[rating.MovieId]
+			if !exists {
+				continue // Saltar si no se encuentra el movieId en el mapa de películas
+			}
+
+			// Verificar si el género coincide con la lista conocida
+			if strings.Contains(genres, kg[ig]) {
+				(*ca)[ig][w-1] += 1
+				(*va)[ig][w-1] += rating.Rating
+			}
+		}
+	}
+
+	duration := time.Since(start)
+	fmt.Println("Duration = ", duration)
+	fmt.Println("Worker ", w, " completed")
+
+	// Notificar al master que este worker ha completado su trabajo
+	ci <- 1
+}
+
+// ---------------------------------------------------- Función Master ------------------------------------------------------------
+func Mt_FindRatingsMaster() {
+	fmt.Println("In MtFindRatingsMaster")
+
+	start := time.Now()
+	nf := 10 // Cantidad de archivos de calificaciones y también de subprocesos
+
+	// Lista de géneros conocidos
+	kg := []string{"Action", "Adventure", "Animation", "Children", "Comedy", "Crime", "Documentary",
+		"Drama", "Fantasy", "Film-Noir", "Horror", "IMAX", "Musical", "Mystery", "Romance",
+		"Sci-Fi", "Thriller", "War", "Western", "(no genres listed)"}
+	ng := len(kg) // Número de géneros conocidos
+
+	// Matrices 2D para acumular valores de calificaciones y conteo por género y worker
+	// ca es una matriz 2D donde se mantiene el recuento de calificaciones para cada género
+	// Las columnas indican el número de núcleo donde se está ejecutando el trabajador
+	// Las filas en esa columna mantienen los recuentos para ese género
+
+	ra := make([][]float64, ng)
+	ca := make([][]int, ng)
+	for i := 0; i < ng; i++ {
+		ra[i] = make([]float64, nf)
+		ca[i] = make([]int, nf)
+	}
+
+	// Canal para sincronizar a todos los workers
+	ci := make(chan int)
+	movies := ReadMoviesCsvFile("movies.csv")
+
+	// Ejecutar FindRatings en 10 workers
+	for i := 0; i < nf; i++ {
+		go Mt_FindRatingsWorker(i+1, ci, kg, &ca, &ra, movies)
+	}
+
+	// Esperar a los workers
+	iMsg := 0
+	go func() {
+		for {
+			i := <-ci
+			iMsg += i
+		}
+	}()
+
+	for {
+		if iMsg == 10 {
+			break
+		}
+	}
+	// Todos los workers completaron su trabajo. Recopilar los resultados.
+	locCount := make([]int, ng)
+	locVals := make([]float64, ng)
+	for i := 0; i < ng; i++ {
+		for j := 0; j < nf; j++ {
+			locCount[i] += ca[i][j]
+			locVals[i] += ra[i][j]
+		}
+	}
+
+	// Imprimir resultados: conteo, suma y promedio de calificaciones por género
+	fmt.Printf("%-2s %20s %10s %15s\n", "ID", "Género", "Conteo_ de Raitings", "Promedio de Raitings")
+	for i := 0; i < ng; i++ {
+		var promedio_Rating float64
+		if locCount[i] > 0 {
+			promedio_Rating = locVals[i] / float64(locCount[i]) // Calcular promedio solo si hay calificaciones
+		}
+		fmt.Printf("%-2d %20s %10d %15.2f\n", i, kg[i], locCount[i], promedio_Rating)
+	}
+
+	duration := time.Since(start)
+	fmt.Println("Duration = ", duration)
+	println("Mt_FindRatingsMaster is Done")
+
+}

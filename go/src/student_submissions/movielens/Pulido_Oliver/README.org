@@ -1,0 +1,68 @@
+Éste código implementa una técnica de "MapReduce" la cuál se encarga de separar un archivo grande en pequeños archivos de menor tamaño.
+Luego se hizo un procesamiento de los datos de éste y otro archivo usango la concurrencia en go mediante canales y gorutines.
+
+Se procedió mediante 2 etapas, la primera el Map Reduce y la segunda el procesamiento concurrente.
+
+
+---------------------------------------------------- Primera parte MAP REDUCE -------------------------------------------------------------------
+
+
+El archivo a "particionar" se llama "ratings.csv", éste fue sacado del dataset llamado "Movielens" el cuál contiene un registro de 
+25,000,096 ratings sobre pelícuas.
+
+El archivo ratings.csv contiene las columnas:
+userId  |   movieId |   rating  |   timestamp
+
+La partición se ejecuta de la siguiente forma:
+•   Se crea una función llamada "NumFilas", ésta función recibe el nombre de un archivo CSV y devuelve la cantidad de filas que contiene.
+
+•   Se crea una función llamada "LeeCSV" la cuál recibe el nombre del archivo que se desea leer y dos números, los cuales especifican 
+    de qué fila a qué fila se desea leer y devuelve un arreglo de 2D con las filas leídas.
+
+•   Se crea una función llamada "CreaArch", la cuál recibe un arreglo de 2D con líneas que se desean plasmar en un archivo CSV y crea a dicho 
+    archivo.
+
+•   Se crea una función llamada "Partición" la cuál recibe el archivo que se desea particionar y un número el cuál indica la cantidad 
+    de archivos que se desean extraer de éste, luego, llama a la función "NumFilas" para contar sus filas y cuenta sus  filas, después llama 
+    a la función "leeCSV" para extraer las filas según la partición y finalmente crea al archivo nuevo llamando a la función "CreaArch". 
+    Dado que la cantidad archivos deseados puede no ser un número que no es divisor de filas de un archivo, se establece en ésta función 
+    que las filas sobrantes se queden en el últimoarchivo.
+
+La función "Partición" en éste caso recibe el archivo "ratings.csv" y genera 10 archivos llamados "ratings_i.csv" con i de 01 a 10.
+
+
+
+---------------------------------------------------- Segunda parte CONCURRENCIA -------------------------------------------------------------------
+
+
+Otro archivo contenido es el de "movies.csv" el cuál también fue extraído del dataset "MovieLens", el cuál contiene 62,424 registros de películas 
+con su género. 
+
+El archivo tiene la siguiente estructura:
+movieId |   title   |   genres
+
+Se implementa una serie de funciones que buscan la cantidad de Ratings que contiene cada género y un rating promedio haciendo uso de concurrencia
+usando gorutines de la siguiente manera:
+
+•   Se genera una función llamada "ReadMoviesCsvFile" la cuál se encarga de leer el archivo "movies.csv", ignorando el encabezado, y construyedo
+    un slice, donde cada elemento del slice es un elemento de una nueva estructura definida como MovieObj, de ésta manera, cada fila del archivo 
+    "movies.csv" es ahora un objeto MovieObj.
+
+•   Se genera una función llamada "ReadRatingsCsvFile" la cuál se encarga de leer cada uno de los archivos "ratings_i.csv" con i de 01 a 10,
+    y construyedo  un slice, donde cada elemento del slice es un elemento de una nueva estructura definida como RatingObj, de ésta manera, 
+    cada fila del archivo "ratings_i.csv" es ahora un objeto RatingObj.
+
+•   Se crea una función llamada "Mt_FindRatingsMaster" la cuál contiene una lista con todos los géneros registrados, dos matrices de 2D vacías
+    donde se pondrán el número de ratings y la calificación de cada película, y crea un canal vacío con el que podrá sincronizar a los workers
+    cuando se ejecuten como gorutines. Lee el archivo "movies.csv" usando la función "ReadMoviesCsvFile" para que cada fila/Objeto lo reciba
+    la función Worker.
+    Luego ejecuta gorutines y espera los resultados, los almacena y al final los muestra indicanco el tiempo que tradó.
+
+•   Se crea una función llamada "Mt_FindRatingsWorker" recibe los objetos extraídos del archivo "movies.csv", crea un mapa que contiene todos
+    los géneros y se dedica a buscar los ratings según el MovieId, una vez hallado el rating, lo cuenta y lo lo guarda.
+    Finalmente notifica al master mediante un canal que ha terminado para que el master pueda almacenar la información.
+
+
+Nota: No se hizo uso del método Merge (para hacer un Inner Join pues nos confundimos con los objetos que creamos MovieObj y RatingObj)
+en lugar de eso se hizo uso de la creación de un mapa que contenía como clave el MovieId y como valor el género para así hacer coincidir
+el rating con el género a través del valor MovieId.
