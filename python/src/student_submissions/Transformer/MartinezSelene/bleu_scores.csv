@@ -1,0 +1,11 @@
+Input,Reference,Translated,BLEU-1,BLEU-2,BLEU-3,BLEU-4
+Tom raises Arabian horses.,[start] Tom cría caballos árabes. [end],[start] tom [UNK] los [UNK] los estudiantes [end],0.25,0.059761430466719695,0.04033183084278514,0.03303164318013808
+It's easy for monkeys to climb trees.,[start] Para los monos es sencillo trepar árboles. [end],[start] es fácil para [UNK] para [UNK] [end],0.3309363384692233,0.06459215937068712,0.040688459020148525,0.03226013518927287
+"After the accident, the police told the crowd to keep back.","[start] Tras el accidente, la policía le dijo a la multitud que se alejaran. [end]",[start] después de el accidente de la policía se le dijo a la policía [end],0.6666666666666666,0.4364357804719847,0.3119507414338617,0.22229849552064015
+There are still a lot of things I don't know about Tom.,[start] Aun hay un montón de cosas que desconozco sobre Tom. [end],[start] todavía hay mucho de cosas que no sé de tom [end],0.5,0.30151134457776363,0.21200222253455905,0.10025157431478134
+How could I forget?,[start] ¿Cómo podría olvidarlo? [end],[start] cómo podría [UNK] [end],0.6,0.12247448713915889,0.081406690893008,0.07071067811865477
+How high can you jump?,[start] ¿Qué tan alto puedes brincar? [end],[start] cómo se puede [UNK] [end],0.28216057496353797,0.06911494341909905,0.04795431301243788,0.041095991233501536
+That surprised Tom.,[start] Eso sorprendió a Tom. [end],[start] eso se [UNK] a tom [end],0.42857142857142855,0.08451542547285168,0.053841561511499283,0.043472087194499145
+I feel sad when I think about all the people who die in wars.,[start] Me siento muy triste cuando pienso en toda la gente que muere en las guerras. [end],[start] me siento el abogado cuando creo que la gente en la gente [end],0.4612101411459368,0.16921785912698145,0.059292972512142196,0.03447847620414245
+He complains all the time.,[start] Él se queja todo el tiempo. [end],[start] Él [UNK] todo el tiempo [end],0.6191984998215584,0.4229931028018367,0.14846550637941736,0.09054992806599667
+She has gone to Italy.,[start] Ella fue a Italia. [end],[start] ella se ha ido a las mujeres [end],0.3333333333333333,0.06454972243679029,0.04033183084278514,0.03155984539112946
