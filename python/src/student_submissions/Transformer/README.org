@@ -19,5 +19,5 @@
   6.6 Explore how to use the BLUE (Bilingual Evaluation Understudy)
   6.7 Explore how to use the Rouge  score
 7. Write a short report (5 pages) describing your work, results, comments
-8. Deadline: 03/22/2025 @ Noon, CDMX Time, using the Github page :
+8. Deadline: 22/03/2025 @ Noon, CDMX Time, using the Github page :
 https://github.com/camachojua/diplomado-ia/tree/main/python/src/student_submissions/Transformer
