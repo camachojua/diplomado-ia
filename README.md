@@ -68,6 +68,7 @@ integrar WSL con el editor de código.
 - [Modern Text Pre processing](https://docs.google.com/presentation/d/1nY5F-3GIJ7VMPetahfxC7Esl_sIx7r-vlBjQ850i6nI/edit#slide=id.p4)
 - [Deep Learning For Sequence Data](https://docs.google.com/presentation/d/1SB1fYiOAzDqZS_NSjb7zONKqdGS-vkXB5g_5eE8dt_0/edit#slide=id.p4)
 - [Deep Learning: Videos from 3blue1brown](https://docs.google.com/presentation/d/1YKTCAZUPfrsXQew683IQKIwavYAB--uYztXW3WT0KE8/edit#slide=id.p4)
+- [Deep Learning for Sequence Data](https://docs.google.com/presentation/d/1SB1fYiOAzDqZS_NSjb7zONKqdGS-vkXB5g_5eE8dt_0/edit?slide=id.p4#slide=id.p4)
 
 ## Lenguajes de programación
 
