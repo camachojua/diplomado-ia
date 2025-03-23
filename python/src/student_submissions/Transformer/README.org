@@ -1,0 +1,23 @@
+* Transformer Challenge
+
+1. Get the the notebook from
+   https://keras.io/examples/nlp/neural_machine_translation_with_transformer/
+2. Make it run. Note that it uses the spa-eng file from the Anki site
+3. Include code to save the model on disk so that you can use the pre-trained
+   model.
+4. Include code to use the pre-trained embeddings from Stanford.
+ 4.1 Link at https://nlp.stanford.edu/projects/glove/
+5. Include code to show the layer activations as the ones shown the notebook
+   that shown during the lecture.
+  5.1 Code at https://github.com/tensorflow/text/blob/master/docs/tutorials/transformer.ipynb
+6. Work with the model to improve its performance. Things to try are:
+  6.1 Use more than 30 epochs
+  6.2 Change the number of ngrams
+  6.3 Change the learning rate
+  6.4 Change the optimizer
+  6.5 Change the metric
+  6.6 Explore how to use the BLUE (Bilingual Evaluation Understudy)
+  6.7 Explore how to use the Rouge  score
+7. Write a short report (5 pages) describing your work, results, comments
+8. Deadline: 22/03/2025 @ Noon, CDMX Time, using the Github page :
+https://github.com/camachojua/diplomado-ia/tree/main/python/src/student_submissions/Transformer
