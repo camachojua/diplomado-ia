@@ -48,7 +48,7 @@ Se limpian caracteres como puntuaciones o corchetes de los datos y se vectorizan
 Se crean los conjuntos de datos, con los textos ya vectorizados.
 Con las clases definidas para crear el modelo, obtenemos la siguiente arquitectura:
 
-![image-3.png](attachment:image-3.png)
+![Transformer architecture](model1.jpg)
 
 Agregamos checkpoints para ir guardando el mejor modelo entrenado.
 
@@ -88,7 +88,7 @@ Las palabras del vocabulario que si se encuentran en el conjunto de palabras pre
 
 Generamos el nuevo modelo incluyendo los embeddings pre-entrenados, se obtuvo la siguiente arquitectura:
 
-![image-2.png](attachment:image-2.png)
+![Transformer + Glove architecture](model2.jpg)
 
 ## Resultados y conclusiones (6)
 
