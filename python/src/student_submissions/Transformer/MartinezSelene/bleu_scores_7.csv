@@ -1,0 +1,101 @@
+Input,Reference,Translated,BLEU-1,BLEU-2,BLEU-3,BLEU-4
+Our teacher is a real idiot.,[start] Nuestra profesora es una verdadera idiota. [end],[start] nuestro profesor es un verdadero idiota [end],0.375,0.07319250547114,0.04610606439635425,0.03655552228545124
+Tom isn't budging on this one.,[start] Tom no está cediendo sobre esto. [end],[start] tom no está [UNK] esto [end],0.4953587998572467,0.267524327879111,0.10972494227319463,0.07201170728284921
+She was absorbed in her work.,[start] A ella la absorbió su trabajo. [end],[start] ella estaba [UNK] en su trabajo [end],0.5,0.08451542547285168,0.0506976507883329,0.039281465090051315
+War broke out in 1939.,[start] La guerra estalló en 1939. [end],[start] la guerra se rompió en [UNK] [end],0.5,0.08451542547285168,0.0506976507883329,0.039281465090051315
+I think I understood.,[start] Yo creo que comprendí. [end],[start] creo que me [UNK] [end],0.6666666666666666,0.36514837167011077,0.1522474354853864,0.10266900960803409
+I need to find someone to back up Tom's alibi.,[start] Necesito encontrar a alguien que confirme la coartada de Tom. [end],[start] necesito encontrar a alguien a la espalda de tom [end],0.5810640921796215,0.3257514508870574,0.2239656015633835,0.10528570195593752
+I don't want to kill you.,[start] No quiero matarte. [end],[start] no quiero [UNK] [end],0.6,0.12247448713915889,0.081406690893008,0.07071067811865477
+Tom causes me a lot of trouble.,[start] Tom me causa muchos problemas. [end],[start] tom me [UNK] mucho problemas [end],0.42857142857142855,0.08451542547285168,0.053841561511499283,0.043472087194499145
+This restaurant is full of young couples.,[start] Este restaurante está lleno de parejas jóvenes. [end],[start] este restaurante está llena de jóvenes [end],0.5515605641153721,0.263696386404524,0.10296303358828424,0.06518210333288976
+I'm not the only one who can do that.,[start] No soy el único que puede hacer eso. [end],[start] no soy el único que puede hacer eso [end],0.8,0.6666666666666667,0.6087512562477267,0.5555238068023582
+Who taught her how to speak English?,[start] ¿Quién la ha enseñado a hablar inglés? [end],[start] quién le enseñó a hablar inglés [end],0.4412484512922977,0.23585721816862673,0.09565353517354759,0.06164542728425844
+I just needed a minute.,[start] Solo necesitaba un minuto. [end],[start] solo necesitaba un minuto [end],0.6666666666666666,0.36514837167011077,0.1522474354853864,0.10266900960803409
+What made her do such a thing?,[start] ¿Qué la hizo hacer tal cosa? [end],[start] qué hizo hacer lo que tal [end],0.625,0.2988071523335984,0.11667240223363196,0.07386099955930606
+Driving a car is really very simple.,[start] Conducir un auto es realmente muy simple. [end],[start] conducir un coche realmente es muy simple [end],0.6666666666666666,0.09128709291752769,0.0506976507883329,0.037531192687516986
+"Tom wasn't wearing a wedding ring, but Mary noticed a white circle on his ring finger.",[start] Tom no llevaba anillo de boda pero Mary se percató de una marca blanca alrededor de su dedo anular. [end],[start] tom no fue un anillo de [UNK] pero mary [UNK] [UNK] en [UNK] en [UNK] su [UNK] [end],0.3316112307245165,0.12877179761574353,0.04580262678310519,0.026510050122865468
+Stop here.,[start] Parad aquí. [end],[start] [UNK] aquí [end],0.5,0.12909944487358058,0.09635409769034631,0.09554427922043669
+Unemployment is rising.,[start] El desempleo está aumentando. [end],[start] la [UNK] está [UNK] [end],0.5,0.10000000000000002,0.06476199262714716,0.05372849659117709
+Don't you have anything smaller than this?,[start] ¿No tiene algo más pequeño? [end],[start] no tienes nada más pequeño que esto [end],0.3333333333333333,0.06454972243679029,0.04033183084278514,0.03155984539112946
+The island was completely deserted.,[start] La isla estuvo totalmente desierta. [end],[start] la isla estaba completamente [UNK] [end],0.42857142857142855,0.08451542547285168,0.053841561511499283,0.043472087194499145
+That boy is really shy.,[start] Ese chico es realmente tímido. [end],[start] ese niño es muy [UNK] [end],0.42857142857142855,0.08451542547285168,0.053841561511499283,0.043472087194499145
+Who's at the switchboard today?,[start] ¿Quién está de telefonista hoy? [end],[start] quién está en el [UNK] hoy [end],0.375,0.07319250547114,0.04610606439635425,0.03655552228545124
+She's nice to me.,[start] Ella es simpática conmigo. [end],[start] ella me [UNK] [end],0.3274923012311928,0.08187307530779821,0.05830302516643934,0.05231223689135342
+All of us were silent.,[start] Todos estábamos en silencio. [end],[start] todos nosotros estaban [UNK] [end],0.3333333333333333,0.08164965809277261,0.05665132701906204,0.048549177170732344
+Our problems are nothing compared to his.,[start] Nuestros problemas no son nada comparado a los suyos. [end],[start] nuestro problemas no son nada [UNK] para [UNK] [end],0.5429024508215757,0.40465559506275994,0.33669033770463175,0.2630501434025343
+What does he plan to do?,[start] ¿Qué planea hacer? [end],[start] qué [UNK] él [end],0.4,0.10000000000000002,0.0712114757473708,0.06389431042462725
+Why did you abandon me?,[start] ¿Por qué me abandonaste? [end],[start] por qué me [UNK] [end],0.6666666666666666,0.36514837167011077,0.1522474354853864,0.10266900960803409
+His family circumstances were such that he became a teacher out of necessity.,[start] Las circunstancias de su familia eran tales que él se hizo profesor por las necesidades. [end],[start] su familia [UNK] como se [UNK] de un profesor [end],0.36882254104487877,0.1462058594981168,0.052897462550014304,0.031601326674829816
+Smoking is harmful to your health.,[start] Fumar es malo para la salud. [end],[start] fumar es [UNK] a tu salud [end],0.375,0.07319250547114,0.04610606439635425,0.03655552228545124
+I heard you have a beautiful voice.,[start] He oído que tienes una hermosa voz. [end],[start] te oí una voz hermosa [end],0.4294155960430205,0.07333667451313378,0.044490090808926644,0.035104358299585095
+This is a doghouse that I made myself.,[start] Ésta es una caseta que hice yo mismo. [end],[start] esta es una [UNK] que yo me [UNK] [end],0.6,0.25819888974716104,0.09635409769034631,0.05873949094699214
+Who did you have lunch with?,[start] ¿Con quién almorzaste? [end],[start] a quién [UNK] [end],0.6,0.12247448713915889,0.081406690893008,0.07071067811865477
+I looked to see if he was teasing me.,[start] Lo miré para ver si me estaba tomando el pelo. [end],[start] me [UNK] ver si él estaba [UNK] [end],0.47768754038252614,0.20684477252128627,0.0776645818452015,0.047821978359283986
+She and I are in the same class.,[start] Ella y yo estamos en la misma clase. [end],[start] ella y yo estamos en la misma clase [end],0.8,0.6666666666666667,0.6087512562477267,0.5555238068023582
+Tom and Mary went outside.,[start] Tom y Mary salieron fuera. [end],[start] tom y mary fueron afuera [end],0.42857142857142855,0.08451542547285168,0.053841561511499283,0.043472087194499145
+The boat sank during the storm.,[start] El barco se hundió durante la tormenta. [end],[start] el bote se [UNK] durante la tormenta [end],0.5555555555555556,0.26352313834736496,0.10206057820194947,0.06376715693797415
+He can do whatever he likes with the money.,[start] Puede hacer lo que quiera con el dinero. [end],[start] Él puede hacer lo que le gusta todo el dinero [end],0.5,0.30151134457776363,0.21200222253455905,0.10025157431478134
+A new year always brings hope.,[start] El nuevo año siempre trae esperanza. [end],[start] un nuevo año siempre se [UNK] [end],0.625,0.42257712736425823,0.3135508904498039,0.1561969968460128
+Don't try any tricks.,[start] No intentes algún truco. [end],[start] no [UNK] nada [end],0.3274923012311928,0.08187307530779821,0.05830302516643934,0.05231223689135342
+You've got to set the alarm clock before you go to bed.,[start] Tienes que ajustar el reloj despertador antes de acostarte. [end],[start] tienes que [UNK] el reloj antes de que te vayas a la cama [end],0.4666666666666667,0.25819888974716115,0.08208968293684407,0.045466972369917126
+Some prisoners have escaped from the jail.,[start] Se han escapado unos presos de la cárcel. [end],[start] algunos [UNK] tienen [UNK] de la cárcel [end],0.39770636302860873,0.2109156496639261,0.08484432085787934,0.05396530161402381
+How many kids do you have?,[start] ¿Cuántos hijos tienes? [end],[start] cuántos hijos tienes [end],0.6,0.12247448713915889,0.081406690893008,0.07071067811865477
+The young worker was asked to resign.,[start] Pidieron que el joven trabajador dimitiese. [end],[start] el joven se [UNK] que le pidió [UNK] [end],0.5,0.2357022603955158,0.09072779948417338,0.056122223243057295
+Tom has three friends who are Canadian.,[start] Tom tiene tres amigos que son canadienses. [end],[start] tom tiene tres amigos que son canadiense [end],0.7777777777777778,0.6236095644623236,0.5536178537956702,0.4854917717073234
+When will we see each other?,[start] ¿Cuándo nos vemos? [end],[start] cuándo nos vamos a ver el otro [end],0.3333333333333333,0.06454972243679029,0.04033183084278514,0.03155984539112946
+The squeaking of the door gets on my nerves.,[start] El chirrido de la puerta me da dentera. [end],[start] la [UNK] de la puerta se [UNK] [end],0.49713295378576094,0.3334869235560669,0.24543866528044386,0.12067008283523631
+I exercise almost every day.,[start] Hago ejercicio casi todos los días. [end],[start] [UNK] casi todos los días [end],0.6191984998215584,0.4229931028018367,0.3174136242379461,0.16102307266026747
+You have only to give him a little help.,[start] Solo tienes que darle un poco de ayuda. [end],[start] solo tienes que le [UNK] un poco de ayuda [end],0.6363636363636364,0.43693144875265144,0.28039660634998675,0.12760671487807074
+He was given the benefit of the doubt.,[start] Se le concedió el beneficio de la duda. [end],[start] Él se le dio la [UNK] de la duda [end],0.45454545454545453,0.21320071635561047,0.08167713343422024,0.05012578715739066
+I confess my name's not really Tom.,[start] Confieso que en realidad no me llamo Tom. [end],[start] [UNK] que mi nombre realmente tom no [end],0.39770636302860873,0.06669738471121338,0.039684670403876555,0.03034691922392704
+He isn't afraid to die.,[start] Él no tiene miedo a morir. [end],[start] Él no le tiene miedo [end],0.7430381997858699,0.5675047991270782,0.38535898603131136,0.18651176671349295
+I didn't have to move it.,[start] No tuve que moverlo. [end],[start] no tuve que [UNK] [end],0.6666666666666666,0.36514837167011077,0.1522474354853864,0.10266900960803409
+Tom has an evil twin brother.,[start] Tom tiene un gemelo malvado. [end],[start] tom tiene un [UNK] [UNK] [end],0.5714285714285714,0.3086066999241838,0.12657485247324374,0.08307018474412793
+That'll do.,[start] Eso valdrá. [end],[start] eso eso [end],0.5,0.12909944487358058,0.09635409769034631,0.09554427922043669
+Tom was loyal.,[start] Tom fue leal. [end],[start] tom estaba [UNK] [end],0.4,0.10000000000000002,0.0712114757473708,0.06389431042462725
+We are sorry we can't help you.,[start] Lamentamos no poder ayudarle. [end],[start] lo [UNK] no podemos ayudarte [end],0.42857142857142855,0.08451542547285168,0.053841561511499283,0.043472087194499145
+Don't make me laugh!,[start] ¡No me hagas reír! [end],[start] no me hagas [UNK] [end],0.6666666666666666,0.36514837167011077,0.1522474354853864,0.10266900960803409
+It seems Tom knows Mary.,[start] Parece que Tom conoce a Mary. [end],[start] parece que tom sabe a mary [end],0.5,0.08451542547285168,0.0506976507883329,0.039281465090051315
+Who's here?,[start] ¿Quién está aquí? [end],[start] quién está aquí [end],0.6,0.12247448713915889,0.081406690893008,0.07071067811865477
+Falling on ice hurts.,[start] Duele caer sobre el hielo. [end],[start] [UNK] en hielo [end],0.26812801841425576,0.06703200460356394,0.04773447970124341,0.04282963710525157
+"I tried again and again, but I couldn't succeed.","[start] Yo probé una y otra vez, pero no pude conseguirlo. [end]",[start] yo lo intenté otra vez y no pude [end],0.49123845184678916,0.21139537144659198,0.07888806296416667,0.04809182765844818
+I'm stuck in a rut in my boring job and need to do something new.,[start] Estoy estancado en la rutina en mi aburrido trabajo y necesito hacer algo nuevo. [end],[start] me [UNK] en un [UNK] en mi trabajo y [UNK] hacer algo nuevo [UNK] algo nuevo [end],0.5,0.2970442628930023,0.08408187294686963,0.043788268658607944
+The engine is purring.,[start] El motor está ronroneando. [end],[start] el motor está [UNK] [end],0.6666666666666666,0.36514837167011077,0.1522474354853864,0.10266900960803409
+Do you like living here?,[start] ¿Te gusta vivir aquí? [end],[start] te gusta vivir aquí [end],0.6666666666666666,0.36514837167011077,0.1522474354853864,0.10266900960803409
+An architect occupies that office.,[start] Es un arquitecto el que ocupa esa oficina. [end],[start] un [UNK] [UNK] esa oficina [end],0.37225089001774603,0.06357394237660809,0.03856747648013719,0.030431192394822185
+I want to have a talk with him about my future.,[start] Quiero conversar con él acerca de mi futuro. [end],[start] quiero hablar con él sobre mi futuro [end],0.49713295378576094,0.2358108650835347,0.09132781807191201,0.05706135914957148
+I hate traveling.,[start] Odio viajar. [end],[start] odio [UNK] [end],0.5,0.12909944487358058,0.09635409769034631,0.09554427922043669
+Tom is a night owl.,[start] Tom es un ave nocturna. [end],[start] tom es una noche [UNK] [end],0.42857142857142855,0.08451542547285168,0.053841561511499283,0.043472087194499145
+I could never do it like you do.,[start] No lo podría hacer nunca como lo hacés vos. [end],[start] nunca podría hacerlo como tú [end],0.4033700871483995,0.061615798581282494,0.03598814476522813,0.027893589431813384
+I was curious to know why people had been staring at me.,[start] Tenía curiosidad por saber por qué me miraba la gente. [end],[start] estaba [UNK] por qué gente me había estado a [UNK] [end],0.4166666666666667,0.19462473604038075,0.0742797963075324,0.045293761707938834
+You should take off your coat.,[start] Deberías quitarte tu abrigo. [end],[start] deberías tomar el abrigo [end],0.3333333333333333,0.08164965809277261,0.05665132701906204,0.048549177170732344
+Could you give us a ride home?,[start] ¿Nos llevas a casa? [end],[start] podría [UNK] [end],0.3032653298563167,0.07830277146770757,0.05844171443814127,0.05795053470733952
+The boy made a fool of himself.,[start] El chico hizo el ridículo. [end],[start] el niño se [UNK] [end],0.423240862445307,0.08464817248906142,0.054819843226380754,0.045480190470279055
+I inherited his estate.,[start] Yo heredé su campo. [end],[start] [UNK] su [UNK] [end],0.49123845184678916,0.10027362908828316,0.06665016134041894,0.05789300674674099
+Tom is spreading butter on the bread.,[start] Tom está untando manteca en el pan. [end],[start] tom está [UNK] en el pan [end],0.5515605641153721,0.263696386404524,0.10296303358828424,0.06518210333288976
+She wants to dance.,[start] Ella quiere bailar. [end],[start] ella quiere bailar [end],0.6,0.12247448713915889,0.081406690893008,0.07071067811865477
+Please sign your name on the contract.,[start] Por favor firma el contrato. [end],[start] por favor [UNK] tu nombre en el contrato [end],0.4,0.06666666666666667,0.039423944368881844,0.02984745896009824
+Tom came to Boston after graduating from high school.,[start] Tom vino a Boston tras terminar el instituto. [end],[start] tom vino a boston después de la escuela de la escuela [end],0.30769230769230765,0.16012815380508713,0.0632832964415753,0.039073802494525016
+I'm free on Sunday.,[start] Estoy libre el domingo. [end],[start] estoy libre el domingo [end],0.6666666666666666,0.36514837167011077,0.1522474354853864,0.10266900960803409
+One of us will have to go.,[start] Uno de nosotros tendrá que ir. [end],[start] uno de nosotros se [UNK] [end],0.4953587998572467,0.267524327879111,0.10972494227319463,0.07201170728284921
+He came to see you yesterday.,[start] Ayer vino a verte. [end],[start] Él vino a verte ayer [end],0.5714285714285714,0.3086066999241838,0.12657485247324374,0.08307018474412793
+Tom felt trapped.,[start] Tom se sentía atrapado. [end],[start] tom se sintió atrapado [end],0.5,0.10000000000000002,0.06476199262714716,0.05372849659117709
+Our school begins at eight.,[start] Nuestras clases empiezan a las ocho. [end],[start] nuestro colegio empieza a las ocho [end],0.5,0.26726124191242434,0.1083896554122787,0.06985342056580097
+The escaped convict is armed and dangerous.,[start] El convicto fugado está armado y es peligroso. [end],[start] los [UNK] [UNK] es [UNK] y [UNK] [end],0.39770636302860873,0.06669738471121338,0.039684670403876555,0.03034691922392704
+I will follow your advice.,[start] Voy a seguir vuestro consejo. [end],[start] [UNK] tu consejo [end],0.26812801841425576,0.06703200460356394,0.04773447970124341,0.04282963710525157
+Why won't they let Mary go?,[start] ¿Por qué no dejar ir a María? [end],[start] por qué no se [UNK] ir a mary [end],0.6,0.36514837167011066,0.12111838948674812,0.06985342056580097
+Father came home.,[start] Mi padre vino a casa. [end],[start] mi padre vino a casa [end],0.7142857142857143,0.48795003647426655,0.3661572458236839,0.18575057999133598
+Please fill this bucket with water.,"[start] Por favor, llena este balde con agua. [end]",[start] por favor [UNK] este [UNK] agua [end],0.3309363384692233,0.06459215937068712,0.040688459020148525,0.03226013518927287
+I'm angry.,[start] Estoy enojado. [end],[start] estoy enfadado [end],0.5,0.12909944487358058,0.09635409769034631,0.09554427922043669
+It's time to go.,[start] Es tiempo de irse. [end],[start] es hora de ir [end],0.5,0.10000000000000002,0.06476199262714716,0.05372849659117709
+Mary is a beautiful woman.,[start] Mary es una linda mujer. [end],[start] mary es una hermosa mujer [end],0.5714285714285714,0.3086066999241838,0.12657485247324374,0.08307018474412793
+This is where Tom worked.,[start] Aquí es donde trabajaba Tom. [end],[start] esto es donde tom trabajó [end],0.5714285714285714,0.3086066999241838,0.12657485247324374,0.08307018474412793
+Did all this really happen?,[start] ¿Realmente pasó todo esto? [end],[start] todo lo hizo realmente [end],0.5,0.10000000000000002,0.06476199262714716,0.05372849659117709
+You should not sleep.,[start] No deberías dormir. [end],[start] no deberías dormir [end],0.6,0.12247448713915889,0.081406690893008,0.07071067811865477
+She didn't think so.,[start] Ella no pensaba así. [end],[start] ella no cree [end],0.49123845184678916,0.10027362908828316,0.06665016134041894,0.05789300674674099
+Tom had some great ideas.,[start] Tomás tenía algunas muy buenas ideas. [end],[start] tom tenía algo de ideas [end],0.37151909989293497,0.07326455453039867,0.046674059762358715,0.037684991644924185
+You're looking very well.,[start] Tienes muy buen aspecto. [end],[start] estás muy bien [end],0.49123845184678916,0.10027362908828316,0.06665016134041894,0.05789300674674099
+Today she turns ten years old.,[start] Hoy ella cumple diez primaveras. [end],[start] hoy ella tiene [UNK] de diez años [end],0.4444444444444444,0.07453559924999299,0.04434837591306793,0.03391326091030751
+The tenor sang very well tonight.,[start] El tenor ha cantado muy bien esta noche. [end],[start] el [UNK] muy bien esta noche [end],0.48675048941962806,0.3291033976993491,0.24419367901504355,0.12164634345707652
+She won the contest.,[start] Ella ganó el concurso. [end],[start] ella ganó el concurso [end],0.6666666666666666,0.36514837167011077,0.1522474354853864,0.10266900960803409
+Send the bill to my house.,[start] Mándeme la factura a casa. [end],[start] [UNK] la cuenta de casa [end],0.42857142857142855,0.08451542547285168,0.053841561511499283,0.043472087194499145
