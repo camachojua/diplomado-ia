@@ -98,6 +98,7 @@ integrar WSL con el editor de código.
 
 - [Big O Notation](https://en.wikipedia.org/wiki/Big_O_notation)
 - [Hash Table](https://en.wikipedia.org/wiki/Hash_table)
+- [Glove](https://nlp.stanford.edu/projects/glove/)
 
 ## Formularios de google
 
