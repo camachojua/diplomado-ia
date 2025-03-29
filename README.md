@@ -71,6 +71,7 @@ integrar WSL con el editor de código.
 - [Deep Learning for Sequence Data](https://docs.google.com/presentation/d/1SB1fYiOAzDqZS_NSjb7zONKqdGS-vkXB5g_5eE8dt_0/edit?slide=id.p4#slide=id.p4)
 - [Tensor Board](https://docs.google.com/presentation/d/1rkrvmobAROR1wcxMV2W2WFtERG9Gxn5oxNIxipgqSho/edit#slide=id.p)
 - [Generative AI: Text Gen](https://docs.google.com/presentation/d/1Kvq9jI_TJ9yZmiDT2K9bPejjG0nRRNbNU2ahoFX3TSc/edit#slide=id.p)
+- [Generative AI: Image Modification](https://docs.google.com/presentation/d/1yE7-ZNjiaPZiSrD1XP0dIThWgbz_2SYcXndFHq2LCEg/edit#slide=id.g3462d357853_0_0)
 
 ## Lenguajes de programación
 
