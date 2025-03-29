@@ -134,3 +134,7 @@ integrar WSL con el editor de código.
 Para discutir un tema específico podemos abrir un [issue](https://github.com/camachojua/diplomado-ia/issues/new) para preguntar sobre algo específico.
 
 Si queremos aportar código en el repositorio debemos crear un issue antes de mandar el PR correspondiente.
+
+# Referencias para el proyecto final
+- [PyTorch](https://pytorch.org/blog/accelerating-generative-ai/)
+- [Keras](https://keras.io/examples/generative/)
