@@ -1,0 +1,29 @@
+* Proyecto final del diplomado
+
+Con el fin de aplicar los conocimientos aprendidos en el curso necesitamos que
+implementen algún modelo de IA generativa *aplicándolo a su campo de
+conocimiento*, para ello pueden basarse en alguno de los modelos que se
+encuentran en la siguiente url:
+
+https://keras.io/examples/generative
+
+Estos enlaces fueron presentados en la siguiente [[https://docs.google.com/presentation/d/1yE7-ZNjiaPZiSrD1XP0dIThWgbz_2SYcXndFHq2LCEg/edit?pli=1#slide=id.g346c957b250_0_105][diapositiva]].
+
+Es necesario adaptar el modelo que quieran y hacerle una mejora, al final
+deberán presentar su trabajo en una charla ante todos los asistentes del
+diplomado con una duración no mayor a 5 minutos.
+
+* ¿Cómo se entregará el proyecto?
+
+La fecha máxima de entrega del proyecto es el *25 de abril de 2025*, cada
+participante deberá crear dentro de la carpeta =proyecto_final/= una nueva carpeta
+llamada =nombre_apellido= que contendrá:
+
+- Reporte del proyecto final, donde ponen la justificación del mismo (el por qué
+  eligieron implementar algo en específico). En formato =.pdf= o =.docx=.
+- El notebook de python donde tienen el código necesario para ejecutar el modelo que eligieron.
+- Opcionalmente los datos que utilizaron para que el proyecto funcione, esto
+  está sujeto al tamaño de los datos, la disponibilidad de los mismos y si están
+  sujetos a un acuerdo de confidencialidad, si el dataset es muy grande pero se
+  puede descargar se recomienda agregar una liga a los mismos en el notebook y
+  en el reporte.
